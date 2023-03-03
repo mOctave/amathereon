@@ -1,0 +1,115 @@
+@charset "UTF-8";
+
+/* Navbars */
+
+ul.navbar {
+	list-style-type: none;
+	margin: 0;
+	padding: 10;
+	overflow: hidden;
+	background-color: black;
+	position:fixed;
+	top: 0;
+	left: 0;
+	width: 100%
+}
+
+ul.navbar li {
+	float: left;
+}
+
+ul.navbar li *:not(.dropdown-content) {
+	display: block;
+	text-align: center;
+	padding: 14px 16px;
+	color: #CCC;
+	text-decoration: none;
+	font-family: Arial, Helvetica, sans-serif;
+	font-weight: 600;
+}
+
+ul.navbar li *:hover{
+	color:#15A;
+}
+
+/* Dropdown Menus */
+
+.dropdown {
+	display: block;
+	text-align: center;
+	text-decoration: none;
+	font-family: Arial, Helvetica, sans-serif;
+	padding: none;
+}
+
+ul.navbar .dropdown-content {
+	display: none;
+	position: fixed;
+	background-color: #CCC;
+	min-width: 120px;
+	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+	z-index: 1;
+	border: 1px solid black;
+}
+
+ul.navbar .dropdown .dropdown-content * {
+	color: black;
+	padding: 12px 16px;
+	text-decoration: none;
+	display: block;
+	text-align: left;
+}
+
+ul.navbar .dropdown:hover .dropdown-content {
+	display: block;
+}
+
+ul.navbar .dropdown .dropdown-content *:hover{
+	background-color:#15A;
+}
+
+/* Topics Box */
+
+ul.topics {
+	list-style-type: none;
+	margin: 0;
+	padding: 10;
+	overflow: hidden;
+	background-color: black;
+}
+
+ul.topics li {
+	float: left;
+}
+
+ul.topics li * {
+	display: block;
+	text-align: center;
+	padding: 14px 16px;
+	color: #CCC;
+	text-decoration: none;
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+ul.topics *:hover{
+	color:#15A;
+}
+
+/* Copyright */
+
+.copyright {
+	display: block;
+	text-align: center;
+	padding: 14px 16px;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: small;
+}
+
+.copyright a {
+	color: #CCC;
+	text-decoration: solid underline;
+}
+
+.copyright hr {
+	width: 75%;
+}

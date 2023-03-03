@@ -1,0 +1,138 @@
+@charset "UTF-8";
+@import "special-sections.css";
+
+/* Background Style */
+
+html {
+	background-color: #FA0;
+}
+
+body {
+	margin: 10px;
+	padding: 20px;
+	background: url("images/paper-texture.png") #15A;
+	background-blend-mode: multiply;
+}
+
+/* Headings */
+
+h1 {
+	color: black;
+	background-image: url("images/biome map.png");
+	background-repeat: no-repeat;
+	background-size: cover;
+	text-align: center;
+	font-family: Zapfino, sans-serif;
+	padding-top: 20px;
+	padding-bottom: 5px;
+	padding-left: 20px;
+	padding-right: 20px;
+	margin: 30px;
+}
+
+h2 {
+	font-size:xx-large;
+	color:#FA0;
+	-webkit-text-stroke: 1px black;
+	text-decoration: wavy underline 1px black;
+}
+
+h3 {
+	font-size:x-large;
+	text-decoration: underline 2px black;
+}
+
+h4 {
+	font-size:large;
+	text-decoration: double underline 1px black;
+}
+
+h5 {
+	font-size:larger;
+}
+
+h5 {
+	font-size:large;
+}
+
+h2, h3, h4, h5, h6 {
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Tables */
+
+table {
+	background-color: #CCC;
+	color: black;
+	border: 2px solid black;
+}
+
+th {
+	padding: 4px 6px;
+	background-color: #FA0;
+	border: 1px solid black;
+}
+
+td {
+	padding: 4px 6px;
+	border: 1px solid black;
+}
+
+.tright {
+	float:right;
+	margin:10px;
+}
+
+table a {
+	color: #15A;
+	text-decoration: solid underline;
+}
+
+/* Other Elements */
+
+p {
+	color: #CCC;
+}
+
+p.quote {
+	color: #AAA;
+	font-family: 'Courier New', Courier, monospace;
+	font-weight: 100;
+	background-color:black;
+	margin: 10px;
+	padding: 20px;
+}
+
+hr {
+	color: #FA0;
+	position:static;
+	width: calc(75% - 21px);
+}
+
+a {
+	color: #FA0;
+	text-decoration: solid underline;
+}
+
+a:hover {
+	color: black;
+}
+
+caption {
+	color: #CCC;
+	font-style: italic;
+}
+
+/* Selection */
+
+*::selection {
+	background-color: #FA0;
+}
+
+p::selection {
+	background-color: black;
+}
+
+p *::selection {
+	background-color: black;
+}
