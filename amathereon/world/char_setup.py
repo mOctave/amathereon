@@ -137,7 +137,7 @@ def node_urunk(caller, raw_string, **kwargs):
 
     caller.new_char.db.race = "Urunk"
 
-    text = "|yGundulf clears his throat. \"You're an urunk? Now that, indeed, is strange. Very few urunks seek to make choices for themselves.\""
+    text = "|yGundulf clears his throat. \"You're an urunk? Now that, indeed, is strange. Very few urunki seek to make choices for themselves.\""
 
     options = (
         {"key": ("Yes"),
