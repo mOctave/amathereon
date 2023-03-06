@@ -16,6 +16,10 @@ for filename in blacklist:
 
 print(files)
 
+# Sort files
+
+files = sorted(files)
+
 # Get all remaining html files from the directory
 
 html_files = []

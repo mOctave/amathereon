@@ -9,17 +9,20 @@ navbarData = `
 		<a href="races.html#dwarf">Dwarf</a>
 		<a href="races.html#elf">Elf</a>
 		<a href="races.html#half-elf">Half-Elf</a>
+		<a href="races.html#urunk">Urunk</a>
+		<a href="races.html#gnome">Gnome</a>
+		<a href="races.html#goblin">Goblin</a>
 	</div>
 </li>
 <li><a href="http://localhost:4001/webclient/">Play!</a></li>
 `
 
 topicsData = `
-<li><a href=rules.html>Rules</a></li>
+<li><a href=elvish_celestialism.html>Elvish Celestialism</a></li>
 <li><a href=four_planes.html>The Four Planes of Existence</a></li>
 <li><a href=races.html>Races of Amathereon</a></li>
-<li><a href=elvish_celestialism.html>Elvish Celestialism</a></li>
 <li><a href=rift.html>The Rift</a></li>
+<li><a href=rules.html>Rules</a></li>
 <li><a href=way_of_the_oracle.html>The Way of the Oracle</a></li>
 `
 
