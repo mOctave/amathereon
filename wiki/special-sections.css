@@ -18,7 +18,7 @@ ul.navbar li {
 	float: left;
 }
 
-ul.navbar li *:not(.dropdown-content) {
+ul.navbar li *:not(.dropdown-content, .slideout *) {
 	display: block;
 	text-align: center;
 	padding: 14px 16px;
@@ -54,10 +54,13 @@ ul.navbar .dropdown-content {
 
 ul.navbar .dropdown .dropdown-content * {
 	color: black;
-	padding: 12px 16px;
 	text-decoration: none;
 	display: block;
 	text-align: left;
+}
+
+ul.navbar .dropdown .dropdown-content *:not(.slideout *) {
+	padding: 12px 16px;
 }
 
 ul.navbar .dropdown:hover .dropdown-content {
@@ -65,6 +68,45 @@ ul.navbar .dropdown:hover .dropdown-content {
 }
 
 ul.navbar .dropdown .dropdown-content *:hover{
+	background-color:#15A;
+}
+
+/* Slideout Menus */
+
+ul.navbar .dropdown .dropdown-content .slideout {
+	display: block;
+	text-align: center;
+	text-decoration: none;
+	font-family: Arial, Helvetica, sans-serif;
+	padding: none;
+	margin: none;
+}
+
+ul.navbar .dropdown .dropdown-content .slideout .slideout-content {
+	display: none;
+	position: fixed;
+	background-color: #2F2F2F;
+	min-width: 120px;
+	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+	z-index: 1;
+	border: 1px solid black;
+	margin-left: 104px;
+	margin-top: -31.5px;
+}
+
+ul.navbar .dropdown .dropdown-content .slideout-content * {
+	color: #FA0;
+	text-decoration: none;
+	display: block;
+	text-align: left;
+	padding: 12px 16px;
+}
+
+ul.navbar .dropdown .dropdown-content .slideout:hover .slideout-content {
+	display: block;
+}
+
+ul.navbar .dropdown .dropdown-content .slideout-content *:hover{
 	background-color:#15A;
 }
 

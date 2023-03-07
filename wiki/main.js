@@ -14,15 +14,67 @@ navbarData = `
 		<a href="races.html#goblin">Goblin</a>
 	</div>
 </li>
+<li class="dropdown">
+	<a class="dropbtn" href="character_classes.html">Classes</a>
+	<div class="dropdown-content">
+		<div class="slideout">
+			<span>Rogue</span>
+			<div class="slideout-content">
+				<a href="thief.html">Thief</a>
+				<a>Assassin</a>
+				<a>Con Artist</a>
+				<a>Spy</a>
+			</div>
+		</div>
+		<div class="slideout">
+			<span>Warrior</span>
+			<div class="slideout-content">
+				<a>Brawler</a>
+				<a>Knight</a>
+				<a>Soldier</a>
+				<a>Paladin</a>
+			</div>
+		</div>
+		<div class="slideout">
+			<span>Outlander</span>
+			<div class="slideout-content">
+				<a>Ranger</a>
+				<a>Barbarian</a>
+				<a>Druid</a>
+				<a>Bard</a>
+			</div>
+		</div>
+		<div class="slideout">
+			<span>Mage</span>
+			<div class="slideout-content">
+				<a>Wizard</a>
+				<a>Sorcerer</a>
+				<a>Cleric</a>
+				<a>Necromancer</a>
+			</div>
+		</div>
+		<div class="slideout">
+			<span>Specialist</span>
+			<div class="slideout-content">
+				<a>Monk</a>
+				<a>Artificer</a>
+				<a>Merchant</a>
+				<a>Aristocrat</a>
+			</div>
+		</div>
+	</div>
+</li>
 <li><a href="http://localhost:4001/webclient/">Play!</a></li>
 `
 
 topicsData = `
+<li><a href=character_classes.html>Character Classes</a></li>
 <li><a href=elvish_celestialism.html>Elvish Celestialism</a></li>
 <li><a href=four_planes.html>The Four Planes of Existence</a></li>
 <li><a href=races.html>Races of Amathereon</a></li>
 <li><a href=rift.html>The Rift</a></li>
 <li><a href=rules.html>Rules</a></li>
+<li><a href=thief.html>Thief</a></li>
 <li><a href=way_of_the_oracle.html>The Way of the Oracle</a></li>
 `
 
