@@ -1,3 +1,5 @@
+# General definition of what a character class is
+
 class CharacterClass:
 	wide: str = "Citizen"
 	wide_after_a: str = " Citizen"
@@ -39,6 +41,8 @@ class CharacterClass:
 	
 	def __repr__(self) -> str:
 		return f"{type(self).__name__}(\n\twide=\"{self.wide}\", \"{self.wide_after_a}\"; narrow=\"{self.narrow}\", \"{self.narrow_after_a}\"; desc=\"{self.desc}\";\n\tspecials={self.specials}; languages={self.languages}; inventory={self.inventory};\n\tdex={self.dex}, agi={self.agi}, str={self.str}, con={self.con}, int={self.int}, wis={self.wis}, cha={self.cha}, res={self.cha}\n)"
+
+# Actual classes
 
 class Classes():
 
@@ -98,24 +102,29 @@ class Classes():
 			return CharacterClass
 
 	# Fill in data for a specific class
-	def buildNarrowClass(_class:CharacterClass, narrow:str, narrow_after_a:str, desc:str, specials:list[str], languages:list[str], inventory:list[str], dex:int, agi:int, str:int, con:int, int:int, wis:int, cha:int, res:int):
-		_class.narrow = narrow
-		_class.narrow_after_a = narrow_after_a
-		_class.desc = desc
+	def buildNarrowClass(parent:CharacterClass, _class:CharacterClass, narrow:str, narrow_after_a:str, desc:str, specials:list[str], languages:list[str], inventory:list[str], dex:int, agi:int, str:int, con:int, int:int, wis:int, cha:int, res:int):
+		_class.wide = parent.wide
+		_class.wide_after_a = parent.wide_after_a
+		_class.narrow = narrow or parent.narrow
+		_class.narrow_after_a = narrow_after_a or parent.narrow_after_a
+		_class.desc = desc or parent.desc
+		_class.specials = parent.specials
 		for i in specials:
 			_class.specials.append(i)
+		_class.languages = parent.languages
 		for i in languages:
 			_class.specials.append(i)
+		_class.inventory = parent.inventory
 		for i in inventory:
 			_class.specials.append(i)
-		_class.dex += dex
-		_class.agi += agi
-		_class.str += str
-		_class.con += con
-		_class.int += int
-		_class.wis += wis
-		_class.cha += cha
-		_class.res += res
+		_class.dex = parent.dex + dex
+		_class.agi = parent.agi + agi
+		_class.str = parent.str + str
+		_class.con = parent.con + con
+		_class.int = parent.int + int
+		_class.wis = parent.wis + wis
+		_class.cha = parent.cha + cha
+		_class.res = parent.res + res
 
 	# Wide Classes
 
@@ -214,8 +223,10 @@ class Classes():
 		res = 0
 	)
 
-	Thief: CharacterClass = Rogue
-	buildNarrowClass(Thief,
+	# Narrow Classes
+
+	Thief: CharacterClass = CharacterClass()
+	buildNarrowClass(Rogue, Thief,
 		narrow = "Thief",
 		narrow_after_a = " Thief",
 		desc = "Someone who is very good at sneaking around and relieving people of their posessions.",
@@ -232,8 +243,8 @@ class Classes():
 		res = 0
 	)
 
-	Assassin: CharacterClass = Rogue
-	buildNarrowClass(Assassin,
+	Assassin: CharacterClass = CharacterClass()
+	buildNarrowClass(Rogue, Assassin,
 		narrow = "Assassin",
 		narrow_after_a = "n Assassin",
 		desc = "Someone skilled in the art of desposing of inconvenient people, often in exchange for gold.",
@@ -250,8 +261,8 @@ class Classes():
 		res = 0
 	)
 	
-	ConArtist: CharacterClass = Rogue
-	buildNarrowClass(ConArtist,
+	ConArtist: CharacterClass = CharacterClass()
+	buildNarrowClass(Rogue, ConArtist,
 		narrow = "Con Artist",
 		narrow_after_a = " Con Artist",
 		desc = "Someone who can trick people into believing what they want just long enough to make a profit.",
@@ -268,8 +279,8 @@ class Classes():
 		res = 0
 	)
 
-	Spy: CharacterClass = Rogue
-	buildNarrowClass(Spy,
+	Spy: CharacterClass = CharacterClass()
+	buildNarrowClass(Rogue, Spy,
 		narrow = "Spy",
 		narrow_after_a = " Spy",
 		desc = "Someone who can gather information and use it to their advantage.",
@@ -286,8 +297,8 @@ class Classes():
 		res = 0
 	)
 
-	Brawler: CharacterClass = Warrior
-	buildNarrowClass(Brawler,
+	Brawler: CharacterClass = CharacterClass()
+	buildNarrowClass(Warrior, Brawler,
 		narrow = "Brawler",
 		narrow_after_a = " Brawler",
 		desc = "Someone who can hold their own in any fight, even if they don't have any weapons.",
@@ -304,8 +315,8 @@ class Classes():
 		res = 0
 	)
 
-	Knight: CharacterClass = Warrior
-	buildNarrowClass(Knight,
+	Knight: CharacterClass = CharacterClass()
+	buildNarrowClass(Warrior, Knight,
 		narrow = "Knight",
 		narrow_after_a = " Knight",
 		desc = "Someone who is skilled in the use of armour as a means of protecting themselves and others.",
@@ -322,8 +333,8 @@ class Classes():
 		res = 0
 	)
 
-	Soldier: CharacterClass = Warrior
-	buildNarrowClass(Soldier,
+	Soldier: CharacterClass = CharacterClass()
+	buildNarrowClass(Warrior, Soldier,
 		narrow = "Soldier",
 		narrow_after_a = " Soldier",
 		desc = "Someone who has been fighting in combat for years and has picked up some tricks.",
@@ -340,8 +351,8 @@ class Classes():
 		res = 1
 	)
 
-	Paladin: CharacterClass = Warrior
-	buildNarrowClass(Brawler,
+	Paladin: CharacterClass = CharacterClass()
+	buildNarrowClass(Warrior, Brawler,
 		narrow = "Paladin",
 		narrow_after_a = " Paladin",
 		desc = "Someone who fights for the advancement of their god or religion, and for the upholding of ideals.",
@@ -358,8 +369,8 @@ class Classes():
 		res = 0
 	)
 
-	Ranger: CharacterClass = Outlander
-	buildNarrowClass(Ranger,
+	Ranger: CharacterClass = CharacterClass()
+	buildNarrowClass(Outlander, Ranger,
 		narrow = "Ranger",
 		narrow_after_a = " Ranger",
 		desc = "Someone with lots of experience with the wilderness and some skill with weapons.",
@@ -376,8 +387,8 @@ class Classes():
 		res = 0
 	)
 
-	Barbarian: CharacterClass = Outlander
-	buildNarrowClass(Barbarian,
+	Barbarian: CharacterClass = CharacterClass()
+	buildNarrowClass(Outlander, Barbarian,
 		narrow = "Barbarian",
 		narrow_after_a = " Barbarian",
 		desc = "Someone who appears at first glance to be simple and uneducated, but who has substantial survival experience.",
@@ -394,8 +405,8 @@ class Classes():
 		res = 0
 	)
 
-	Druid: CharacterClass = Outlander
-	buildNarrowClass(Druid,
+	Druid: CharacterClass = CharacterClass()
+	buildNarrowClass(Outlander, Druid,
 		narrow = "Druid",
 		narrow_after_a = " Druid",
 		desc = "Someone with experience both with the wilderness and in druidic magic.",
@@ -412,8 +423,8 @@ class Classes():
 		res = 0
 	)
 
-	Bard: CharacterClass = Outlander
-	buildNarrowClass(Bard,
+	Bard: CharacterClass = CharacterClass()
+	buildNarrowClass(Outlander, Bard,
 		narrow = "Bard",
 		narrow_after_a = " Bard",
 		desc = "Someone who is a skilled musician, wandering from place to place seeking glory and gold.",
@@ -430,8 +441,8 @@ class Classes():
 		res = 0
 	)
 
-	Wizard: CharacterClass = Mage
-	buildNarrowClass(Wizard,
+	Wizard: CharacterClass = CharacterClass()
+	buildNarrowClass(Mage, Wizard,
 		narrow = "Wizard",
 		narrow_after_a = " Wizard",
 		desc = "Someone who has devoted their life to the scientific study of magic, and who uses that knowledge in their own spells.",
@@ -448,8 +459,8 @@ class Classes():
 		res = 0
 	)
 
-	Sorcerer: CharacterClass = Mage
-	buildNarrowClass(Sorcerer,
+	Sorcerer: CharacterClass = CharacterClass()
+	buildNarrowClass(Mage, Sorcerer,
 		narrow = "Sorcerer",
 		narrow_after_a = " Sorcerer",
 		desc = "Someone who draws magical power from the plane of Posibility and uses it to shape the world.",
@@ -466,8 +477,8 @@ class Classes():
 		res = 0
 	)
 
-	Cleric: CharacterClass = Mage
-	buildNarrowClass(Cleric,
+	Cleric: CharacterClass = CharacterClass()
+	buildNarrowClass(Mage, Cleric,
 		narrow = "Cleric",
 		narrow_after_a = " Cleric",
 		desc = "Someone who uses holy magic to further the goals of their religion and to promote its ideals.",
@@ -484,8 +495,8 @@ class Classes():
 		res = 1
 	)
 
-	Necromancer: CharacterClass = Mage
-	buildNarrowClass(Necromancer,
+	Necromancer: CharacterClass = CharacterClass()
+	buildNarrowClass(Mage, Necromancer,
 		narrow = "Necromancer",
 		narrow_after_a = " Necromancer",
 		desc = "Someone who can communicate with the dead, drawing power from the plane of Entropy to create magical effects.",
@@ -502,8 +513,8 @@ class Classes():
 		res = 0
 	)
 
-	Monk: CharacterClass = Specialist
-	buildNarrowClass(Monk,
+	Monk: CharacterClass = CharacterClass()
+	buildNarrowClass(Specialist, Monk,
 		narrow = "Monk",
 		narrow_after_a = " Monk",
 		desc = "Someone who is sworn to protect others of their religious order by whatever means possible.",
@@ -520,8 +531,8 @@ class Classes():
 		res = 1
 	)
 
-	Artificer: CharacterClass = Specialist
-	buildNarrowClass(Artificer,
+	Artificer: CharacterClass = CharacterClass()
+	buildNarrowClass(Specialist, Artificer,
 		narrow = "Artificer",
 		narrow_after_a = "n Artificer",
 		desc = "Someone who is skilled with machinery and can create almost anything someone wants, for a price.",
@@ -538,8 +549,8 @@ class Classes():
 		res = 0
 	)
 
-	Merchant: CharacterClass = Specialist
-	buildNarrowClass(Merchant,
+	Merchant: CharacterClass = CharacterClass()
+	buildNarrowClass(Specialist, Merchant,
 		narrow = "Merchant",
 		narrow_after_a = " Merchant",
 		desc = "Someone who could sell someone the air they breathe or a plot of land at the summit of one of the Grey Mountains.",
@@ -556,8 +567,8 @@ class Classes():
 		res = 0
 	)
 
-	Aristocrat: CharacterClass = Specialist
-	buildNarrowClass(Aristocrat,
+	Aristocrat: CharacterClass = CharacterClass()
+	buildNarrowClass(Specialist, Aristocrat,
 		narrow = "Aristocrat",
 		narrow_after_a = "n Aristocrat",
 		desc = "Someone who is used to being in a position of authority and knows how to use that power.",
