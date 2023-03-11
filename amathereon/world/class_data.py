@@ -108,15 +108,21 @@ class Classes():
 		_class.narrow = narrow or parent.narrow
 		_class.narrow_after_a = narrow_after_a or parent.narrow_after_a
 		_class.desc = desc or parent.desc
-		_class.specials = parent.specials
+		_class.specials = []
+		_class.languages = []
+		_class.inventory = []
+		for i in parent.specials:
+			_class.specials.append(i)
 		for i in specials:
 			_class.specials.append(i)
-		_class.languages = parent.languages
+		for i in parent.languages:
+			_class.languages.append(i)
 		for i in languages:
-			_class.specials.append(i)
-		_class.inventory = parent.inventory
+			_class.languages.append(i)
+		for i in parent.inventory:
+			_class.inventory.append(i)
 		for i in inventory:
-			_class.specials.append(i)
+			_class.inventory.append(i)
 		_class.dex = parent.dex + dex
 		_class.agi = parent.agi + agi
 		_class.str = parent.str + str
@@ -352,7 +358,7 @@ class Classes():
 	)
 
 	Paladin: CharacterClass = CharacterClass()
-	buildNarrowClass(Warrior, Brawler,
+	buildNarrowClass(Warrior, Paladin,
 		narrow = "Paladin",
 		narrow_after_a = " Paladin",
 		desc = "Someone who fights for the advancement of their god or religion, and for the upholding of ideals.",

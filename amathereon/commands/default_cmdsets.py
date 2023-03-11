@@ -17,6 +17,7 @@ own cmdsets by inheriting from them or directly from `evennia.CmdSet`.
 from evennia import default_cmds
 
 from commands.command import CmdStats
+from commands.command import CmdSkills
 from commands.command import CmdCreateChar
 from evennia.contrib.rpg.character_creator.character_creator import ContribCmdCharCreate
 
@@ -37,6 +38,7 @@ class CharacterCmdSet(default_cmds.CharacterCmdSet):
         super().at_cmdset_creation()
 
         self.add(CmdStats())
+        self.add(CmdSkills())
         #
         # any commands you add below will overload the default ones.
         #

@@ -210,7 +210,7 @@ class CmdStats(BaseCommand):
         def func(self):
             # Get stats, and put them in a list
 
-            race, charClass, bDex, bAgi, bStr, bCon, bInt, bWis, bCha, bRes, eDex, eAgi, eStr, eCon, eInt, eWis, eCha, eRes = self.caller.get_character_stats()
+            race, charClass, bDex, bAgi, bStr, bCon, bInt, bWis, bCha, bRes, eDex, eAgi, eStr, eCon, eInt, eWis, eCha, eRes, specials, skillpts = self.caller.get_character_stats()
             raceData = Races.getRaceFromKey(race)
             classData = Classes.getClassFromKey(charClass)
 
@@ -226,11 +226,41 @@ class CmdStats(BaseCommand):
             data.append("|w- Your total wisom is %s |W(base: %s, bonuses: %s, earned: %s)" % (bWis + eWis + raceData.wis + classData.wis, bWis, raceData.wis + classData.wis, eWis))
             data.append("|w- Your total charisma is %s |W(base: %s, bonuses: %s, earned: %s)" % (bCha + eCha + raceData.cha + classData.cha, bCha, raceData.cha + classData.cha, eCha))
             data.append("|w- Your total resilience is %s |W(base: %s, bonuses: %s, earned: %s)" % (bRes + eRes + raceData.res + classData.res, bRes, raceData.res + classData.res, eRes))
+            data.append("|w- You have %s skill points to spend." % (skillpts))
 
             # Print out the list of stat information
 
             for entry in data:
                 self.caller.msg(entry)
+
+class CmdSkills(BaseCommand):
+        """
+        List skills
+
+        Usage:
+          skills
+
+        Displays a list of every skill and your proficiency in it.
+        """
+        key = "skills"
+        aliases = ["sk"]
+        lock = "cmd:all()"
+        help_category = "General"
+
+        def func(self):
+            caller = self.caller
+            skillData = caller.db.skills
+
+            print(caller.name + str(skillData))
+
+            caller.msg("|yYou have the following skills:")
+            for i in range(0, len(skillData)):
+                x = str(list(skillData.keys())[i])
+                if x == "Knowledge" or x == "Mental" or x == "Physical" or x == "Weapons":
+                    caller.msg("|w%s - %s" % (str(list(skillData.keys())[i]), str(list(skillData.values())[i])))
+                else:
+                    caller.msg("|n%s - %s" % (str(list(skillData.keys())[i]), str(list(skillData.values())[i])))
+
 
 class CmdCreateChar(Command):
 

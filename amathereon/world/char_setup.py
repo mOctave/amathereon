@@ -2,6 +2,7 @@
 from evennia.utils.evmenu import EvMenu
 from typeclasses.characters import Character
 from world.class_data import *
+from world.specials import Specials
 
 #############################
 # Character Generation Menu #
@@ -412,8 +413,15 @@ def node_name_confirm(caller, raw_string, **kwargs):
 ##########################
 
 def node_end(caller, raw_string):
+    """Evaluate Specials"""
+    classData = Classes.getClassFromKey(caller.new_char.db.charClass)
+    caller.new_char.specials = classData.specials
+    Specials.evaluateNew(caller.new_char)
+
     """End-of-chargen cleanup."""
     char = caller.new_char
+    char.db.specials = caller.new_char.specials
+    char.db.skillpts = caller.new_char.skillpts
     caller.execute_cmd("ic %s" % char)
     # since everything is finished and confirmed, we actually create the starting objects now
     #create_objects(char)
