@@ -90,7 +90,7 @@ table a {
 
 /* Other Elements */
 
-p {
+p, ul, ol {
 	color: #CCC;
 }
 
@@ -130,11 +130,11 @@ caption {
 	background-color: #FA0;
 }
 
-p::selection {
+p::selection, ul::selection, ol::selection {
 	background-color: black;
 }
 
-p *::selection {
+p *::selection, ul *::selection, ol *::selection {
 	background-color: black;
 }
 
