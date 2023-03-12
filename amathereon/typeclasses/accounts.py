@@ -25,6 +25,8 @@ several more options for customizing the Guest account system.
 from evennia.accounts.accounts import DefaultAccount, DefaultGuest
 from evennia.contrib.rpg.character_creator.character_creator import ContribCmdCharCreate
 from evennia.contrib.rpg.character_creator.character_creator import ContribChargenAccount
+import server.conf.settings
+from world.class_data import Classes
 
 
 
@@ -95,7 +97,93 @@ class Account(DefaultAccount):
 
     """
 
-    pass
+    def at_look(self, target=None, session=None, **kwargs):
+        """
+        Called by the OOC look command. It displays a list of playable
+        characters and should be mostly identical to the core method.
+
+        Args:
+            target (Object or list, optional): An object or a list
+                objects to inspect.
+            session (Session, optional): The session doing this look.
+            **kwargs (dict): Arbitrary, optional arguments for users
+                overriding the call (unused by default).
+
+        Returns:
+            look_string (str): A prepared look string, ready to send
+                off to any recipient (usually to ourselves)
+        """
+
+        # list of targets - make list to disconnect from db
+        characters = list(tar for tar in target if tar) if target else []
+        sessions = self.sessions.all()
+        is_su = self.is_superuser
+
+        # text shown when looking in the ooc area
+        result = [f"Account |g{self.key}|n (you are Out-of-Character)"]
+
+        nsess = len(sessions)
+        if nsess == 1:
+            result.append("\n\n|wConnected session:|n")
+        elif nsess > 1:
+            result.append(f"\n\n|wConnected sessions ({nsess}):|n")
+        for isess, sess in enumerate(sessions):
+            csessid = sess.sessid
+            addr = "{protocol} ({address})".format(
+                protocol=sess.protocol_key,
+                address=isinstance(sess.address, tuple)
+                and str(sess.address[0])
+                or str(sess.address),
+            )
+            if session.sessid == csessid:
+                result.append(f"\n |w* {isess+1}|n {addr}")
+            else:
+                result.append(f"\n   {isess+1} {addr}")
+
+        result.append("\n\n |whelp|n - more commands")
+        result.append("\n |wpublic <Text>|n - talk on public channel")
+
+        charmax = server.conf.settings.MAX_NR_CHARACTERS
+
+        if is_su or len(characters) < charmax:
+            result.append("\n |wcharcreate|n - create a new character")
+
+        if characters:
+            result.append("\n |wchardelete <name>|n - delete a character (cannot be undone!)")
+        plural = "" if len(characters) == 1 else "s"
+        result.append("\n |wic <character>|n - enter the game (|wooc|n to return here)")
+        if is_su:
+            result.append(f"\n\nAvailable character{plural} ({len(characters)}/unlimited):")
+        else:
+            result.append(f"\n\nAvailable character{plural} ({len(characters)}/{charmax}):")
+
+        for char in characters:
+            if char.db.chargen_step:
+                # currently in-progress character; don't display placeholder names
+                result.append("\n - |Yin progress|n (|wcharcreate|n to continue)")
+                continue
+            csessions = char.sessions.all()
+            classData = Classes.getClassFromKey(char.db.charClass)
+            charString = f"{char.key} - {char.db.race} {classData.narrow}"
+            if csessions:
+                for sess in csessions:
+                    # character is already puppeted
+                    sid = sess in sessions and sessions.index(sess) + 1
+                    if sess and sid:
+                        result.append(
+                            f"\n - |G{charString}|n [{', '.join(char.permissions.all())}] (played by"
+                            f" you in session {sid})"
+                        )
+                    else:
+                        result.append(
+                            f"\n - |R{charString}|n [{', '.join(char.permissions.all())}] (played by"
+                            " someone else)"
+                        )
+            else:
+                # character is available
+                result.append(f"\n - {charString} [{', '.join(char.permissions.all())}]")
+        look_string = ("-" * 68) + "\n" + "".join(result) + "\n" + ("-" * 68)
+        return look_string
 
 
 class Guest(DefaultGuest):

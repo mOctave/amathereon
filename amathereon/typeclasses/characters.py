@@ -95,6 +95,9 @@ class Character(ObjectParent, DefaultCharacter):
             "Weapons: Trauma": 0
         }
 
+        self.db.lvl = 1
+        self.db.exp = 0
+
     def get_character_stats(self):
         """
         Get data such as class, stats, and skills for the player.

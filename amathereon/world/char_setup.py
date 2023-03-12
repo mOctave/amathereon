@@ -422,6 +422,9 @@ def node_end(caller, raw_string):
     char = caller.new_char
     char.db.specials = caller.new_char.specials
     char.db.skillpts = caller.new_char.skillpts
+
+    char.db.chargen_step = False
+
     caller.execute_cmd("ic %s" % char)
     # since everything is finished and confirmed, we actually create the starting objects now
     #create_objects(char)
