@@ -416,12 +416,16 @@ def node_end(caller, raw_string):
     """Evaluate Specials"""
     classData = Classes.getClassFromKey(caller.new_char.db.charClass)
     caller.new_char.specials = classData.specials
+    caller.new_char.skillList = classData.skills
     Specials.evaluateNew(caller.new_char)
 
     """End-of-chargen cleanup."""
     char = caller.new_char
     char.db.specials = caller.new_char.specials
     char.db.skillpts = caller.new_char.skillpts
+
+    for i in caller.new_char.skillList:
+        char.db.skills[i] += 1
 
     char.db.chargen_step = False
 

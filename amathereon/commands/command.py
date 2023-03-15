@@ -288,12 +288,38 @@ class CmdBuySkill(MuxCommand):
                 caller.msg("You have no skill points to spend!")
                 return
             for i in range(0, len(skillData)):
-                if str(list(skillData.keys())[i]) == self.args:
+                if str(list(skillData.keys())[i]) == self.args.title():
                     skillData[str(list(skillData.keys())[i])] += 1
                     caller.db.skillpts -= 1
                     caller.msg("|wSkill bought: %s, now level %s." % (str(list(skillData.keys())[i]),str(list(skillData.values())[i])))
+                    caller.msg("|nYou have %s skill points remaining." % caller.db.skillpts)
                     return
             caller.msg("No skill was found with that name!")
+
+class CmdGiveSkillPts(MuxCommand):
+    """
+    Give skill points to user
+
+    Usage:
+      skillget <int>
+
+    Gives you the requested number of skill points.
+    """
+
+    key = "skillget"
+    aliases = ["skget"]
+    lock = "perm(Admin)"
+    help_category = "Testing"
+
+    def func(self):
+        caller = self.caller
+
+        if not self.args:
+            caller.msg("Usage: skillget <int>")
+            return
+        else:
+            caller.db.skillpts += int(self.args)
+            caller.msg(self.args + " skill points given!")
 
 class CmdCreateChar(Command):
 

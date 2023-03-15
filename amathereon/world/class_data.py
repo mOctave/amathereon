@@ -9,6 +9,7 @@ class CharacterClass:
 	specials: list[str] = []
 	languages: list[str] = []
 	inventory: list[str] = []
+	skills: list[str] = []
 	dex: int = 0
 	agi: int = 0
 	str: int = 0
@@ -21,7 +22,7 @@ class CharacterClass:
 	def __new__ (cls, *args, **kwargs):
 		return super().__new__(cls)
 	
-	def __init__(self, wide: str = "Citizen", wide_after_a: str = " Citizen", narrow: str = "Would-Be Adventurer", narrow_after_a: str = " Would-Be Adventurer", desc: str = "An ordinary person who wishes to take up a life of adventure.", specials: list[str] = [], languages: list[str] = [], inventory: list[str] = [], dex: int = 0, agi: int = 0, str: int = 0, con: int = 0, int: int = 0, wis: int = 0, cha: int = 0, res: int = 0):
+	def __init__(self, wide: str = "Citizen", wide_after_a: str = " Citizen", narrow: str = "Would-Be Adventurer", narrow_after_a: str = " Would-Be Adventurer", desc: str = "An ordinary person who wishes to take up a life of adventure.", specials: list[str] = [], languages: list[str] = [], inventory: list[str] = [], skills: list[str] = [], dex: int = 0, agi: int = 0, str: int = 0, con: int = 0, int: int = 0, wis: int = 0, cha: int = 0, res: int = 0):
 		self.wide = wide
 		self.wide_after_a = wide_after_a
 		self.narrow = narrow
@@ -30,6 +31,7 @@ class CharacterClass:
 		self.specials = specials
 		self.languages = languages
 		self.inventory = inventory
+		self.skills = skills
 		self.dex = dex
 		self.agi = agi
 		self.str = str
@@ -40,7 +42,7 @@ class CharacterClass:
 		self.res = res
 	
 	def __repr__(self) -> str:
-		return f"{type(self).__name__}(\n\twide=\"{self.wide}\", \"{self.wide_after_a}\"; narrow=\"{self.narrow}\", \"{self.narrow_after_a}\"; desc=\"{self.desc}\";\n\tspecials={self.specials}; languages={self.languages}; inventory={self.inventory};\n\tdex={self.dex}, agi={self.agi}, str={self.str}, con={self.con}, int={self.int}, wis={self.wis}, cha={self.cha}, res={self.cha}\n)"
+		return f"{type(self).__name__}(\n\twide=\"{self.wide}\", \"{self.wide_after_a}\"; narrow=\"{self.narrow}\", \"{self.narrow_after_a}\"; desc=\"{self.desc}\";\n\tspecials={self.specials}; languages={self.languages}; inventory={self.inventory}; skills={self.skills};\n\tdex={self.dex}, agi={self.agi}, str={self.str}, con={self.con}, int={self.int}, wis={self.wis}, cha={self.cha}, res={self.cha}\n)"
 
 # Actual classes
 
@@ -102,7 +104,7 @@ class Classes():
 			return CharacterClass
 
 	# Fill in data for a specific class
-	def buildNarrowClass(parent:CharacterClass, _class:CharacterClass, narrow:str, narrow_after_a:str, desc:str, specials:list[str], languages:list[str], inventory:list[str], dex:int, agi:int, str:int, con:int, int:int, wis:int, cha:int, res:int):
+	def buildNarrowClass(parent:CharacterClass, _class:CharacterClass, narrow:str, narrow_after_a:str, desc:str, specials:list[str], languages:list[str], inventory:list[str], skills:list[str], dex:int, agi:int, str:int, con:int, int:int, wis:int, cha:int, res:int):
 		_class.wide = parent.wide
 		_class.wide_after_a = parent.wide_after_a
 		_class.narrow = narrow or parent.narrow
@@ -111,6 +113,7 @@ class Classes():
 		_class.specials = []
 		_class.languages = []
 		_class.inventory = []
+		_class.skills = []
 		for i in parent.specials:
 			_class.specials.append(i)
 		for i in specials:
@@ -123,6 +126,10 @@ class Classes():
 			_class.inventory.append(i)
 		for i in inventory:
 			_class.inventory.append(i)
+		for i in parent.skills:
+			_class.skills.append(i)
+		for i in skills:
+			_class.skills.append(i)
 		_class.dex = parent.dex + dex
 		_class.agi = parent.agi + agi
 		_class.str = parent.str + str
@@ -143,6 +150,7 @@ class Classes():
 		specials = ["Shadowy Connections", "Select a Skill", "Select a Skill", "Select a Skill", "Select a Skill"],
 		languages = ["Thieves' Cant"],
 		inventory = [],
+		skills = ["Knowledge", "Mental", "Mental: Deception", "Mental: Performance", "Physical: Acrobatics", "Weapons", "Weapons: Piercing"],
 		dex = 1,
 		agi = 0,
 		str = 0,
@@ -162,6 +170,7 @@ class Classes():
 		specials = ["Select a Skill", "Select a Skill", "Select a Skill", "Select a Skill", "Select a Skill", "Select a Skill"],
 		languages = [],
 		inventory = [],
+		skills = ["Knowledge", "Mental: Perception", "Physical", "Physical: Athletics", "Physical: Intimidation", "Weapons", "Weapons: Melee"],
 		dex = 0,
 		agi = 0,
 		str = 1,
@@ -181,6 +190,7 @@ class Classes():
 		specials = ["Select a Language", "Wildcraft", "Select a Skill", "Select a Skill", "Select a Skill", "Select a Skill"],
 		languages = [],
 		inventory = [],
+		skills = ["Knowledge: Medicine", "Knowledge: Wilderness", "Mental: Investigation", "Mental: Perception", "Physical", "Physical: Endurance", "Weapons: Ranged"],
 		dex = 0,
 		agi = 1,
 		str = 0,
@@ -200,6 +210,7 @@ class Classes():
 		specials = ["Select a Language", "Select a Skill", "Select a Skill", "Select a Skill", "Select a Skill", "Select a Skill"],
 		languages = [],
 		inventory = [],
+		skills = ["Knowledge: Arcana", "Knowledge: Linguistics", "Knowledge: Medicine", "Mental", "Mental: Perception", "Mental: Performance", "Physical: Sleight of Hand"],
 		dex = 0,
 		agi = 0,
 		str = 0,
@@ -219,6 +230,7 @@ class Classes():
 		specials = ["Select a Skill", "Select a Skill", "Select a Skill", "Select a Skill", "Select a Skill", "Select a Skill"],
 		languages = [],
 		inventory = [],
+		skills = ["Knowledge", "Mental", "Physical", "Weapons"],
 		dex = 0,
 		agi = 0,
 		str = 0,
@@ -239,6 +251,7 @@ class Classes():
 		specials = ["Stealth Expert"],
 		languages = [],
 		inventory = [],
+		skills = ["Mental: Deception", "Mental: Perception", "Physical: Acrobatics", "Physical: Sleight of Hand", "Physical: Stealth"],
 		dex = 0,
 		agi = 0,
 		str = 0,
@@ -257,6 +270,7 @@ class Classes():
 		specials = ["Killing Blow"],
 		languages = [],
 		inventory = [],
+		skills = ["Knowledge: Culture", "Mental: Perception", "Physical: Stealth", "Weapons", "Weapons: Piercing"],
 		dex = 1,
 		agi = 0,
 		str = 0,
@@ -275,6 +289,7 @@ class Classes():
 		specials = ["Interpersonal Skills"],
 		languages = [],
 		inventory = [],
+		skills = ["Knowledge: Culture", "Mental: Deception", "Mental: Intimidation", "Mental: Performance", "Mental: Persuasion"],
 		dex = 0,
 		agi = 0,
 		str = 0,
@@ -293,6 +308,7 @@ class Classes():
 		specials = ["Stealth Expert"],
 		languages = [],
 		inventory = [],
+		skills = ["Mental: Deception", "Mental: Investigation", "Mental: Perception", "Physical: Endurance", "Weapons: Improvised"],
 		dex = 0,
 		agi = 1,
 		str = 0,
@@ -311,6 +327,7 @@ class Classes():
 		specials = ["Unarmed Combat"],
 		languages = [],
 		inventory = [],
+		skills = ["Physical", "Physical: Athletics", "Physical: Endurance", "Physical: Intimidation", "Weapons: Improvised"],
 		dex = 0,
 		agi = 0,
 		str = 1,
@@ -329,6 +346,7 @@ class Classes():
 		specials = ["Heavy Armour"],
 		languages = [],
 		inventory = [],
+		skills = ["Knowledge: Culture", "Mental: Persuasion", "Physical: Athletics", "Physical: Endurance", "Weapons: Melee"],
 		dex = 0,
 		agi = 0,
 		str = 0,
@@ -347,6 +365,7 @@ class Classes():
 		specials = ["Veteran"],
 		languages = [],
 		inventory = [],
+		skills = ["Knowledge: Medicine", "Knowledge: Wilderness", "Physical: Endurance", "Weapons: Melee", "Weapons: Slashing"],
 		dex = 0,
 		agi = 0,
 		str = 0,
@@ -365,6 +384,7 @@ class Classes():
 		specials = ["Divination"],
 		languages = [],
 		inventory = [],
+		skills = ["Knowledge: Arcana", "Knowledge: Linguistics", "Mental: Intimidation", "Physical: Athletics", "Weapons: Slashing"],
 		dex = 0,
 		agi = 1,
 		str = 0,
@@ -383,6 +403,7 @@ class Classes():
 		specials = ["Tracking"],
 		languages = [],
 		inventory = [],
+		skills = ["Knowledge: Wilderness", "Mental: Perception", "Physical: Endurance", "Physical: Stealth", "Weapons: Ranged"],
 		dex = 1,
 		agi = 0,
 		str = 0,
@@ -401,6 +422,7 @@ class Classes():
 		specials = ["Rage"],
 		languages = [],
 		inventory = [],
+		skills = ["Knowledge", "Physical: Athletics", "Physical: Endurance", "Weapons: Melee", "Weapons: Trauma"],
 		dex = 0,
 		agi = 0,
 		str = 1,
@@ -419,6 +441,7 @@ class Classes():
 		specials = ["Druidcraft"],
 		languages = ["Druidic"],
 		inventory = [],
+		skills = ["Knowledge: Arcana", "Knowledge: History", "Knowledge: Medicine", "Mental: Investigation", "Physical: Sleight of Hand"],
 		dex = 0,
 		agi = 0,
 		str = 0,
@@ -437,6 +460,7 @@ class Classes():
 		specials = ["Musicianship"],
 		languages = [],
 		inventory = [],
+		skills = ["Knowledge: Culture", "Knowledge: Linguistics", "Mental: Deception", "Mental: Performance", "Mental: Persuasion"],
 		dex = 0,
 		agi = 0,
 		str = 0,
@@ -455,6 +479,7 @@ class Classes():
 		specials = ["Select a Language", "Wizardraft"],
 		languages = [],
 		inventory = [],
+		skills = ["Knowledge", "Knowledge: Arcana", "Knowledge: Culture", "Knowledge: History", "Mental: Investigation"],
 		dex = 0,
 		agi = 0,
 		str = 0,
@@ -473,6 +498,7 @@ class Classes():
 		specials = ["Sorcery"],
 		languages = [],
 		inventory = [],
+		skills = ["Mental: Intimidation", "Mental: Investigation", "Mental: Perception", "Physical: Endurance", "Weapons: Slashing"],
 		dex = 0,
 		agi = 0,
 		str = 0,
@@ -491,6 +517,7 @@ class Classes():
 		specials = ["Divination"],
 		languages = [],
 		inventory = [],
+		skills = ["Knowledge: Culture", "Knowledge: Medicine", "Mental", "Mental: Intimidation", "Mental: Persuasion"],
 		dex = 0,
 		agi = 0,
 		str = 0,
@@ -509,6 +536,7 @@ class Classes():
 		specials = ["Necromancy"],
 		languages = [],
 		inventory = [],
+		skills = ["Knowledge", "Knowledge: History", "Mental: Performance", "Physical: Sleight of Hand", "Weapons: Improvised"],
 		dex = 0,
 		agi = 0,
 		str = 0,
@@ -527,6 +555,7 @@ class Classes():
 		specials = ["Unarmed Combat"],
 		languages = [],
 		inventory = [],
+		skills = ["Knowledge: Culture", "Knowledge: History", "Knowledge: Linguistics", "Mental: Perception", "Physical: Acrobatics", "Weapons: Improvised", "Weapons: Melee", "Weapons: Trauma"],
 		dex = 1,
 		agi = 1,
 		str = 0,
@@ -545,6 +574,7 @@ class Classes():
 		specials = ["Repairs"],
 		languages = [],
 		inventory = [],
+		skills = ["Knowledge", "Knowledge: Arcana", "Mental: Investigation", "Mental: Perception", "Physical: Athletics", "Physical: Endurance", "Physical: Sleight of Hand", "Weapons: Piercing"],
 		dex = 1,
 		agi = 0,
 		str = 1,
@@ -563,6 +593,7 @@ class Classes():
 		specials = ["Haggling"],
 		languages = [],
 		inventory = [],
+		skills = ["Knowledge", "Knowledge: Culture", "Mental: Deception", "Mental: Perception", "Mental: Performance", "Mental: Persuasion", "Physical: Endurance", "Weapons: Trauma"],
 		dex = 0,
 		agi = 0,
 		str = 0,
@@ -581,6 +612,7 @@ class Classes():
 		specials = ["Interpersonal Skills"],
 		languages = [],
 		inventory = [],
+		skills = ["Knowledge: Culture", "Knowledge: History", "Knowledge: Linguistics", "Mental: Intimidation", "Mental: Persuasion", "Physical: Acrobatics", "Physical: Stealth", "Weapons: Ranged"],
 		dex = 0,
 		agi = 1,
 		str = 0,

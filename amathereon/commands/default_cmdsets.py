@@ -19,6 +19,7 @@ from evennia import default_cmds
 from commands.command import CmdStats
 from commands.command import CmdSkills
 from commands.command import CmdBuySkill
+from commands.command import CmdGiveSkillPts
 
 from commands.command import CmdCreateChar
 
@@ -44,6 +45,7 @@ class CharacterCmdSet(default_cmds.CharacterCmdSet):
         self.add(CmdStats())
         self.add(CmdSkills())
         self.add(CmdBuySkill())
+        self.add(CmdGiveSkillPts())
         self.add(ClothedCharacterCmdSet)
         #
         # any commands you add below will overload the default ones.
