@@ -11,6 +11,7 @@ inheritance.
 
 """
 from evennia.objects.objects import DefaultObject
+from evennia.contrib.game_systems.clothing import ContribClothing
 
 
 class ObjectParent:
@@ -171,4 +172,7 @@ class Object(ObjectParent, DefaultObject):
 
     """
 
+    pass
+
+class ClothingItem(ContribClothing):
     pass

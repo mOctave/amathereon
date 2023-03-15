@@ -6,6 +6,7 @@ Commands describe the input the account can do to the game.
 """
 
 from evennia.commands.command import Command as BaseCommand
+from evennia.commands.default.muxcommand import MuxCommand
 
 from evennia.utils.evmenu import EvMenu
 
@@ -260,7 +261,39 @@ class CmdSkills(BaseCommand):
                     caller.msg("|w%s - %s" % (str(list(skillData.keys())[i]), str(list(skillData.values())[i])))
                 else:
                     caller.msg("|n%s - %s" % (str(list(skillData.keys())[i]), str(list(skillData.values())[i])))
+            caller.msg("|wYou have %s skill points to spend." % caller.db.skillpts)
 
+class CmdBuySkill(MuxCommand):
+        """
+        Buy a skill
+
+        Usage:
+          skillbuy <skill>
+
+        Opens a menu that allows you to buy skills using skill points.
+        """
+        key = "skillbuy"
+        aliases = ["skbuy"]
+        lock = "cmd:all()"
+        help_category = "General"
+
+        def func(self):
+            caller = self.caller
+            skillData = caller.db.skills
+
+            if not self.args:
+                caller.msg("Usage: skillbuy <skill>")
+                return
+            if not caller.db.skillpts:
+                caller.msg("You have no skill points to spend!")
+                return
+            for i in range(0, len(skillData)):
+                if str(list(skillData.keys())[i]) == self.args:
+                    skillData[str(list(skillData.keys())[i])] += 1
+                    caller.db.skillpts -= 1
+                    caller.msg("|wSkill bought: %s, now level %s." % (str(list(skillData.keys())[i]),str(list(skillData.values())[i])))
+                    return
+            caller.msg("No skill was found with that name!")
 
 class CmdCreateChar(Command):
 

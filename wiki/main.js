@@ -21,7 +21,7 @@ navbarData = `
 			<span>Rogue</span>
 			<div class="slideout-content">
 				<a href="thief.html">Thief</a>
-				<a>Assassin</a>
+				<a href="assassin.html">Assassin</a>
 				<a>Con Artist</a>
 				<a>Spy</a>
 			</div>
@@ -70,6 +70,7 @@ navbarData = `
 topicsData = `
 <li><a href=alaforonaist'laiezeron.html>Alaforonaist'laiezeron</a></li>
 <li><a href=arakh.html>Arak</a></li>
+<li><a href=assassin.html>Assassin</a></li>
 <li><a href=character_classes.html>Character Classes</a></li>
 <li><a href=cult_of_the_old_spirits.html>Cult of the Old Spirits</a></li>
 <li><a href=elvish_celestialism.html>Elvish Celestialism</a></li>

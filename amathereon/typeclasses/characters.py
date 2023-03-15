@@ -8,13 +8,14 @@ creation commands.
 
 """
 from evennia.objects.objects import DefaultCharacter
+from evennia.contrib.game_systems.clothing import ClothedCharacter
 
 from .objects import ObjectParent
 
 import random
 
 
-class Character(ObjectParent, DefaultCharacter):
+class Character(ObjectParent, ClothedCharacter):
     """
     The Character defaults to reimplementing some of base Object's hook methods with the
     following functionality:

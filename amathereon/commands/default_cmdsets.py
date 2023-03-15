@@ -18,8 +18,12 @@ from evennia import default_cmds
 
 from commands.command import CmdStats
 from commands.command import CmdSkills
+from commands.command import CmdBuySkill
+
 from commands.command import CmdCreateChar
+
 from evennia.contrib.rpg.character_creator.character_creator import ContribCmdCharCreate
+from evennia.contrib.game_systems.clothing import ClothedCharacterCmdSet
 
 
 class CharacterCmdSet(default_cmds.CharacterCmdSet):
@@ -39,6 +43,8 @@ class CharacterCmdSet(default_cmds.CharacterCmdSet):
 
         self.add(CmdStats())
         self.add(CmdSkills())
+        self.add(CmdBuySkill())
+        self.add(ClothedCharacterCmdSet)
         #
         # any commands you add below will overload the default ones.
         #

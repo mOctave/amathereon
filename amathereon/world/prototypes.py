@@ -48,6 +48,8 @@ See the `spawn` command and `evennia.prototypes.spawner.spawn` for more info.
 
 """
 
+import evennia.contrib.game_systems.clothing.clothing
+
 ## example of module-based prototypes using
 ## the variable name as `prototype_key` and
 ## simple Attributes
@@ -88,3 +90,43 @@ See the `spawn` command and `evennia.prototypes.spawner.spawn` for more info.
 # "key": "goblin archwizard",
 # "prototype_parent" : ("GOBLIN_WIZARD", "ARCHWIZARD_MIXIN")
 # }
+
+CLOTHING_TOP = {
+    "protype_key": "CLOTHING_TOP",
+    "typeclass": "evennia.contrib.game_systems.clothing.ContribClothing",
+    "key": "top"
+}
+
+T_SHIRT = {
+    "protype_key": "T_SHIRT",
+    "prototype_parent": "CLOTHING_TOP",
+    "key": "t-shirt",
+    "min-layers": 0,
+    "max-layers": 2,
+    "layers": 1,
+    "piercing-block": 0,
+    "slashing-block": 0,
+    "trauma-block": 0,
+    "magic-block": 0,
+    "piercing-protect": 0,
+    "slashing-protect": 0,
+    "trauma-protect": 0,
+    "magic-protect": 0
+}
+
+LEATHER_COAT = {
+    "protype_key": "THICK_COAT",
+    "prototype_parent": "CLOTHING_TOP",
+    "key": "leather_coat",
+    "min-layers": 2,
+    "max-layers": 3,
+    "layers": 3,
+    "piercing-block": 0,
+    "slashing-block": 1,
+    "trauma-block": 0,
+    "magic-block": 0,
+    "piercing-protect": 1,
+    "slashing-protect": 1,
+    "trauma-protect": 1,
+    "magic-protect": 1
+}
