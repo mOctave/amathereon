@@ -31,13 +31,25 @@ from evennia.settings_default import *
 # Evennia base server config
 ######################################################################
 
-# This is the name of your game. Make it catchy!
+# Basic server data
 SERVERNAME = "Amathereon"
-#MULTISESSION_MODE = 2
+GAMEVERSION = "0.1.0"
+
+# Character settings
 AUTO_CREATE_CHARACTER_WITH_ACCOUNT = False
 AUTO_PUPPET_ON_LOGIN = False
 MAX_NR_CHARACTERS = None
 CHARGEN_MENU = "world.char_setup"
+
+# Gametime
+TIME_FACTOR = 60
+TIME_GAME_EPOCH = 372 * 31968000
+TIME_UNITS = {"sec": 1,
+              "min": 60,
+              "hour": 60 * 60,
+              "day": 60 * 60 * 30,
+              "month": 60 * 60 * 30 * 37,
+              "year": 60 * 60 * 30 * 37 * 8 }
 
 ######################################################################
 # Settings given in secret_settings.py override those in this file.

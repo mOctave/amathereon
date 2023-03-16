@@ -71,6 +71,7 @@ topicsData = `
 <li><a href=alaforonaist'laiezeron.html>Alaforonaist'laiezeron</a></li>
 <li><a href=arakh.html>Arak</a></li>
 <li><a href=assassin.html>Assassin</a></li>
+<li><a href=calendar.html>Calendar</a></li>
 <li><a href=character_classes.html>Character Classes</a></li>
 <li><a href=cult_of_the_old_spirits.html>Cult of the Old Spirits</a></li>
 <li><a href=elvish_celestialism.html>Elvish Celestialism</a></li>
