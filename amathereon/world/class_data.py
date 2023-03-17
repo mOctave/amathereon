@@ -18,11 +18,19 @@ class CharacterClass:
 	wis: int = 0
 	cha: int = 0
 	res: int = 0
+	dex_up: int = 0
+	agi_up: int = 0
+	str_up: int = 0
+	con_up: int = 0
+	int_up: int = 0
+	wis_up: int = 0
+	cha_up: int = 0
+	res_up: int = 0
 
 	def __new__ (cls, *args, **kwargs):
 		return super().__new__(cls)
 	
-	def __init__(self, wide: str = "Citizen", wide_after_a: str = " Citizen", narrow: str = "Would-Be Adventurer", narrow_after_a: str = " Would-Be Adventurer", desc: str = "An ordinary person who wishes to take up a life of adventure.", specials: list[str] = [], languages: list[str] = [], inventory: list[str] = [], skills: list[str] = [], dex: int = 0, agi: int = 0, str: int = 0, con: int = 0, int: int = 0, wis: int = 0, cha: int = 0, res: int = 0):
+	def __init__(self, wide: str = "Citizen", wide_after_a: str = " Citizen", narrow: str = "Would-Be Adventurer", narrow_after_a: str = " Would-Be Adventurer", desc: str = "An ordinary person who wishes to take up a life of adventure.", specials: list[str] = [], languages: list[str] = [], inventory: list[str] = [], skills: list[str] = [], dex: int = 0, agi: int = 0, str: int = 0, con: int = 0, int: int = 0, wis: int = 0, cha: int = 0, res: int = 0, dex_up: int = 0, agi_up: int = 0, str_up: int = 0, con_up: int = 0, int_up: int = 0, wis_up: int = 0, cha_up: int = 0, res_up: int = 0):
 		self.wide = wide
 		self.wide_after_a = wide_after_a
 		self.narrow = narrow
@@ -40,9 +48,17 @@ class CharacterClass:
 		self.wis = wis
 		self.cha = cha
 		self.res = res
+		self.dex_up = dex_up
+		self.agi_up = agi_up
+		self.str_up = str_up
+		self.con_up = con_up
+		self.int_up = int_up
+		self.wis_up = wis_up
+		self.cha_up = cha_up
+		self.res_up = res_up
 	
 	def __repr__(self) -> str:
-		return f"{type(self).__name__}(\n\twide=\"{self.wide}\", \"{self.wide_after_a}\"; narrow=\"{self.narrow}\", \"{self.narrow_after_a}\"; desc=\"{self.desc}\";\n\tspecials={self.specials}; languages={self.languages}; inventory={self.inventory}; skills={self.skills};\n\tdex={self.dex}, agi={self.agi}, str={self.str}, con={self.con}, int={self.int}, wis={self.wis}, cha={self.cha}, res={self.cha}\n)"
+		return f"{type(self).__name__}(\n\twide=\"{self.wide}\", \"{self.wide_after_a}\"; narrow=\"{self.narrow}\", \"{self.narrow_after_a}\"; desc=\"{self.desc}\";\n\tspecials={self.specials}; languages={self.languages}; inventory={self.inventory}; skills={self.skills};\n\tdex={self.dex}, agi={self.agi}, str={self.str}, con={self.con}, int={self.int}, wis={self.wis}, cha={self.cha}, res={self.res};\n\tdex_up={self.dex_up}, agi_up={self.agi_up}, str_up={self.str_up}, con_up={self.con_up}, int_up={self.int_up}, wis_up={self.wis_up}, cha_up={self.cha_up}, res_up={self.res_up}\n)"
 
 # Actual classes
 
@@ -104,7 +120,7 @@ class Classes():
 			return CharacterClass
 
 	# Fill in data for a specific class
-	def buildNarrowClass(parent:CharacterClass, _class:CharacterClass, narrow:str, narrow_after_a:str, desc:str, specials:list[str], languages:list[str], inventory:list[str], skills:list[str], dex:int, agi:int, str:int, con:int, int:int, wis:int, cha:int, res:int):
+	def buildNarrowClass(parent:CharacterClass, _class:CharacterClass, narrow:str, narrow_after_a:str, desc:str, specials:list[str], languages:list[str], inventory:list[str], skills:list[str], dex:int, agi:int, str:int, con:int, int:int, wis:int, cha:int, res:int, dex_up:int, agi_up:int, str_up:int, con_up:int, int_up:int, wis_up:int, cha_up:int, res_up:int):
 		_class.wide = parent.wide
 		_class.wide_after_a = parent.wide_after_a
 		_class.narrow = narrow or parent.narrow
@@ -138,6 +154,14 @@ class Classes():
 		_class.wis = parent.wis + wis
 		_class.cha = parent.cha + cha
 		_class.res = parent.res + res
+		_class.dex_up = parent.dex_up + dex_up
+		_class.agi_up = parent.agi_up + agi_up
+		_class.str_up = parent.str_up + str_up
+		_class.con_up = parent.con_up + con_up
+		_class.int_up = parent.int_up + int_up
+		_class.wis_up = parent.wis_up + wis_up
+		_class.cha_up = parent.cha_up + cha_up
+		_class.res_up = parent.res_up + res_up
 
 	# Wide Classes
 
@@ -158,7 +182,15 @@ class Classes():
 		int = 0,
 		wis = 0,
 		cha = 1,
-		res = 0
+		res = 0,
+		dex_up = 15,
+		agi_up = 5,
+		str_up = 2,
+		con_up = 2,
+		int_up = 5,
+		wis_up = 3,
+		cha_up = 10,
+		res_up = 4
 	)
 
 	Warrior: CharacterClass = CharacterClass(
@@ -178,7 +210,15 @@ class Classes():
 		int = 0,
 		wis = 0,
 		cha = 0,
-		res = 1
+		res = 1,
+		dex_up = 5,
+		agi_up = 2,
+		str_up = 15,
+		con_up = 5,
+		int_up = 3,
+		wis_up = 4,
+		cha_up = 2,
+		res_up = 10
 	)
 
 	Outlander: CharacterClass = CharacterClass(
@@ -198,7 +238,15 @@ class Classes():
 		int = 0,
 		wis = 0,
 		cha = 0,
-		res = 0
+		res = 0,
+		dex_up = 5,
+		agi_up = 4,
+		str_up = 3,
+		con_up = 10,
+		int_up = 2,
+		wis_up = 5,
+		cha_up = 2,
+		res_up = 15
 	)
 
 	Mage: CharacterClass = CharacterClass(
@@ -218,7 +266,15 @@ class Classes():
 		int = 1,
 		wis = 1,
 		cha = 0,
-		res = 0
+		res = 0,
+		dex_up = 3,
+		agi_up = 5,
+		str_up = 2,
+		con_up = 2,
+		int_up = 10,
+		wis_up = 15,
+		cha_up = 5,
+		res_up = 4
 	)
 
 	Specialist: CharacterClass = CharacterClass(
@@ -238,7 +294,15 @@ class Classes():
 		int = 0,
 		wis = 0,
 		cha = 0,
-		res = 0
+		res = 0,
+		dex_up = 5,
+		agi_up = 7,
+		str_up = 6,
+		con_up = 6,
+		int_up = 6,
+		wis_up = 5,
+		cha_up = 6,
+		res_up = 5
 	)
 
 	# Narrow Classes
@@ -259,7 +323,15 @@ class Classes():
 		int = 1,
 		wis = 0,
 		cha = 0,
-		res = 0
+		res = 0,
+		dex_up = 4,
+		agi_up = 8,
+		str_up = 0,
+		con_up = 4,
+		int_up = 4,
+		wis_up = 0,
+		cha_up = 0,
+		res_up = 0
 	)
 
 	Assassin: CharacterClass = CharacterClass()
@@ -278,7 +350,15 @@ class Classes():
 		int = 0,
 		wis = 0,
 		cha = 0,
-		res = 0
+		res = 0,
+		dex_up = 4,
+		agi_up = 8,
+		str_up = 4,
+		con_up = 0,
+		int_up = 0,
+		wis_up = 0,
+		cha_up = 4,
+		res_up = 0
 	)
 	
 	ConArtist: CharacterClass = CharacterClass()
@@ -297,7 +377,15 @@ class Classes():
 		int = 0,
 		wis = 0,
 		cha = 1,
-		res = 0
+		res = 0,
+		dex_up = 0,
+		agi_up = 0,
+		str_up = 0,
+		con_up = 4,
+		int_up = 8,
+		wis_up = 0,
+		cha_up = 8,
+		res_up = 0
 	)
 
 	Spy: CharacterClass = CharacterClass()
@@ -316,7 +404,15 @@ class Classes():
 		int = 0,
 		wis = 0,
 		cha = 0,
-		res = 0
+		res = 0,
+		dex_up = 0,
+		agi_up = 8,
+		str_up = 0,
+		con_up = 0,
+		int_up = 8,
+		wis_up = 0,
+		cha_up = 0,
+		res_up = 4
 	)
 
 	Brawler: CharacterClass = CharacterClass()
@@ -335,7 +431,15 @@ class Classes():
 		int = 0,
 		wis = 0,
 		cha = 0,
-		res = 0
+		res = 0,
+		dex_up = 0,
+		agi_up = 0,
+		str_up = 12,
+		con_up = 8,
+		int_up = 0,
+		wis_up = 0,
+		cha_up = 0,
+		res_up = 0
 	)
 
 	Knight: CharacterClass = CharacterClass()
@@ -354,7 +458,15 @@ class Classes():
 		int = 0,
 		wis = 0,
 		cha = 0,
-		res = 0
+		res = 0,
+		dex_up = 0,
+		agi_up = 0,
+		str_up = 4,
+		con_up = 8,
+		int_up = 0,
+		wis_up = 0,
+		cha_up = 4,
+		res_up = 4
 	)
 
 	Soldier: CharacterClass = CharacterClass()
@@ -373,7 +485,15 @@ class Classes():
 		int = 0,
 		wis = 0,
 		cha = 0,
-		res = 1
+		res = 1,
+		dex_up = 0,
+		agi_up = 4,
+		str_up = 4,
+		con_up = 8,
+		int_up = 0,
+		wis_up = 4,
+		cha_up = 0,
+		res_up = 0
 	)
 
 	Paladin: CharacterClass = CharacterClass()
@@ -392,7 +512,15 @@ class Classes():
 		int = 0,
 		wis = 0,
 		cha = 0,
-		res = 0
+		res = 0,
+		dex_up = 4,
+		agi_up = 0,
+		str_up = 4,
+		con_up = 0,
+		int_up = 4,
+		wis_up = 0,
+		cha_up = 8,
+		res_up = 0
 	)
 
 	Ranger: CharacterClass = CharacterClass()
@@ -411,7 +539,15 @@ class Classes():
 		int = 0,
 		wis = 0,
 		cha = 0,
-		res = 0
+		res = 0,
+		dex_up = 0,
+		agi_up = 8,
+		str_up = 0,
+		con_up = 8,
+		int_up = 0,
+		wis_up = 4,
+		cha_up = 0,
+		res_up = 0
 	)
 
 	Barbarian: CharacterClass = CharacterClass()
@@ -430,7 +566,15 @@ class Classes():
 		int = 0,
 		wis = 0,
 		cha = 0,
-		res = 0
+		res = 0,
+		dex_up = 0,
+		agi_up = 0,
+		str_up = 8,
+		con_up = 12,
+		int_up = 0,
+		wis_up = 0,
+		cha_up = 0,
+		res_up = 0
 	)
 
 	Druid: CharacterClass = CharacterClass()
@@ -449,7 +593,15 @@ class Classes():
 		int = 0,
 		wis = 1,
 		cha = 0,
-		res = 0
+		res = 0,
+		dex_up = 4,
+		agi_up = 4,
+		str_up = 0,
+		con_up = 4,
+		int_up = 0,
+		wis_up = 4,
+		cha_up = 4,
+		res_up = 0
 	)
 
 	Bard: CharacterClass = CharacterClass()
@@ -468,7 +620,15 @@ class Classes():
 		int = 0,
 		wis = 0,
 		cha = 1,
-		res = 0
+		res = 0,
+		dex_up = 0,
+		agi_up = 8,
+		str_up = 4,
+		con_up = 0,
+		int_up = 0,
+		wis_up = 0,
+		cha_up = 8,
+		res_up = 0
 	)
 
 	Wizard: CharacterClass = CharacterClass()
@@ -487,7 +647,15 @@ class Classes():
 		int = 0,
 		wis = 1,
 		cha = 0,
-		res = 0
+		res = 0,
+		dex_up = 0,
+		agi_up = 0,
+		str_up = 0,
+		con_up = 0,
+		int_up = 12,
+		wis_up = 8,
+		cha_up = 0,
+		res_up = 0
 	)
 
 	Sorcerer: CharacterClass = CharacterClass()
@@ -506,7 +674,15 @@ class Classes():
 		int = 1,
 		wis = 0,
 		cha = 0,
-		res = 0
+		res = 0,
+		dex_up = 0,
+		agi_up = 4,
+		str_up = 4,
+		con_up = 0,
+		int_up = 12,
+		wis_up = 0,
+		cha_up = 0,
+		res_up = 0
 	)
 
 	Cleric: CharacterClass = CharacterClass()
@@ -525,7 +701,15 @@ class Classes():
 		int = 0,
 		wis = 0,
 		cha = 0,
-		res = 1
+		res = 1,
+		dex_up = 0,
+		agi_up = 0,
+		str_up = 0,
+		con_up = 4,
+		int_up = 4,
+		wis_up = 4,
+		cha_up = 4,
+		res_up = 4
 	)
 
 	Necromancer: CharacterClass = CharacterClass()
@@ -544,7 +728,15 @@ class Classes():
 		int = 0,
 		wis = 0,
 		cha = 0,
-		res = 0
+		res = 0,
+		dex_up = 0,
+		agi_up = 8,
+		str_up = 0,
+		con_up = 0,
+		int_up = 0,
+		wis_up = 4,
+		cha_up = 8,
+		res_up = 0
 	)
 
 	Monk: CharacterClass = CharacterClass()
@@ -563,7 +755,15 @@ class Classes():
 		int = 0,
 		wis = 0,
 		cha = 0,
-		res = 1
+		res = 1,
+		dex_up = 8,
+		agi_up = 8,
+		str_up = 0,
+		con_up = 0,
+		int_up = 4,
+		wis_up = 0,
+		cha_up = 0,
+		res_up = 0
 	)
 
 	Artificer: CharacterClass = CharacterClass()
@@ -582,7 +782,15 @@ class Classes():
 		int = 1,
 		wis = 0,
 		cha = 0,
-		res = 0
+		res = 0,
+		dex_up = 4,
+		agi_up = 4,
+		str_up = 4,
+		con_up = 4,
+		int_up = 4,
+		wis_up = 0,
+		cha_up = 0,
+		res_up = 0
 	)
 
 	Merchant: CharacterClass = CharacterClass()
@@ -601,7 +809,15 @@ class Classes():
 		int = 0,
 		wis = 1,
 		cha = 1,
-		res = 0
+		res = 0,
+		dex_up = 0,
+		agi_up = 0,
+		str_up = 0,
+		con_up = 4,
+		int_up = 0,
+		wis_up = 8,
+		cha_up = 8,
+		res_up = 0
 	)
 
 	Aristocrat: CharacterClass = CharacterClass()
@@ -620,6 +836,14 @@ class Classes():
 		int = 0,
 		wis = 0,
 		cha = 1,
-		res = 1
+		res = 1,
+		dex_up = 4,
+		agi_up = 0,
+		str_up = 4,
+		con_up = 0,
+		int_up = 0,
+		wis_up = 0,
+		cha_up = 12,
+		res_up = 0
 	)
 	

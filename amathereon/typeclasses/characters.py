@@ -9,11 +9,15 @@ creation commands.
 """
 from evennia.objects.objects import DefaultCharacter
 from evennia.contrib.game_systems.clothing import ClothedCharacter
+from evennia import TICKER_HANDLER
+
+from world.class_data import Classes
+from world.race_data import Races
 
 from .objects import ObjectParent
 
 import random
-
+import math
 
 class Character(ObjectParent, ClothedCharacter):
     """
@@ -39,11 +43,32 @@ class Character(ObjectParent, ClothedCharacter):
     specials: list[str] = [""]
     skillpts: int = 0
 
+    @property
+    def maxhp(self):
+        _totalcon = self.db.baseConstitution + self.db.earnedConstitution + self.classData.con + self.raceData.con
+        _totalres = self.db.baseResilience + self.db.earnedResilience + self.classData.res + self.raceData.res
+        return(10 + (3 + (2 * _totalcon) + _totalres) * self.db.lvl)
+    
+    @property
+    def expreq(self):
+        return(30 * math.floor(self.db.lvl ** 1.5))
+    
+    @property
+    def classData(self):
+        return(Classes.getClassFromKey(self.db.charClass))
+    
+    @property
+    def raceData(self):
+        return(Races.getRaceFromKey(self.db.race))
+    
+    @property
+    def random(self):
+        return(random.randint(0, 99))
+
     def at_object_creation(self):
         #set persistent attributes
         self.db.race = "Unborn"
-        self.db.wideClass = "Citizen"
-        self.db.narrowClass = "Would-Be Adventurer"
+        self.db.charClass = "Would-Be Adventurer"
 
         self.db.baseDexterity = random.randint(3,7)
         self.db.baseAgility = random.randint(3,7)
@@ -98,6 +123,59 @@ class Character(ObjectParent, ClothedCharacter):
 
         self.db.lvl = 1
         self.db.exp = 0
+        TICKER_HANDLER.add(5, self.check_level_up)
+
+
+    def check_level_up(self):
+        """
+        Check if it's time for the player's character to gain a level, and award bonuses if so.
+        """
+        if self.db.exp >= self.expreq:
+            # Store max HP from before level-up
+            mhp = self.maxhp
+
+            # Level up
+            self.db.lvl += 1
+            self.db.skillpts += self.db.lvl
+            self.msg("|gSuddenly, you're feeling stronger! You've levelled up to level " + str(self.db.lvl) + "!")
+            self.msg("|G+%s skill points!" % self.db.lvl)
+
+            # Boost ability scores
+            print(str(self.random) + " vs " + str(self.classData.dex_up))
+            if self.random < self.classData.dex_up:
+                self.db.earnedDexterity += 1
+                self.msg("|G+1 DEX!")
+            print(str(self.random) + " vs " + str(self.classData.agi_up))
+            if self.random < self.classData.agi_up:
+                self.db.earnedAgility += 1
+                self.msg("|G+1 AGI!")
+            print(str(self.random) + " vs " + str(self.classData.str_up))
+            if self.random < self.classData.str_up:
+                self.db.earnedStrength += 1
+                self.msg("|G+1 STR!")
+            print(str(self.random) + " vs " + str(self.classData.con_up))
+            if self.random < self.classData.con_up:
+                self.db.earnedConstitution += 1
+                self.msg("|G+1 CON!")
+            print(str(self.random) + " vs " + str(self.classData.int_up))
+            if self.random < self.classData.int_up:
+                self.db.earnedIntelligence += 1
+                self.msg("|G+1 INT!")
+            print(str(self.random) + " vs " + str(self.classData.wis_up))
+            if self.random < self.classData.wis_up:
+                self.db.earnedWisdom += 1
+                self.msg("|G+1 WIS!")
+            print(str(self.random) + " vs " + str(self.classData.cha_up))
+            if self.random < self.classData.cha_up:
+                self.db.earnedCharisma += 1
+                self.msg("|G+1 CHA!")
+            print(str(self.random) + " vs " + str(self.classData.res_up))
+            if self.random < self.classData.res_up:
+                self.db.earnedResilience += 1
+                self.msg("|G+1 RES!")
+            
+            # Report max HP change
+            self.msg("|G+%s max HP!" % (self.maxhp - mhp))
 
     def get_character_stats(self):
         """

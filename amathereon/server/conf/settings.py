@@ -42,7 +42,7 @@ MAX_NR_CHARACTERS = None
 CHARGEN_MENU = "world.char_setup"
 
 # Gametime
-TIME_FACTOR = 60
+TIME_FACTOR = 20
 TIME_GAME_EPOCH = 372 * 31968000
 TIME_UNITS = {"sec": 1,
               "min": 60,

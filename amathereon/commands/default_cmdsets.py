@@ -20,6 +20,7 @@ from commands.command import CmdStats
 from commands.command import CmdSkills
 from commands.command import CmdBuySkill
 from commands.command import CmdGiveSkillPts
+from commands.command import CmdGiveExp
 
 from commands.command import CmdCreateChar
 from commands.gametime import CmdTime
@@ -47,6 +48,8 @@ class CharacterCmdSet(default_cmds.CharacterCmdSet):
         self.add(CmdSkills())
         self.add(CmdBuySkill())
         self.add(CmdGiveSkillPts())
+        self.add(CmdGiveExp())
+        
 
         self.add(CmdTime())
 

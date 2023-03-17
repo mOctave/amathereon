@@ -211,7 +211,8 @@ class CmdStats(BaseCommand):
         def func(self):
             # Get stats, and put them in a list
 
-            race, charClass, bDex, bAgi, bStr, bCon, bInt, bWis, bCha, bRes, eDex, eAgi, eStr, eCon, eInt, eWis, eCha, eRes, specials, skillpts = self.caller.get_character_stats()
+            caller = self.caller
+            race, charClass, bDex, bAgi, bStr, bCon, bInt, bWis, bCha, bRes, eDex, eAgi, eStr, eCon, eInt, eWis, eCha, eRes, specials, skillpts = caller.get_character_stats()
             raceData = Races.getRaceFromKey(race)
             classData = Classes.getClassFromKey(charClass)
 
@@ -224,10 +225,12 @@ class CmdStats(BaseCommand):
             data.append("|w- Your total strength is %s |W(base: %s, bonuses: %s, earned: %s)" % (bStr + eStr + raceData.str + classData.str, bStr, raceData.str + classData.str, eStr))
             data.append("|w- Your total constitution is %s |W(base: %s, bonuses: %s, earned: %s)" % (bCon + eCon + raceData.con + classData.con, bCon, raceData.con + classData.con, eCon))
             data.append("|w- Your total intelligence is %s |W(base: %s, bonuses: %s, earned: %s)" % (bInt + eInt + raceData.int + classData.int, bInt, raceData.int + classData.int, eInt))
-            data.append("|w- Your total wisom is %s |W(base: %s, bonuses: %s, earned: %s)" % (bWis + eWis + raceData.wis + classData.wis, bWis, raceData.wis + classData.wis, eWis))
+            data.append("|w- Your total wisdom is %s |W(base: %s, bonuses: %s, earned: %s)" % (bWis + eWis + raceData.wis + classData.wis, bWis, raceData.wis + classData.wis, eWis))
             data.append("|w- Your total charisma is %s |W(base: %s, bonuses: %s, earned: %s)" % (bCha + eCha + raceData.cha + classData.cha, bCha, raceData.cha + classData.cha, eCha))
             data.append("|w- Your total resilience is %s |W(base: %s, bonuses: %s, earned: %s)" % (bRes + eRes + raceData.res + classData.res, bRes, raceData.res + classData.res, eRes))
-            data.append("|w- You have %s skill points to spend." % (skillpts))
+            data.append("|w- You have %s skill points to spend" % (skillpts))
+            data.append("|w- You are level %s |W(%s / %s EXP for next level)" % (caller.db.lvl, caller.db.exp, caller.expreq))
+            data.append("|w- You have %s out of %s HP" % (caller.db.hp, caller.maxhp))
 
             # Print out the list of stat information
 
@@ -308,7 +311,7 @@ class CmdGiveSkillPts(MuxCommand):
 
     key = "skillget"
     aliases = ["skget"]
-    lock = "perm(Admin)"
+    lock = "perm(superuser)"
     help_category = "Testing"
 
     def func(self):
@@ -320,6 +323,31 @@ class CmdGiveSkillPts(MuxCommand):
         else:
             caller.db.skillpts += int(self.args)
             caller.msg(self.args + " skill points given!")
+
+class CmdGiveExp(MuxCommand):
+    """
+    Give EXP to user
+
+    Usage:
+      expget <int>
+
+    Gives you the requested amount of EXP.
+    """
+
+    key = "expget"
+    aliases = ["exp"]
+    lock = "perm(superuser)"
+    help_category = "Testing"
+
+    def func(self):
+        caller = self.caller
+
+        if not self.args:
+            caller.msg("Usage: expget <int>")
+            return
+        else:
+            caller.db.exp += int(self.args)
+            caller.msg(self.args + " EXP given!")
 
 class CmdCreateChar(Command):
 

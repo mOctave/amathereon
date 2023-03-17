@@ -24,6 +24,8 @@ def menunode_welcome(caller):
 
 def node_race(caller, raw_string, **kwargs):
 
+    caller.new_char.db.chargen_step = "node_race"
+
     text = "|yGundulf squints at you. \"So I hear you want to become an adventurer and walk Amathereon? To which race will you belong?\""
 
     options = (
@@ -187,6 +189,8 @@ def node_goblin(caller, raw_string, **kwargs):
 ###################
 
 def node_class(caller, raw_string, **kwargs):
+
+    caller.new_char.db.chargen_step = "node_class"
 
     text = "|yGundulf looks at you expectantly. \"Well, you've come to the right place to begin your new life of adventure, I suppose. What talents do you have?\""
 
@@ -355,6 +359,8 @@ def node_confirm_class(caller, raw_string, **kwargs):
 
 def node_name(caller, raw_string, **kwargs):
 
+    caller.new_char.db.chargen_step = "node_name"
+
     text = "|y\"There is just one more step remaining before I can send you to Amathereon. What do you wish to be called?\""
 
     if error := kwargs.get("error"):
@@ -396,7 +402,7 @@ def _check_name(caller, raw_string, **kwargs):
         return "node_name_confirm"
 
 def node_name_confirm(caller, raw_string, **kwargs):
-    text = "|y\"Your name will be %s?\"" % (raw_string)
+    text = "|y\"Your name will be %s?\"" % (raw_string.strip())
 
     options = (
         {"key": ("Yes"),
