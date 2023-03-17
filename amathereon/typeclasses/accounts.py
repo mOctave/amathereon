@@ -164,7 +164,7 @@ class Account(DefaultAccount):
                 continue
             csessions = char.sessions.all()
             classData = Classes.getClassFromKey(char.db.charClass)
-            charString = f"{char.key} - {char.db.race} {classData.narrow}"
+            charString = f"{char.key} - {char.db.race} {classData.narrow}, lvl {char.db.lvl}"
             if csessions:
                 for sess in csessions:
                     # character is already puppeted
