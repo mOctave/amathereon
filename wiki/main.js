@@ -22,8 +22,8 @@ navbarData = `
 			<div class="slideout-content">
 				<a href="thief.html">Thief</a>
 				<a href="assassin.html">Assassin</a>
-				<a>Con Artist</a>
-				<a>Spy</a>
+				<a href="con_artist.html">Con Artist</a>
+				<a href="spy.html">Spy</a>
 			</div>
 		</div>
 		<div class="slideout">
@@ -69,10 +69,11 @@ navbarData = `
 
 topicsData = `
 <li><a href=alaforonaist'laiezeron.html>Alaforonaist'laiezeron</a></li>
-<li><a href=arakh.html>Arak</a></li>
+<li><a href=arakh.html>Arakh</a></li>
 <li><a href=assassin.html>Assassin</a></li>
 <li><a href=calendar.html>Calendar</a></li>
 <li><a href=character_classes.html>Character Classes</a></li>
+<li><a href=con_artist.html>Con Artist</a></li>
 <li><a href=cult_of_the_old_spirits.html>Cult of the Old Spirits</a></li>
 <li><a href=elvish_celestialism.html>Elvish Celestialism</a></li>
 <li><a href=faith_of_litmeate.html>Faith of Litmeate</a></li>
@@ -85,6 +86,8 @@ topicsData = `
 <li><a href=rift.html>The Rift</a></li>
 <li><a href=rules.html>Rules</a></li>
 <li><a href=shadow_worship.html>Shadow Worship</a></li>
+<li><a href=skills.html>Skills</a></li>
+<li><a href=spy.html>Spy</a></li>
 <li><a href=thief.html>Thief</a></li>
 <li><a href=way_of_the_oracle.html>The Way of the Oracle</a></li>
 `
