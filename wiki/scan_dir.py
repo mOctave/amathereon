@@ -40,7 +40,7 @@ for filename in html_files:
         openFile = open(filename, "r")
         firsth1 = re.search("<h1>.*</h1>", openFile.read())
         try:
-            headings.append(firsth1.group().strip("<h1></h1>"))
+            headings.append(firsth1.group()[4:-5])
         except:
             pass
         openFile.close()

@@ -29,10 +29,10 @@ navbarData = `
 		<div class="slideout">
 			<span>Warrior</span>
 			<div class="slideout-content">
-				<a>Brawler</a>
-				<a>Knight</a>
-				<a>Soldier</a>
-				<a>Paladin</a>
+				<a href="brawler.html">Brawler</a>
+				<a href="knight.html">Knight</a>
+				<a href="soldier.html">Soldier</a>
+				<a href="paladin.html">Paladin</a>
 			</div>
 		</div>
 		<div class="slideout">
@@ -71,6 +71,7 @@ topicsData = `
 <li><a href=alaforonaist'laiezeron.html>Alaforonaist'laiezeron</a></li>
 <li><a href=arakh.html>Arakh</a></li>
 <li><a href=assassin.html>Assassin</a></li>
+<li><a href=brawler.html>Brawler</a></li>
 <li><a href=calendar.html>Calendar</a></li>
 <li><a href=character_classes.html>Character Classes</a></li>
 <li><a href=con_artist.html>Con Artist</a></li>
@@ -81,12 +82,15 @@ topicsData = `
 <li><a href=four_planes.html>The Four Planes of Existence</a></li>
 <li><a href=grireverchism.html>Grireverchism</a></li>
 <li><a href=kazan'zaram.html>Kazan'zaram</a></li>
+<li><a href=knight.html>Knight</a></li>
 <li><a href=orlorianism.html>Orlorianism</a></li>
+<li><a href=paladin.html>Paladin</a></li>
 <li><a href=races.html>Races of Amathereon</a></li>
 <li><a href=rift.html>The Rift</a></li>
 <li><a href=rules.html>Rules</a></li>
 <li><a href=shadow_worship.html>Shadow Worship</a></li>
 <li><a href=skills.html>Skills</a></li>
+<li><a href=soldier.html>Soldier</a></li>
 <li><a href=spy.html>Spy</a></li>
 <li><a href=thief.html>Thief</a></li>
 <li><a href=way_of_the_oracle.html>The Way of the Oracle</a></li>
