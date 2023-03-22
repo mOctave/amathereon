@@ -163,7 +163,7 @@ class Account(DefaultAccount):
                 result.append("\n - |Yin progress|n (|wcharcreate|n to continue)")
                 continue
             csessions = char.sessions.all()
-            classData = Classes.getClassFromKey(char.db.charClass)
+            classData = char.classData
             charString = f"{char.key} - {char.db.race} {classData.narrow}, lvl {char.db.lvl}"
             if csessions:
                 for sess in csessions:

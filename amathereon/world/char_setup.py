@@ -339,7 +339,7 @@ def node_specialist(caller, raw_string, **kwargs):
 def node_confirm_class(caller, raw_string, **kwargs):
     caller.new_char.db.charClass = kwargs["choice"]
 
-    classData = Classes.getClassFromKey(caller.new_char.db.charClass)
+    classData = caller.new_char.classData
 
     text = "|y\"So you wish to become a%s?\"" % classData.narrow_after_a
 
@@ -420,7 +420,7 @@ def node_name_confirm(caller, raw_string, **kwargs):
 
 def node_end(caller, raw_string):
     """Evaluate Specials"""
-    classData = Classes.getClassFromKey(caller.new_char.db.charClass)
+    classData = caller.new_char.classData
     caller.new_char.specials = classData.specials
     caller.new_char.skillList = classData.skills
     Specials.evaluateNew(caller.new_char)

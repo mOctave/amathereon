@@ -14,6 +14,8 @@ from evennia import TICKER_HANDLER
 from world.class_data import Classes
 from world.race_data import Races
 
+import typeclasses.scripts
+
 from .objects import ObjectParent
 
 import random
@@ -44,10 +46,45 @@ class Character(ObjectParent, ClothedCharacter):
     skillpts: int = 0
 
     @property
+    def totaldex(self):
+        return(self.db.baseDexterity + self.db.earnedDexterity + self.classData.dex + self.raceData.dex)
+
+    @property
+    def totalagi(self):
+        return(self.db.baseAgility + self.db.earnedAgility + self.classData.agi + self.raceData.agi)
+
+    @property
+    def totalstr(self):
+        return(self.db.baseStrength + self.db.earnedStrength + self.classData.str + self.raceData.str)
+
+    @property
+    def totalcon(self):
+        return(self.db.baseConstitution + self.db.earnedConstitution + self.classData.con + self.raceData.con)
+
+    @property
+    def totalint(self):
+        return(self.db.baseIntelligence + self.db.earnedIntelligence + self.classData.int + self.raceData.int)
+
+    @property
+    def totalwis(self):
+        return(self.db.baseWisdom + self.db.earnedWisdom + self.classData.wis + self.raceData.wis)
+
+    @property
+    def totalcha(self):
+        return(self.db.baseCharisma + self.db.earnedCharisma + self.classData.cha + self.raceData.cha)
+
+    @property
+    def totalres(self):
+        return(self.db.baseResilience + self.db.earnedResilience + self.classData.res + self.raceData.res)
+
+    @property
     def maxhp(self):
-        _totalcon = self.db.baseConstitution + self.db.earnedConstitution + self.classData.con + self.raceData.con
-        _totalres = self.db.baseResilience + self.db.earnedResilience + self.classData.res + self.raceData.res
-        return(10 + (3 + (2 * _totalcon) + _totalres) * self.db.lvl)
+        return(10 + (3 + (2 * self.totalcon) + self.totalres) * self.db.lvl)
+    
+    @property
+    def maxenergy(self):
+        _endurancebonus = 10 * self.db.skills["Physical: Endurance"]
+        return(20 + (3 + self.totalres) * self.db.lvl + (2 * self.totalres) + _endurancebonus)
     
     @property
     def expreq(self):
@@ -64,6 +101,8 @@ class Character(ObjectParent, ClothedCharacter):
     @property
     def random(self):
         return(random.randint(0, 99))
+
+    energy_counter: int = 0
 
     def at_object_creation(self):
         #set persistent attributes
@@ -125,57 +164,58 @@ class Character(ObjectParent, ClothedCharacter):
         self.db.exp = 0
         TICKER_HANDLER.add(5, self.check_level_up)
 
+        self.db.hp = self.maxhp
+
+        self.db.energy = self.maxenergy
+        self.scripts.add(typeclasses.scripts.UpdateEnergy)
 
     def check_level_up(self):
         """
         Check if it's time for the player's character to gain a level, and award bonuses if so.
         """
         if self.db.exp >= self.expreq:
-            # Store max HP from before level-up
+            # Store max HP and energy from before level-up
             mhp = self.maxhp
+            men = self.maxenergy
 
             # Level up
             self.db.lvl += 1
-            self.db.skillpts += self.db.lvl
+            self.db.skillpts += 1 + math.ceil(math.sqrt(self.db.lvl))
             self.msg("|gSuddenly, you're feeling stronger! You've levelled up to level " + str(self.db.lvl) + "!")
-            self.msg("|G+%s skill points!" % self.db.lvl)
+            self.msg("|G+%s skill points!" % (1 + math.ceil(math.sqrt(self.db.lvl))))
 
             # Boost ability scores
-            print(str(self.random) + " vs " + str(self.classData.dex_up))
             if self.random < self.classData.dex_up:
                 self.db.earnedDexterity += 1
                 self.msg("|G+1 DEX!")
-            print(str(self.random) + " vs " + str(self.classData.agi_up))
             if self.random < self.classData.agi_up:
                 self.db.earnedAgility += 1
                 self.msg("|G+1 AGI!")
-            print(str(self.random) + " vs " + str(self.classData.str_up))
             if self.random < self.classData.str_up:
                 self.db.earnedStrength += 1
                 self.msg("|G+1 STR!")
-            print(str(self.random) + " vs " + str(self.classData.con_up))
             if self.random < self.classData.con_up:
                 self.db.earnedConstitution += 1
                 self.msg("|G+1 CON!")
-            print(str(self.random) + " vs " + str(self.classData.int_up))
             if self.random < self.classData.int_up:
                 self.db.earnedIntelligence += 1
                 self.msg("|G+1 INT!")
-            print(str(self.random) + " vs " + str(self.classData.wis_up))
             if self.random < self.classData.wis_up:
                 self.db.earnedWisdom += 1
                 self.msg("|G+1 WIS!")
-            print(str(self.random) + " vs " + str(self.classData.cha_up))
             if self.random < self.classData.cha_up:
                 self.db.earnedCharisma += 1
                 self.msg("|G+1 CHA!")
-            print(str(self.random) + " vs " + str(self.classData.res_up))
             if self.random < self.classData.res_up:
                 self.db.earnedResilience += 1
                 self.msg("|G+1 RES!")
             
-            # Report max HP change
+            # Report max energy and HP change
             self.msg("|G+%s max HP!" % (self.maxhp - mhp))
+            self.msg("|G+%s max energy!" % (self.maxenergy - men))
+
+            # Rescale HP
+            self.db.hp = math.floor(self.db.hp * self.maxhp / mhp)
 
     def get_character_stats(self):
         """

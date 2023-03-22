@@ -14,6 +14,7 @@ just overloads its hooks to have it perform its function.
 
 from evennia.scripts.scripts import DefaultScript
 
+import math
 
 class Script(DefaultScript):
     """
@@ -88,5 +89,26 @@ class Script(DefaultScript):
       at_server_shutdown() - called at a full server shutdown.
 
     """
-
     pass
+
+class UpdateEnergy(Script):
+    """
+    A timer script that displays updates a character's energy.
+    """
+    def at_script_creation(self):
+        self.key = "energy_update_script"
+        self.desc = "Updates a character's energy."
+        self.interval = 0.1  # every tenth of a second
+        self.persistent = True  # will survive reload
+
+    def at_repeat(self):
+        "called every self.interval seconds."
+        self.obj.energy_counter += 1
+        _energy_check = self.obj.energy_counter % (20 - math.floor(math.sqrt(self.obj.totalres)))
+        #print(_energy_check)
+        if (self.obj.db.energy < self.obj.maxenergy) and (_energy_check == 0):
+            #print("Giving energy")
+            self.obj.db.energy += 1
+        if self.obj.db.energy > self.obj.maxenergy:
+            #print("Energy above cap, reducing")
+            self.obj.db.energy = self.obj.maxenergy

@@ -16,13 +16,8 @@ own cmdsets by inheriting from them or directly from `evennia.CmdSet`.
 
 from evennia import default_cmds
 
-from commands.command import CmdStats
-from commands.command import CmdSkills
-from commands.command import CmdBuySkill
-from commands.command import CmdGiveSkillPts
-from commands.command import CmdGiveExp
+from commands.command import *
 
-from commands.command import CmdCreateChar
 from commands.gametime import CmdTime
 
 from evennia.contrib.rpg.character_creator.character_creator import ContribCmdCharCreate
@@ -49,6 +44,8 @@ class CharacterCmdSet(default_cmds.CharacterCmdSet):
         self.add(CmdBuySkill())
         self.add(CmdGiveSkillPts())
         self.add(CmdGiveExp())
+        self.add(CmdGiveHP())
+        self.add(CmdGiveEnergy())
         
 
         self.add(CmdTime())

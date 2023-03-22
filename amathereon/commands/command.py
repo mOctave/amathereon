@@ -13,6 +13,8 @@ from evennia.utils.evmenu import EvMenu
 from world.race_data import *
 from world.class_data import *
 
+import math
+
 #from world.char_setup import CharacterSetup
 
 # from evennia import default_cmds
@@ -213,8 +215,8 @@ class CmdStats(BaseCommand):
 
             caller = self.caller
             race, charClass, bDex, bAgi, bStr, bCon, bInt, bWis, bCha, bRes, eDex, eAgi, eStr, eCon, eInt, eWis, eCha, eRes, specials, skillpts = caller.get_character_stats()
-            raceData = Races.getRaceFromKey(race)
-            classData = Classes.getClassFromKey(charClass)
+            raceData = caller.raceData
+            classData = caller.classData
 
             data = []
             data.append("|yHere's a summary of your stats:")
@@ -231,6 +233,8 @@ class CmdStats(BaseCommand):
             data.append("|w- You have %s skill points to spend" % (skillpts))
             data.append("|w- You are level %s |W(%s / %s EXP for next level)" % (caller.db.lvl, caller.db.exp, caller.expreq))
             data.append("|w- You have %s out of %s HP" % (caller.db.hp, caller.maxhp))
+            data.append("|w- You have %s out of %s energy" % (caller.db.energy, caller.maxenergy))
+            data.append("|W- You gain an energy point every %s seconds." % str((20 - math.floor(math.sqrt(caller.totalres)))/10))
 
             # Print out the list of stat information
 
@@ -348,6 +352,56 @@ class CmdGiveExp(MuxCommand):
         else:
             caller.db.exp += int(self.args)
             caller.msg(self.args + " EXP given!")
+
+class CmdGiveHP(MuxCommand):
+    """
+    Give HP to user
+
+    Usage:
+      hpget <int>
+
+    Gives you the requested amount of HP.
+    """
+
+    key = "hpget"
+    aliases = ["hp"]
+    lock = "perm(superuser)"
+    help_category = "Testing"
+
+    def func(self):
+        caller = self.caller
+
+        if not self.args:
+            caller.msg("Usage: hpget <int>")
+            return
+        else:
+            caller.db.hp += int(self.args)
+            caller.msg(self.args + " HP given!")
+
+class CmdGiveEnergy(MuxCommand):
+    """
+    Give energy to user
+
+    Usage:
+      energyget <int>
+
+    Gives you the requested amount of energy.
+    """
+
+    key = "energyget"
+    aliases = ["en"]
+    lock = "perm(superuser)"
+    help_category = "Testing"
+
+    def func(self):
+        caller = self.caller
+
+        if not self.args:
+            caller.msg("Usage: energyget <int>")
+            return
+        else:
+            caller.db.energy += int(self.args)
+            caller.msg(self.args + " energy given!")
 
 class CmdCreateChar(Command):
 
