@@ -555,7 +555,7 @@ class Classes():
 		narrow = "Barbarian",
 		narrow_after_a = " Barbarian",
 		desc = "Someone who appears at first glance to be simple and uneducated, but who has substantial survival experience.",
-		specials = ["Rage"],
+		specials = ["Calm Fury"],
 		languages = [],
 		inventory = [],
 		skills = ["Knowledge", "Physical: Athletics", "Physical: Endurance", "Weapons: Melee", "Weapons: Trauma"],

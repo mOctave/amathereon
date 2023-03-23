@@ -167,7 +167,12 @@ class Character(ObjectParent, ClothedCharacter):
         self.db.hp = self.maxhp
 
         self.db.energy = self.maxenergy
+    
+    def at_pre_puppet(self):
         self.scripts.add(typeclasses.scripts.UpdateEnergy)
+    
+    def at_post_unpuppet(self):
+        self.scripts.remove(typeclasses.scripts.UpdateEnergy)
 
     def check_level_up(self):
         """

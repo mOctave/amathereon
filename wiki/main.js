@@ -38,10 +38,10 @@ navbarData = `
 		<div class="slideout">
 			<span>Outlander</span>
 			<div class="slideout-content">
-				<a>Ranger</a>
-				<a>Barbarian</a>
-				<a>Druid</a>
-				<a>Bard</a>
+				<a href="ranger.html">Ranger</a>
+				<a href="barbarian.html">Barbarian</a>
+				<a href="druid.html">Druid</a>
+				<a href="bard.html">Bard</a>
 			</div>
 		</div>
 		<div class="slideout">
@@ -71,11 +71,14 @@ topicsData = `
 <li><a href=alaforonaist'laiezeron.html>Alaforonaist'laiezeron</a></li>
 <li><a href=arakh.html>Arakh</a></li>
 <li><a href=assassin.html>Assassin</a></li>
+<li><a href=barbarian.html>Barbarian</a></li>
+<li><a href=bard.html>Bard</a></li>
 <li><a href=brawler.html>Brawler</a></li>
 <li><a href=calendar.html>Calendar</a></li>
 <li><a href=character_classes.html>Character Classes</a></li>
 <li><a href=con_artist.html>Con Artist</a></li>
 <li><a href=cult_of_the_old_spirits.html>Cult of the Old Spirits</a></li>
+<li><a href=druid.html>Druid</a></li>
 <li><a href=elvish_celestialism.html>Elvish Celestialism</a></li>
 <li><a href=faith_of_litmeate.html>Faith of Litmeate</a></li>
 <li><a href=faith_of_ratawanda.html>Faith of Ratawanda</a></li>
@@ -86,6 +89,7 @@ topicsData = `
 <li><a href=orlorianism.html>Orlorianism</a></li>
 <li><a href=paladin.html>Paladin</a></li>
 <li><a href=races.html>Races of Amathereon</a></li>
+<li><a href=ranger.html>Ranger</a></li>
 <li><a href=rift.html>The Rift</a></li>
 <li><a href=rules.html>Rules</a></li>
 <li><a href=shadow_worship.html>Shadow Worship</a></li>
