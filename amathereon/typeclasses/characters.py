@@ -167,12 +167,34 @@ class Character(ObjectParent, ClothedCharacter):
         self.db.hp = self.maxhp
 
         self.db.energy = self.maxenergy
+
+        self.scripts.add(typeclasses.scripts.UpdateEnergy, None, False)
     
-    def at_pre_puppet(self):
-        self.scripts.add(typeclasses.scripts.UpdateEnergy)
+    def at_init(self):
+        print("at_init() triggered for " + self.name + ", disabling energy update script.")
+        self.scripts.stop("energy_update_script")
+        if self.has_account:
+            print("Enabling energy update script for puppeted character " + self.name + ".")
+            self.scripts.add(typeclasses.scripts.UpdateEnergy, None, False)
+            self.scripts.start("energy_update_script")
+
+    def at_pre_puppet(self, account, session, **kwargs):
+        print("at_pre_puppet() triggered for " + self.name + ", enabling energy update script.")
+        ClothedCharacter.at_pre_puppet(self, account, session)
+        self.scripts.add(typeclasses.scripts.UpdateEnergy, None, False)
+        self.scripts.start("energy_update_script")
     
-    def at_post_unpuppet(self):
-        self.scripts.remove(typeclasses.scripts.UpdateEnergy)
+    def at_server_reload(self):
+        print("at_server_reload() triggered for " + self.name + ", disabling energy update script.")
+        self.scripts.stop("energy_update_script")
+    
+    def at_server_shutdown(self):
+        print("at_server_shutdown() triggered for " + self.name + ", disabling energy update script.")
+        self.scripts.stop("energy_update_script")
+    
+    def at_pre_unpuppet(self):
+        print("at_pre_unpuppet() triggered for " + self.name + ", disabling energy update script.")
+        self.scripts.stop("energy_update_script")
 
     def check_level_up(self):
         """
