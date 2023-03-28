@@ -111,3 +111,12 @@ class UpdateEnergy(Script):
             if self.obj.db.energy > self.obj.maxenergy:
                 print("Reducing energy for character " + self.obj.name + ".")
                 self.obj.db.energy = self.obj.maxenergy
+        for _ in range(10):
+            self.obj.mana_counter += 1
+            _mana_check = self.obj.mana_counter % ((20 - math.floor(math.log(self.obj.totalres))) * 2)
+            if (self.obj.db.mana < self.obj.maxmana) and (_mana_check == 0):
+                print("Increasing mana for character " + self.obj.name + ".")
+                self.obj.db.mana += 1
+            if self.obj.db.mana > self.obj.maxmana:
+                print("Reducing mana for character " + self.obj.name + ".")
+                self.obj.db.mana = self.obj.maxmana

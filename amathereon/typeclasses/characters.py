@@ -85,7 +85,18 @@ class Character(ObjectParent, ClothedCharacter):
     def maxenergy(self):
         _endurancebonus = 10 * self.db.skills["Physical: Endurance"]
         return(20 + (3 + self.totalres) * self.db.lvl + (2 * self.totalres) + _endurancebonus)
-    
+
+    @property
+    def maxmana(self):
+        _max_mana = 5 + self.db.lvl
+        if self.db.charClass == "Wizard":
+            _max_mana *= 4
+        if self.db.charClass in ["Necromancer", "Cleric"]:
+            _max_mana *= 3
+        if self.db.charClass in ["Sorcerer", "Druid", "Paladin"]:
+            _max_mana *= 2
+        return(_max_mana)
+
     @property
     def expreq(self):
         return(30 * math.floor(self.db.lvl ** 1.5))
@@ -101,8 +112,10 @@ class Character(ObjectParent, ClothedCharacter):
     @property
     def random(self):
         return(random.randint(0, 99))
+    
 
     energy_counter: int = 0
+    mana_counter: int = 0
 
     def at_object_creation(self):
         #set persistent attributes
@@ -168,8 +181,17 @@ class Character(ObjectParent, ClothedCharacter):
 
         self.db.energy = self.maxenergy
 
+        self.db.mana = self.maxmana
+
         self.scripts.add(typeclasses.scripts.UpdateEnergy, None, False)
     
+    def at_post_move(self, source_location, move_type='move', **kwargs):
+        if source_location == None:
+            self.db.hp = self.maxhp
+            self.db.energy = self.maxenergy
+            self.db.mana = self.maxmana
+    
+    # Energy handling scripts
     def at_init(self):
         print("at_init() triggered for " + self.name + ", disabling energy update script.")
         self.scripts.stop("energy_update_script")

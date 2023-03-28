@@ -17,6 +17,7 @@ own cmdsets by inheriting from them or directly from `evennia.CmdSet`.
 from evennia import default_cmds
 
 from commands.command import *
+from commands.test_cmdset import TestCmdSet
 
 from commands.gametime import CmdTime
 
@@ -42,10 +43,7 @@ class CharacterCmdSet(default_cmds.CharacterCmdSet):
         self.add(CmdStats())
         self.add(CmdSkills())
         self.add(CmdBuySkill())
-        self.add(CmdGiveSkillPts())
-        self.add(CmdGiveExp())
-        self.add(CmdGiveHP())
-        self.add(CmdGiveEnergy())
+        self.add(TestCmdSet())
         
 
         self.add(CmdTime())
