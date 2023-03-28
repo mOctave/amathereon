@@ -207,8 +207,15 @@ class Character(ObjectParent, ClothedCharacter):
 
             # Level up
             self.db.lvl += 1
-            self.db.skillpts += 1 + math.ceil(math.sqrt(self.db.lvl))
             self.msg("|gSuddenly, you're feeling stronger! You've levelled up to level " + str(self.db.lvl) + "!")
+
+            # Give a random skill from the class skill list
+            x = random.randint(0, len(self.classData.skills) - 1)
+            self.db.skills[self.classData.skills[x]] += 1
+            self.msg("|G+1 level in %s!" % self.classData.skills[x])
+
+            # Give skill points
+            self.db.skillpts += 1 + math.ceil(math.sqrt(self.db.lvl))
             self.msg("|G+%s skill points!" % (1 + math.ceil(math.sqrt(self.db.lvl))))
 
             # Boost ability scores
