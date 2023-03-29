@@ -56,10 +56,10 @@ navbarData = `
 		<div class="slideout">
 			<span>Specialist</span>
 			<div class="slideout-content">
-				<a>Monk</a>
-				<a>Artificer</a>
-				<a>Merchant</a>
-				<a>Aristocrat</a>
+				<a href="monk.html">Monk</a>
+				<a href="artificer.html">Artificer</a>
+				<a href="merchant.html">Merchant</a>
+				<a href="aristocrat.html">Aristocrat</a>
 			</div>
 		</div>
 	</div>
@@ -70,6 +70,8 @@ navbarData = `
 topicsData = `
 <li><a href=alaforonaist'laiezeron.html>Alaforonaist'laiezeron</a></li>
 <li><a href=arakh.html>Arakh</a></li>
+<li><a href=aristocrat.html>Aristocrat</a></li>
+<li><a href=artificer.html>Artificer</a></li>
 <li><a href=assassin.html>Assassin</a></li>
 <li><a href=barbarian.html>Barbarian</a></li>
 <li><a href=bard.html>Bard</a></li>
@@ -87,6 +89,8 @@ topicsData = `
 <li><a href=grireverchism.html>Grireverchism</a></li>
 <li><a href=kazan'zaram.html>Kazan'zaram</a></li>
 <li><a href=knight.html>Knight</a></li>
+<li><a href=merchant.html>Merchant</a></li>
+<li><a href=monk.html>Monk</a></li>
 <li><a href=necromancer.html>Necromancer</a></li>
 <li><a href=orlorianism.html>Orlorianism</a></li>
 <li><a href=paladin.html>Paladin</a></li>
