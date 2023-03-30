@@ -3,6 +3,7 @@ from evennia.utils.evmenu import EvMenu
 from typeclasses.characters import Character
 from world.data.class_data import *
 from world.data.miscellaneous_data import Religions
+from world.data.miscellaneous_data import Languages
 from world.specials import Specials
 
 #############################
@@ -359,6 +360,8 @@ def node_confirm_class(caller, raw_string, **kwargs):
 #########################
 
 def node_religion(caller, raw_string, **kwargs):
+    caller.new_char.db.chargen_step = "node_religion"
+
     text = "|y\"Now, is there a certain religion you follow?\""
 
     options = (
@@ -398,20 +401,57 @@ def node_religion(caller, raw_string, **kwargs):
 def node_confirm_religion(caller, raw_string, **kwargs):
     caller.new_char.db.religion = kwargs["choice"]
 
-    religion = Religions.getReligionFromKey(kwargs["choice"])
+    religion = Religions.getFromKey(kwargs["choice"])
 
     text = "|y\"So you are a follower of %s%s?\"" % ("the " if religion.the else "", religion.name)
 
     options = (
         {"key": ("Yes"),
          "desc": "Yes, that's right.",
-         "goto": "node_name"},
+         "goto": _language_prep},
         {"key": ("No"),
          "desc": "No, that's not what I meant to say.",
          "goto": "node_religion"})
     
     return text, options
 
+def _language_prep(caller, raw_string, **kwargs):
+    caller.new_char.languages = []
+    caller.new_char.languages.extend(caller.new_char.raceData.languages)
+    caller.new_char.languages.extend(caller.new_char.classData.languages)
+    caller.new_char.specials = caller.new_char.classData.specials
+
+    return "node_language"
+
+def node_language(caller, raw_string, **kwargs):
+    
+    text = "|y\"We are almost done now, so don't get impatient.\""
+
+    options_default = (
+        {"key": ("Continue"),
+         "goto": "node_name"}
+    )
+
+    options_all = []
+
+    if "Select a Language" in caller.new_char.specials:
+        caller.new_char.specials.remove("Select a Language")
+        text = "|y\"What other language would you like to learn?\""
+
+        print(caller.new_char.languages)
+        for i in Languages.getAll():
+            print(i.name)
+            if not i.name in caller.new_char.languages and not i.isCant:
+                options_all += [{"key": (i.name), "goto": (_finishLanguage, {"language": i.name})}]
+
+        print("Final Tuple: " + str(tuple(options_all)))
+        return text, tuple(options_all)
+    else:
+        return text, options_default
+
+def _finishLanguage(caller, raw_string, **kwargs):
+    caller.new_char.languages.append(kwargs["language"])
+    return "node_language"
 
 ##################
 # Name Selection #
@@ -481,12 +521,12 @@ def node_name_confirm(caller, raw_string, **kwargs):
 def node_end(caller, raw_string):
     """Evaluate Specials"""
     classData = caller.new_char.classData
-    caller.new_char.specials = classData.specials
     caller.new_char.skillList = classData.skills
     Specials.evaluateNew(caller.new_char)
 
     """End-of-chargen cleanup."""
     char = caller.new_char
+    char.db.languages = caller.new_char.languages
     char.db.specials = caller.new_char.specials
     char.db.skillpts = caller.new_char.skillpts
 

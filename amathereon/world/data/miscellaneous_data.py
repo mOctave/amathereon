@@ -29,7 +29,7 @@ class Religion:
 
 class Religions:
 	
-	def getReligionFromKey(key:str = "none"):
+	def getFromKey(key:str = "none"):
 		for obj in inspect.getmembers(Religions):
 			if isinstance(obj[1], Religion):
 				if obj[1].key == key:
@@ -51,3 +51,55 @@ class Religions:
 	Orlorianism: Religion = Religion("orlorianism", "Orlorianism", "Dodble", "Monotheism", "Organized", False)
 	ShadowWorship: Religion = Religion("shadow-worship", "Shadow Worship", "Arakh", "Monolatrism", "Organized", False)
 	Oracle: Religion = Religion("oracle", "Way of the Oracle", "Alaforonaist'laiezeron", "Henotheism", "Organized", True)
+
+class Language:
+	name: str # Name of the language, also used as a key
+	writtenForm: bool # Does the language have a corresponding written language?
+	isCant: bool # Is this a language associated with and closely guarded by a certain group?
+
+	def __new__ (cls, *args, **kwargs):
+		return super().__new__(cls)
+	
+	def __init__ (self, name: str, writtenForm: bool = False, isCant: bool = False):
+		self.name = name
+		self.writtenForm = writtenForm
+		self.isCant = isCant
+
+	def __repr__ (self) -> str:
+		return f"{type(self).__name__}(name: {self.name}, writtenForm: {self.writtenForm}, isCant: {self.isCant})"
+
+class Languages:
+
+	# Get an array of all the languages
+	def getAll():
+		languages = []
+		for obj in inspect.getmembers(Languages):
+			if isinstance(obj[1], Language):
+				languages.append(obj[1])
+		return languages
+
+	# Get a language with a specific name
+	def getFromKey(key:str):
+		for obj in inspect.getmembers(Languages):
+			if isinstance(obj[1], Language):
+				if obj[1].name == key:
+					return obj[1]
+			else:
+				try:
+					print("Object %s has type %s, not type Language." % (obj[1].__name__, type(obj[1]).__name__))
+					pass
+				except:
+					print("Object has type %s, not type Language." % (type(obj[1]).__name__))
+		print("No language found for key")
+
+	Common: Language = Language("Common", True, False)
+	Dwarvish: Language = Language("Dwarvish", True, False)
+	Elvish: Language = Language("Elvish", True, False)
+	Uruthk: Language = Language("Uruthk", True, False)
+	Underspeak: Language = Language("Underspeak", False, False)
+	Koboldic: Language = Language("Koboldic", True, False)
+	Giant: Language = Language("Giant", True, False)
+	Draconic: Language = Language("Draconic", False, False)
+	Celestial: Language = Language("Celestial", True, False)
+	ThievesCant: Language = Language("Thieves' Cant", False, True)
+	Druidic: Language = Language("Druidic", False, True)

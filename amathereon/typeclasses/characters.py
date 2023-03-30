@@ -43,6 +43,7 @@ class Character(ObjectParent, ClothedCharacter):
     """
 
     specials: list[str] = [""]
+    languages: list[str] = [""]
     skillpts: int = 0
 
     @property

@@ -315,3 +315,33 @@ class CmdCreateChar(Command):
     def func(self):
         caller = self.caller
         EvMenu(caller, "world.char_setup", startnode = "node_name", cmdset_mergetype = "Replace")
+
+class CmdLanguages(Command):
+     
+    key = "languages"
+    aliases = ["languages","lang"]
+    lock = "cmd:all()"
+    help_category = "General"
+
+    def func(self):
+        caller = self.caller
+
+        data = []
+        data.append("|wYou know the following languages:")
+
+        for i in caller.db.languages:
+            data.append("- " + i)
+
+        recChance = caller.db.skills["Knowledge: Linguistics"] + (caller.totalwis + caller.totalint)/2
+        recChance = round(100*(1-(1/(recChance/5))),1)
+        recChance = recChance if recChance > 0 else 0
+
+        getChance = (caller.db.skills["Knowledge: Linguistics"] + (caller.totalwis + caller.totalint)/2)/2
+        getChance = round(100*(1-(1/(getChance/5))),1)
+        getChance = getChance if getChance > 0 else 0
+
+        data.append("|wYou have a %s%% chance of recognizing a language you do not know." % recChance)
+        data.append("|wYou have a %s%% chance of understanding what is spoken in another language." % getChance)
+
+        for entry in data:
+            self.caller.msg(entry)

@@ -43,8 +43,9 @@ class CharacterCmdSet(default_cmds.CharacterCmdSet):
         self.add(CmdStats())
         self.add(CmdSkills())
         self.add(CmdBuySkill())
+        self.add(CmdLanguages())
+
         self.add(TestCmdSet())
-        
 
         self.add(CmdTime())
 
