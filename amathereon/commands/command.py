@@ -333,11 +333,11 @@ class CmdLanguages(Command):
             data.append("- " + i)
 
         recChance = caller.db.skills["Knowledge: Linguistics"] + (caller.totalwis + caller.totalint)/2
-        recChance = round(100*(1-(1/(recChance/5))),1)
+        recChance = round(100*(1-(1/(recChance/8))),1)
         recChance = recChance if recChance > 0 else 0
 
-        getChance = (caller.db.skills["Knowledge: Linguistics"] + (caller.totalwis + caller.totalint)/2)/2
-        getChance = round(100*(1-(1/(getChance/5))),1)
+        getChance = (caller.db.skills["Knowledge: Linguistics"] + (caller.totalwis + caller.totalint + caller.totalcha)/2)/2
+        getChance = round(100*(1-(1/(getChance/8))),1)
         getChance = getChance if getChance > 0 else 0
 
         data.append("|wYou have a %s%% chance of recognizing a language you do not know." % recChance)
