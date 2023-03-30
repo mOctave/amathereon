@@ -26,7 +26,7 @@ from evennia.accounts.accounts import DefaultAccount, DefaultGuest
 from evennia.contrib.rpg.character_creator.character_creator import ContribCmdCharCreate
 from evennia.contrib.rpg.character_creator.character_creator import ContribChargenAccount
 import server.conf.settings
-from world.class_data import Classes
+from world.data.class_data import Classes
 
 
 

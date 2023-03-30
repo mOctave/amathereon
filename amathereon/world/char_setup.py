@@ -1,7 +1,8 @@
 
 from evennia.utils.evmenu import EvMenu
 from typeclasses.characters import Character
-from world.class_data import *
+from world.data.class_data import *
+from world.data.miscellaneous_data import Religions
 from world.specials import Specials
 
 #############################
@@ -346,12 +347,71 @@ def node_confirm_class(caller, raw_string, **kwargs):
     options = (
         {"key": ("Yes"),
          "desc": "Yes, that's right.",
-         "goto": "node_name"},
+         "goto": "node_religion"},
         {"key": ("No"),
          "desc": "No, that's not what I meant to say.",
          "goto": (kwargs["last_node"])})
     
     return text, options
+
+#########################
+# Miscellaneous Choices #
+#########################
+
+def node_religion(caller, raw_string, **kwargs):
+    text = "|y\"Now, is there a certain religion you follow?\""
+
+    options = (
+        {"key": ("Old Spirits"),
+         "desc": "I am a member of the Cult of the Old Spirits.",
+         "goto": ("node_confirm_religion", {"choice": "old-spirits"})},
+        {"key": ("Elvish Celestialism"),
+         "desc": "I am a believer of Elvish Celestialism.",
+         "goto": ("node_confirm_religion", {"choice": "elvish-celestialism"})},
+        {"key": ("Litmeate"),
+         "desc": "I am a follower of the Faith of Litmeate.",
+         "goto": ("node_confirm_religion", {"choice": "litmeate"})},
+        {"key": ("Ratawanda"),
+         "desc": "I am follow the Faith of Ratawanda.",
+         "goto": ("node_confirm_religion", {"choice": "ratawanda"})},
+        {"key": ("Grireverchism"),
+         "desc": "I am an adherant of Grireverchism.",
+         "goto": ("node_confirm_religion", {"choice": "grireverchism"})},
+        {"key": ("Kazan'zaram"),
+         "desc": "I follow the traditional religion of Dwarves, Kazan'zaram.",
+         "goto": ("node_confirm_religion", {"choice": "kazan'zaram"})},
+        {"key": ("Orlorianism"),
+         "desc": "I am Orlorian!",
+         "goto": ("node_confirm_religion", {"choice": "orlorianism"})},
+        {"key": ("Shadow Worship"),
+         "desc": "I worship Chaos, and follow Arakh.",
+         "goto": ("node_confirm_religion", {"choice": "shadow-worship"})},
+        {"key": ("Way of the Oracle"),
+         "desc": "I follow the Way of the Oracle.",
+         "goto": ("node_confirm_religion", {"choice": "oracle"})},
+        {"key": ("Unaffiliated"),
+         "desc": "No, I am not a member of any religion.",
+         "goto": ("node_confirm_religion", {"choice": "none"})})
+    
+    return text, options
+
+def node_confirm_religion(caller, raw_string, **kwargs):
+    caller.new_char.db.religion = kwargs["choice"]
+
+    religion = Religions.getReligionFromKey(kwargs["choice"])
+
+    text = "|y\"So you are a follower of %s%s?\"" % ("the " if religion.the else "", religion.name)
+
+    options = (
+        {"key": ("Yes"),
+         "desc": "Yes, that's right.",
+         "goto": "node_name"},
+        {"key": ("No"),
+         "desc": "No, that's not what I meant to say.",
+         "goto": "node_religion"})
+    
+    return text, options
+
 
 ##################
 # Name Selection #
@@ -439,6 +499,6 @@ def node_end(caller, raw_string):
     # since everything is finished and confirmed, we actually create the starting objects now
     #create_objects(char)
 
-    text = "Suddenly, you find yourself swept up in a whirlwind that seems to have come from nowhere and everywhere at the same time... Your life as an adventurer has begun!"
+    text = "|ySuddenly, you find yourself swept up in a whirlwind that seems to have come from nowhere and everywhere at the same time... Your life as an adventurer has begun!"
 
     return text, None

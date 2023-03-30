@@ -11,8 +11,8 @@ from evennia.objects.objects import DefaultCharacter
 from evennia.contrib.game_systems.clothing import ClothedCharacter
 from evennia import TICKER_HANDLER
 
-from world.class_data import Classes
-from world.race_data import Races
+from world.data.class_data import Classes
+from world.data.race_data import Races
 
 import typeclasses.scripts
 

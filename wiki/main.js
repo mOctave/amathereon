@@ -111,12 +111,34 @@ topicsData = `
 copyrightData =
 `<hr/><a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons Licence" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><p>Copyright © 2023 mOctave. <span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">Amathereon</span> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>. Maps are created using Azgaar's <a href="https://azgaar.github.io/Fantasy-Map-Generator/">Fantasy Map Generator</a>. Amathereon uses the <a href="https://www.evennia.com/">Evennia</a> MUD engine. Inspiration was taken from Dungeons and Dragons, Arda, and Discworld. All other elements are either my own creation or are in the public domain.</p>`
 
+seriesReligionData =
+`
+<b>Religions of Amathereon</b><br/>
+<div>
+See Also:<br/>
+<a href="cult_of_the_old_spirits.html">Cult of the Old Spirits</a><br/>
+<a href="elvish_celestialism.html">Elvish Celestialism</a><br/>
+<a href="faith_of_litmeate.html">Faith of Litmeate</a><br/>
+<a href="faith_of_ratawanda.html">Faith of Ratawanda</a><br/>
+<a href="grireverchism.html">Grireverchism</a><br/>
+<a href="kazan'zaram.html">Kazan'zaram</a><br/>
+<a href="orlorianism.html">Orlorianism</a><br/>
+<a href="shadow_worship.html">Shadow Worship</a><br/>
+<a href="way_of_the_oracle.html">Way of the Oracle</a><br/>
+</div>
+`
+
+
 // Called when the body is loaded
 function bodyInit() {
 	populateNavbar()
 	populateTopics()
 	populateCopyright()
+	populateReligionData()
+
+	recolourLinks()
 }
+
 
 // Fill the first navbar on the page with navbar data
 function populateNavbar() {
@@ -127,6 +149,7 @@ function populateNavbar() {
 		console.error("Navbar could not be filled. Check if it exists.")
 	}
 }
+
 
 // Fill the first topics box on the page with topic data
 function populateTopics() {
@@ -149,12 +172,38 @@ function populateCopyright() {
 	}
 }
 
+
+// Fill a religion data series box on the page with series data
+function populateReligionData() {
+	try {
+		document.getElementById("series-religion").innerHTML = seriesReligionData
+		console.log("Series data box populated!")
+	} catch {
+		console.warn("Series data box could not be filled. This can be ignored if no series data box was defined.")
+	}
+}
+
+
+// Recolour all links to the current page
+function recolourLinks() {
+	console.log(document.URL)
+	currentLinks = document.querySelectorAll('a[href="'+document.URL+'"]')
+	currentLinks.forEach(link => link.className += ' current-link');
+
+	filename = document.URL.split('/').pop().split('#')[0].split('?')[0];
+	console.log(filename)
+	currentLinks = document.querySelectorAll('a[href="'+filename+'"]')
+	currentLinks.forEach(link => link.className += ' current-link');
+}
+
+
 // The function actually applying the offset
 function offsetAnchor() {
     if(location.hash.length !== 0) {
         window.scrollTo(window.scrollX, window.scrollY - 50);
     }
 }
+
 
 // This will capture hash changes while on the page
 window.addEventListener("hashchange", offsetAnchor);

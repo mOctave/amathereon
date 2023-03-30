@@ -10,8 +10,8 @@ from evennia.commands.default.muxcommand import MuxCommand
 
 from evennia.utils.evmenu import EvMenu
 
-from world.race_data import *
-from world.class_data import *
+from world.data.race_data import *
+from world.data.class_data import *
 
 import math
 

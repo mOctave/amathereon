@@ -155,3 +155,36 @@ ul.topics *:hover{
 .copyright hr {
 	width: 75%;
 }
+
+/* Series */
+.series {
+	float:right;
+	margin:10px;
+	width: 180px;
+	background-color: #CCC;
+	color: black;
+	border: 2px solid black;
+	padding: 2px;
+	padding-top: 6px;
+	text-align: center;
+	clear:both;
+}
+
+.series div {
+	background-color: #CCC;
+	border: 1px solid black;
+	padding: 4px;
+	margin-top: 8px;
+	text-align: center;
+}
+
+.series b {
+	background-color: #FA0;
+	border: 1px solid black;
+	padding: 4px;
+}
+
+.series a {
+	color: #15A;
+	text-decoration: solid underline;
+}
