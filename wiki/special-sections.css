@@ -156,6 +156,10 @@ ul.topics *:hover{
 	width: 75%;
 }
 
+hr.bottom {
+	clear: both;
+}
+
 /* Series */
 .series {
 	float:right;

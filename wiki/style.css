@@ -104,7 +104,6 @@ p.quote {
 }
 
 hr {
-	clear:both;
 	color: #FA0;
 	position:static;
 	width: calc(75% - 21px);
