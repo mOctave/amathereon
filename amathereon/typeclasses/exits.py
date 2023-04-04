@@ -37,4 +37,4 @@ class Exit(ObjectParent, DefaultExit):
                                         defined, in which case that will simply be echoed.
     """
 
-    pass
+    isItem = False

@@ -41,6 +41,7 @@ class Character(ObjectParent, ClothedCharacter):
     at_post_puppet - Echoes "AccountName has entered the game" to the room.
 
     """
+    isItem = False
 
     specials: list[str] = [""]
     languages: list[str] = [""]

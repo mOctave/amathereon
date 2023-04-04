@@ -12,7 +12,7 @@ inheritance.
 """
 from evennia.objects.objects import DefaultObject
 from evennia.contrib.game_systems.clothing import ContribClothing
-
+from world.currency import Gold
 
 class ObjectParent:
     """
@@ -171,8 +171,19 @@ class Object(ObjectParent, DefaultObject):
                                  object speaks
 
     """
+    isItem = True
 
-    pass
+    def at_object_creation(self):
+        self.db.value: Gold = Gold(0)
 
 class ClothingItem(ContribClothing):
+    isItem = True
+
+    def at_object_creation(self):
+        self.db.value: Gold = Gold(0)
+
+class Weapon(Object):
     pass
+    
+class Currency(Object):
+    isItem = False

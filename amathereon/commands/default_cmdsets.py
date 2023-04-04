@@ -44,6 +44,8 @@ class CharacterCmdSet(default_cmds.CharacterCmdSet):
         self.add(CmdSkills())
         self.add(CmdBuySkill())
         self.add(CmdLanguages())
+        self.add(CmdShopReport())
+        self.add(CmdValue())
 
         self.add(TestCmdSet())
 

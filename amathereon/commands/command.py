@@ -13,6 +13,10 @@ from evennia.utils.evmenu import EvMenu
 from world.data.race_data import *
 from world.data.class_data import *
 
+from typeclasses.objects import Object
+
+from world.currency import *
+
 import math
 
 #from world.char_setup import CharacterSetup
@@ -345,3 +349,43 @@ class CmdLanguages(Command):
 
         for entry in data:
             self.caller.msg(entry)
+
+class CmdShopReport(Command):
+    key = "shop"
+    aliases = ["$"]
+    lock = "cmd:all()"
+    help_category = "General"
+
+    def func(self):
+        ShopMessager.ReturnArray(self.caller.location, self.caller)
+
+class CmdValue(MuxCommand):
+    """
+    change the value of an object
+
+    Usage:
+      value <obj> <value>
+
+    Change the value of an object.
+
+    """
+
+    key = "@value"
+    aliases = ["@revalue"]
+    locks = "cmd:perm(value) or perm(Builder)"
+    help_category = "Building"
+
+    def func(self):
+        caller = self.caller
+
+        if not self.args:
+            caller.msg("Usage: <obj> = <value>")
+            return
+        obj = caller.search(self.arglist[0])
+        if not obj:
+            return
+        try:
+            obj.db.value = Gold(float(self.rhs))
+            caller.msg("Revalued " + obj.name + " at " + self.rhs + " grains of gold.")
+        except:
+            caller.msg("|RFailed to revalue " + obj.name + ". Check that there is a valid number to the right of the '='.")
