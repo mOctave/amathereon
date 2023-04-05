@@ -52,6 +52,7 @@ class CharacterCmdSet(default_cmds.CharacterCmdSet):
         self.add(CmdTime())
 
         self.add(ClothedCharacterCmdSet)
+        self.add(CmdInventory())
         #
         # any commands you add below will overload the default ones.
         #

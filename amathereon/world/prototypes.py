@@ -1,3 +1,7 @@
+#import evennia.contrib.game_systems.clothing.clothing
+from typeclasses.objects import Currency
+from world.currency import Gold
+
 """
 Prototypes
 
@@ -47,8 +51,6 @@ Possible keywords are:
 See the `spawn` command and `evennia.prototypes.spawner.spawn` for more info.
 
 """
-
-import evennia.contrib.game_systems.clothing.clothing
 
 ## example of module-based prototypes using
 ## the variable name as `prototype_key` and
@@ -129,4 +131,52 @@ LEATHER_COAT = {
     "slashing-protect": 1,
     "trauma-protect": 1,
     "magic-protect": 1
+}
+
+# Currency Types
+
+CURRENCY = {
+    "prototype_key": "CURRENCY",
+    "typeclass": "typeclasses.objects.Currency",
+    "key": "currency"
+}
+
+CURRENCY_GOLD_CROWN_HILLROCKIA = {
+    "prototype_key": "$gc_hillrockia",
+    "prototype_parent": "CURRENCY",
+    "key": "hillrockian gold crown",
+    "desc": "This Hillrockian gold crown is pure gold, weighing about forty grains. It has been stamped with the head of some minor prince, which appears to be a tradition of the royal family. Worth: 40 gr gold.",
+    "value": lambda: Gold(40)
+}
+
+CURRENCY_GOLD_MARK_HILLROCKIA = {
+    "prototype_key": "$gm_hillrockia",
+    "prototype_parent": "CURRENCY",
+    "key": "hillrockian gold mark",
+    "desc": "This Hillrockian gold mark is slightly smaller than a gold crown, and worth about half as much. It is decorated with an intricate geometric design. Worth: 20 gr gold.",
+    "value": lambda: Gold(20)
+}
+
+CURRENCY_GOLD_PENNY_HILLROCKIA = {
+    "prototype_key": "$gp_hillrockia",
+    "prototype_parent": "CURRENCY",
+    "key": "hillrockian gold penny",
+    "desc": "This Hillrockian gold penny is the smallest unit of currency in Hillrockia when it comes to gold. It bears no design, being just a thick, small disk of pure gold. Worth: 5 gr gold.",
+    "value": lambda: Gold(5)
+}
+
+CURRENCY_SILVER_PENNY_HILLROCKIA = {
+    "prototype_key": "$sp_hillrockia",
+    "prototype_parent": "CURRENCY",
+    "key": "hillrockian silver penny",
+    "desc": "This Hillrockian silver penny is used among Hillrockians for when even their smallest gold coins are too large. Worth: 1 gr gold.",
+    "value": lambda: Gold(1)
+}
+
+CURRENCY_SILVER_FIFTHPENNY_HILLROCKIA = {
+    "prototype_key": "$sfp_hillrockia",
+    "prototype_parent": "CURRENCY",
+    "key": "hillrockian silver fifthpenny",
+    "desc": "This coin is, quite literally, a fifth of a Hillrockian silver penny. Worth: 0.2 gr gold.",
+    "value": lambda: Gold(0.2)
 }

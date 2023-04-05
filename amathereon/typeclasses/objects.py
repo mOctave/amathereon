@@ -24,6 +24,7 @@ class ObjectParent:
     take precedence.
 
     """
+    isCurrency = False
 
 
 class Object(ObjectParent, DefaultObject):
@@ -187,3 +188,4 @@ class Weapon(Object):
     
 class Currency(Object):
     isItem = False
+    isCurrency = True

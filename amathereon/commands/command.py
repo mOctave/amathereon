@@ -9,11 +9,12 @@ from evennia.commands.command import Command as BaseCommand
 from evennia.commands.default.muxcommand import MuxCommand
 
 from evennia.utils.evmenu import EvMenu
+from evennia.utils import inherits_from, evtable
 
 from world.data.race_data import *
 from world.data.class_data import *
 
-from typeclasses.objects import Object
+from typeclasses.objects import Object, Currency
 
 from world.currency import *
 
@@ -389,3 +390,66 @@ class CmdValue(MuxCommand):
             caller.msg("Revalued " + obj.name + " at " + self.rhs + " grains of gold.")
         except:
             caller.msg("|RFailed to revalue " + obj.name + ". Check that there is a valid number to the right of the '='.")
+
+class CmdInventory(MuxCommand):
+    """
+    view inventory
+
+    Usage:
+      inventory
+      inv
+
+    Shows your inventory.
+    """
+
+    # Alternate version of the inventory command which separates
+    # worn and carried items.
+
+    key = "inventory"
+    aliases = ["inv", "i"]
+    locks = "cmd:all()"
+    arg_regex = r"$"
+
+    def func(self):
+        """check inventory"""
+        if not self.caller.contents:
+            self.caller.msg("You are not carrying or wearing anything.")
+            return
+
+        message_list = []
+
+        items = self.caller.contents
+
+        carry_table = evtable.EvTable(border="header")
+        wear_table = evtable.EvTable(border="header")
+
+        carried = [obj for obj in items if not obj.db.worn]
+        worn = [obj for obj in items if obj.db.worn]
+
+        currencyWorth = 0
+
+        message_list.append("|wYou are carrying:|n")
+        for item in carried:
+            print("Carried item! " + item.name)
+            if item.isCurrency:
+                print("It's currency!")
+                currencyWorth += float(item.db.value)
+            carry_table.add_row(
+                item.get_display_name(self.caller)#, item.get_display_desc(self.caller)
+            )
+        if carry_table.nrows == 0:
+            carry_table.add_row("Nothing.", "")
+        message_list.append(str(carry_table))
+
+        message_list.append("|wYou are wearing:|n")
+        for item in worn:
+            item_name = item.get_display_name(self.caller)
+            if item.db.covered_by:
+                item_name += " (hidden)"
+            wear_table.add_row(item_name, item.get_display_desc(self.caller))
+        if wear_table.nrows == 0:
+            wear_table.add_row("Nothing.", "")
+        message_list.append(str(wear_table))
+
+        message_list.append("\n|wTotal cash:|n " + str(Gold(currencyWorth)) + ".")
+        self.caller.msg("\n".join(message_list))

@@ -26,6 +26,7 @@ from evennia.accounts.accounts import DefaultAccount, DefaultGuest
 from evennia.contrib.rpg.character_creator.character_creator import ContribCmdCharCreate
 from evennia.contrib.rpg.character_creator.character_creator import ContribChargenAccount
 import server.conf.settings
+from evennia.settings_default import *
 from world.data.class_data import Classes
 
 
@@ -98,6 +99,7 @@ class Account(DefaultAccount):
     """
 
     def at_look(self, target=None, session=None, **kwargs):
+        print("Prototype module list: " + str(PROTOTYPE_MODULES))
         """
         Called by the OOC look command. It displays a list of playable
         characters and should be mostly identical to the core method.

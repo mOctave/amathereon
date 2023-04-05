@@ -28,11 +28,47 @@ class Gold:
 	def __mul__ (self, other):
 		return Gold(self.gr * other)
 		
-	def __div__ (self, other):
+	def __truediv__ (self, other):
 		return Gold(self.gr / other)
+		
+	def __floordiv__ (self, other):
+		return Gold(self.gr // other)
+		
+	def __radd__ (self, other):
+		return Gold(other + self.gr)
+		
+	def __rsub__ (self, other):
+		return Gold(other - self.gr)
+		
+	def __rmul__ (self, other):
+		return Gold(other * self.gr)
 		
 	def __round__ (self, ndigits = 0):
 		return Gold(round(self.gr, ndigits))
+	
+	def __lt__ (self, other):
+		return self.gr < other
+		
+	def __le__ (self, other):
+		return self.gr <= other
+		
+	def __eq__ (self, other):
+		return self.gr == other
+	
+	def __ne__ (self, other):
+		return self.gr != other
+		
+	def __gt__ (self, other):
+		return self.gr > other
+		
+	def __ge__ (self, other):
+		return self.gr >= other
+	
+	def __int__ (self):
+		return int(self.gr)
+	
+	def __float__ (self):
+		return float(self.gr)
 
 class ShopMessager:
 	def ReturnArray (room, msgtarget):
