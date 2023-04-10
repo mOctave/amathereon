@@ -12,7 +12,8 @@ inheritance.
 """
 from evennia.objects.objects import DefaultObject
 from evennia.contrib.game_systems.clothing import ContribClothing
-from world.currency import Gold
+from world.currency import Gold, Valuer
+from commands.gametime import custom_gametime
 
 class ObjectParent:
     """
@@ -26,6 +27,61 @@ class ObjectParent:
     """
     isCurrency = False
 
+    def return_appearance(self, looker, **kwargs):
+        year, month, day, hour, min, sec = custom_gametime.custom_gametime(absolute=True)
+        isoutside = "outdoors" in looker.location.db.flags
+        islit = "lit" in looker.location.db.flags
+        isunlit = "unlit" in looker.location.db.flags
+        darkvision = "Darkvision" in looker.db.specials
+        if islit or (not (isoutside or isunlit)) or (hour > 6 and hour < 26) or (hour == 6 and hour == 6 and darkvision):
+            x = ""
+            if self.db.value != None:
+                if self.db.value == Gold(0):
+                    x = f"\nWorthless."
+                else:
+                    x = f"\nWorth about {Valuer.Obscure(self.db.value, 2)}."
+
+            return self.format_appearance(
+                self.appearance_template.format(
+                    name=self.get_display_name(looker, **kwargs),
+                    desc=self.get_display_desc(looker, **kwargs) + x,
+                    header=self.get_display_header(looker, **kwargs),
+                    footer=self.get_display_footer(looker, **kwargs),
+                    exits=self.get_display_exits(looker, **kwargs),
+                    characters=self.get_display_characters(looker, **kwargs),
+                    things=self.get_display_things(looker, **kwargs),
+                ),
+                looker,
+                **kwargs,
+            )
+        elif hour == 6 or hour == 26 or darkvision:
+            return self.format_appearance(
+                self.appearance_template.format(
+                    name=self.get_display_name(looker, **kwargs),
+                    desc="The light's dim, so you can't see anything too clearly.",
+                    header=self.get_display_header(looker, **kwargs),
+                    footer=self.get_display_footer(looker, **kwargs),
+                    exits=self.get_display_exits(looker, **kwargs),
+                    characters=self.get_display_characters(looker, **kwargs),
+                    things=self.get_display_things(looker, **kwargs),
+                ),
+                looker,
+                **kwargs,
+            )
+        else:
+            return self.format_appearance(
+                self.appearance_template.format(
+                    name="Darkness",
+                    desc="It's pitch black, and you can't see a thing.",
+                    header="",
+                    footer="",
+                    exits="",
+                    characters="",
+                    things="",
+                ),
+                looker,
+                **kwargs,
+            )
 
 class Object(ObjectParent, DefaultObject):
     """

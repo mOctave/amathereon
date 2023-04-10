@@ -51,6 +51,9 @@ TIME_UNITS = {"sec": 1,
               "month": 60 * 60 * 30 * 37,
               "year": 60 * 60 * 30 * 37 * 8 }
 
+# Clothing
+CLOTHING_TYPE_ORDER = ["head", "neck", "torso", "arms", "hands", "waist", "legs", "feet"]
+
 ######################################################################
 # Settings given in secret_settings.py override those in this file.
 ######################################################################

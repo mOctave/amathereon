@@ -27,6 +27,9 @@ class CmdTime(Command):
         # Get the absolute game time
         year, month, day, hour, min, sec = custom_gametime.custom_gametime(absolute=True)
         string = "It is the %s, %s, in the year %s." % (TimeArrays.dayArray[day], TimeArrays.monthArray[month], year)
-        string += "\nIt's {hour:02}:{min:02}:{sec:02}."
+        if hour == 0:
+            string += "\nIt looks to be a little past midnight."
+        else:
+            string += "\nIt looks to be a little past {hour} bells."
         self.msg(string.format(year=year, month=month, day=day,
                 hour=hour, min=min, sec=sec))

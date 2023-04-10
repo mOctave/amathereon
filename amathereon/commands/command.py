@@ -11,10 +11,13 @@ from evennia.commands.default.muxcommand import MuxCommand
 from evennia.utils.evmenu import EvMenu
 from evennia.utils import inherits_from, evtable
 
+from evennia.contrib.game_systems.clothing.clothing import *
+
 from world.data.race_data import *
 from world.data.class_data import *
 
 from typeclasses.objects import Object, Currency
+from typeclasses.rooms import Room
 
 from world.currency import *
 
@@ -431,9 +434,12 @@ class CmdInventory(MuxCommand):
         message_list.append("|wYou are carrying:|n")
         for item in carried:
             print("Carried item! " + item.name)
-            if item.isCurrency:
-                print("It's currency!")
-                currencyWorth += float(item.db.value)
+            try:
+                if item.isCurrency:
+                    print("It's currency!")
+                    currencyWorth += float(item.db.value)
+            except:
+                print("Error with currency detection. This probably means it isn't currency.")
             carry_table.add_row(
                 item.get_display_name(self.caller)#, item.get_display_desc(self.caller)
             )
@@ -453,3 +459,130 @@ class CmdInventory(MuxCommand):
 
         message_list.append("\n|wTotal cash:|n " + str(Gold(currencyWorth)) + ".")
         self.caller.msg("\n".join(message_list))
+
+class CmdWear(MuxCommand):
+    """
+    Puts on an item of clothing you are holding.
+
+    Usage:
+      wear <obj>
+
+    Examples:
+      wear red shirt
+
+    All the clothes you are wearing are appended to your description.
+    """
+
+    key = "wear"
+    help_category = "clothing"
+
+    def func(self):
+        if not self.args:
+            self.caller.msg("Usage: wear <obj>")
+            return
+
+        # check if the whole string is an object
+        clothing = self.caller.search(self.args, candidates=self.caller.contents, quiet=True)
+
+        if not clothing:
+            return
+        if not inherits_from(clothing, ContribClothing):
+            self.caller.msg(f"{clothing.name} isn't something you can wear.")
+            return
+
+        if clothing.db.worn:
+            # If the clothing is already being worn, do nothing.
+            self.caller.msg(f"You're already wearing your {clothing.name}.")
+            return
+
+        already_worn = get_worn_clothes(self.caller)
+
+        # Enforce overall clothing limit.
+        if CLOTHING_OVERALL_LIMIT and len(already_worn) >= CLOTHING_OVERALL_LIMIT:
+            self.caller.msg("You can't wear any more clothes.")
+            return
+
+        # Do check for buffness of clothing.
+        if clothing_type := clothing.db.type:
+            if clothing_type in CLOTHING_TYPE_LIMIT:
+                type_count = single_type_count(already_worn, clothing_type)
+                if type_count >= CLOTHING_TYPE_LIMIT[clothing_type]:
+                    self.caller.msg(
+                        "You can't wear any more clothes of the type '{clothing_type}'."
+                    )
+                    return
+
+        clothing.wear(self.caller, "")
+
+class CmdFlagRoom(MuxCommand):
+    """
+    Adds or removes flags to a room.
+    
+    Usage:
+      flag <room>
+      flag/add <room> = <flag1>[,<flag2>,<flag3>...]
+      flag/remove <room> = <flag1>[ <flag2> <flag3>...]
+      flag/clear <room>
+
+    Examples:
+      flag here  (list all the flags in the given room)
+      flag/add #2 = forest  (add the "forest" flag to #2)
+      flag/remove Dark Hole = comfortable lit (remove the flags "comfortable" and "lit" from Dark Hole)
+      flag/clear Nondescript Room  (clear all flags from Nondescript Room)
+    """
+
+    key = "@flag"
+    aliases = []
+    switch_options = ("add", "remove", "clear")
+    locks = "cmd:perm(flag) or perm(Builder)"
+    help_category = "Building"
+
+    def func(self):
+        caller = self.caller
+        switches = self.switches
+        
+        # Get the location from the room.
+        loc = caller.search(self.lhs)
+        if not inherits_from(loc, Room):
+            caller.msg("|gFlag|n: |wYou can only use one switch with this command.")
+            return
+
+        # Create flag array for a room with no flags.
+        if loc.db.flags == None:
+            loc.db.flags = []
+
+        if switches == []:
+            if len(loc.db.flags) == 0:
+                caller.msg(f"No flags attached to {loc.name}. Use flag/add to add some.")
+            else:
+                caller.msg("Flags:")
+                for flag in loc.db.flags:
+                    caller.msg(f" - {flag}")
+
+        elif switches == ["add"]:
+            newflags = 0
+            for flag in self.rhslist:
+                if flag in loc.db.flags:
+                    caller.msg(f"Flag {flag} already attached to room.")
+                else:
+                    loc.db.flags.append(flag)
+                    newflags += 1
+            caller.msg(f"{newflags} flags added to {loc.name}.")
+
+        elif switches == ["remove"]:
+            lostflags = 0
+            for flag in self.rhslist:
+                if not flag in loc.db.flags:
+                    caller.msg(f"Flag {flag} not found!")
+                else:
+                    loc.db.flags.remove(flag)
+                    lostflags += 1
+            caller.msg(f"{lostflags} flags removed from {loc.name}.")
+
+        elif switches == ["clear"]:
+            lostflags = len(loc.db.flags)
+            loc.db.flags = []
+            caller.msg(f"All {lostflags} flags removed from {loc.name}.")
+
+        else:
+            caller.msg("You can only use one of the listed switches with this command.")

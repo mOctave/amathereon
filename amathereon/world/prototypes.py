@@ -96,7 +96,8 @@ See the `spawn` command and `evennia.prototypes.spawner.spawn` for more info.
 CLOTHING_TOP = {
     "protype_key": "CLOTHING_TOP",
     "typeclass": "evennia.contrib.game_systems.clothing.ContribClothing",
-    "key": "top"
+    "key": "top",
+    "type": "torso"
 }
 
 T_SHIRT = {

@@ -40,22 +40,28 @@ class CharacterCmdSet(default_cmds.CharacterCmdSet):
         """
         super().at_cmdset_creation()
 
+        # Info Commands
         self.add(CmdStats())
         self.add(CmdSkills())
-        self.add(CmdBuySkill())
         self.add(CmdLanguages())
         self.add(CmdShopReport())
-        self.add(CmdValue())
-
-        self.add(TestCmdSet())
-
         self.add(CmdTime())
 
+        # Action Commands
+        self.add(CmdBuySkill())
+
+        # BuildingCommands
+        self.add(CmdValue())
+        self.add(CmdFlagRoom())
+
+        # Testing Commands
+        self.add(TestCmdSet())
+
+        # Clothing Commands
         self.add(ClothedCharacterCmdSet)
+
+        # Clothing Overrides
         self.add(CmdInventory())
-        #
-        # any commands you add below will overload the default ones.
-        #
 
 
 class AccountCmdSet(default_cmds.AccountCmdSet):

@@ -70,13 +70,17 @@ class Gold:
 	def __float__ (self):
 		return float(self.gr)
 
+"""
+A class used to inform a player of the contents of a shop.
+"""
 class ShopMessager:
 	def ReturnArray (room, msgtarget):
 		msgtarget.msg("|w--- Shop Contents ---")
 		objectArray = []
-		#if room.db.shop == False:
-		#	msgtarget.msg("This is not a shop! You cannot buy anything.")
-		#	return
+		if not "shop" in room.db.flags:
+			msgtarget.msg("This is not a shop! You cannot buy anything.")
+			return
+
 		print("Listing Shop Contents in " + room.name + " for " + msgtarget.name)
 		for obj in room.contents:
 			try:
@@ -86,14 +90,37 @@ class ShopMessager:
 			if isItem:
 				matchfound = False
 				for i in range(0, len(objectArray)):
+					# Handle different prices for similar objects
 					if obj.name in objectArray[i]:
+						if obj.db.value != objectArray[i][2]:
+							objectArray[i][3] = True
+							if obj.db.value < objectArray[i][2]:
+								objectArray[i][2] = obj.db.value
+					# Add similar object to list
 						objectArray[i][1] += 1
 						matchfound = True
+						break
+				# No object found, add unique object to list
 				if not matchfound:
-					if msgtarget.db.charClass == "Merchant":
-						objectArray.append([obj.name,1,round(obj.db.value * 0.95, 1)])
-					else:
-						objectArray.append([obj.name,1,round(obj.db.value, 1)])
+					objectArray.append([obj.name,1,obj.db.value, False])
 		for i in objectArray:
-			msgtarget.msg(f"({i[1]}) {i[0]} -- {i[2]}")
+			# Report contents, giving merchants a discount.
+			if i[3]:
+				startText = "starting at "
+			else:
+				startText = ""
+			if msgtarget.db.charClass == "Merchant":
+				msgtarget.msg(f"({i[1]}) {i[0]} -- {startText}{round(i[2] * 0.95, 1)}")
+			else:
+				msgtarget.msg(f"({i[1]}) {i[0]} -- {startText}{round(i[2], 1)}")
 		return
+
+"""
+A class to provide a rough estimate of the value of an object rather
+than a precise value.
+"""
+class Valuer:
+	def Obscure (value: Gold, roughness):
+		a = round(math.log(value.gr, roughness))
+		b = round(pow(roughness, a), 1)
+		return Gold(b)
