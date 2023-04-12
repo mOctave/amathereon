@@ -12,7 +12,10 @@ inheritance.
 """
 from evennia.objects.objects import DefaultObject
 from evennia.contrib.game_systems.clothing import ContribClothing
+
 from world.currency import Gold, Valuer
+from world.lighting import Lighting
+
 from commands.gametime import custom_gametime
 
 class ObjectParent:
@@ -28,12 +31,7 @@ class ObjectParent:
     isCurrency = False
 
     def return_appearance(self, looker, **kwargs):
-        year, month, day, hour, min, sec = custom_gametime.custom_gametime(absolute=True)
-        isoutside = "outdoors" in looker.location.db.flags
-        islit = "lit" in looker.location.db.flags
-        isunlit = "unlit" in looker.location.db.flags
-        darkvision = "Darkvision" in looker.db.specials
-        if islit or (not (isoutside or isunlit)) or (hour > 6 and hour < 26) or (hour == 6 and hour == 6 and darkvision):
+        if Lighting.CalcLighting(looker) == 2:
             x = ""
             if self.db.value != None:
                 if self.db.value == Gold(0):
@@ -54,7 +52,7 @@ class ObjectParent:
                 looker,
                 **kwargs,
             )
-        elif hour == 6 or hour == 26 or darkvision:
+        elif Lighting.CalcLighting(looker) == 1:
             return self.format_appearance(
                 self.appearance_template.format(
                     name=self.get_display_name(looker, **kwargs),
@@ -232,6 +230,7 @@ class Object(ObjectParent, DefaultObject):
 
     def at_object_creation(self):
         self.db.value: Gold = Gold(0)
+        self.db.mass = 0
 
 class ClothingItem(ContribClothing):
     isItem = True
@@ -240,7 +239,19 @@ class ClothingItem(ContribClothing):
         self.db.value: Gold = Gold(0)
 
 class Weapon(Object):
-    pass
+    """
+    This is the base class for a weapon. Important database attributes are:
+    
+    \ndamageType  - One of "Piercing", "Slashing", or "Trauma"
+    \nrange       - What the effective range of the weapon is. 0 for melee weapons.
+    \nammo        - If range is greater than 0, what object this weapon uses for ammo.
+                    If this is not defined, the weapon will be thrown when used.
+    \nminDamage   - The base minimum damage dealt by this weapon.
+    \nmaxDamage   - The base maximum damage dealt by this weapon.
+    \nhitChance   - The base chance (out of 100) that this weapon will connect.
+    \ncritChance  - The base chance (out of 100) that this weapon will deal double damage before counting armour.
+    \nparryChance - The base chance (out of 100) that a character can successfully parry with this weapon.
+    """
     
 class Currency(Object):
     isItem = False

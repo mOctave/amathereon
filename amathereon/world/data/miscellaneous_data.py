@@ -1,5 +1,6 @@
 import sys
 import inspect
+import math
 
 def getVariableName(var):
     callers_local_vars = inspect.currentframe().f_back.f_locals.items()
@@ -103,3 +104,37 @@ class Languages:
 	Celestial: Language = Language("Celestial", True, False)
 	ThievesCant: Language = Language("Thieves' Cant", False, True)
 	Druidic: Language = Language("Druidic", False, True)
+
+class MassConverter:
+	def ValueArray(mass: float):
+		"""
+		Returns the mass (provided in pounds) split among stones, pounds, troy ounces, and grains.
+		"""
+		# Get grains for later
+		grains = mass % 1
+
+		stones = math.floor(mass / 14)
+		pounds = math.floor(mass) - 14 * stones
+
+		ounces = math.floor(grains * 16)
+		grains -= ounces/16
+
+		return stones, pounds, ounces, grains
+
+	def AsString(mass: float, precision: int):
+		"""
+		Returns the mass (provided in pounds) as a string. Precision ranges from 0 (stones) to 3 (all data).
+		"""
+
+		stones, pounds, ounces, grains = MassConverter.ValueArray(mass)
+
+		if precision == 0:
+			return(f"{stones} stones, perhaps a little more")
+		elif precision == 1:
+			return(f"{stones} st, and about {pounds} lbs")
+		elif precision == 2:
+			return(f"{stones} st, {pounds} lbs, {ounces} t oz")
+		elif precision == 3:
+			return(f"{stones} st, {pounds} lbs, {ounces} t oz, and {round(grains,1)} gr.")
+		else:
+			print("Invalid precision value for MassConverter.AsString()")

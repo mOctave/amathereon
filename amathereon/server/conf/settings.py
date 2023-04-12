@@ -54,6 +54,9 @@ TIME_UNITS = {"sec": 1,
 # Clothing
 CLOTHING_TYPE_ORDER = ["head", "neck", "torso", "arms", "hands", "waist", "legs", "feet"]
 
+# Combat
+PROTOTYPE_MODULES += ["world.weapons"]
+
 ######################################################################
 # Settings given in secret_settings.py override those in this file.
 ######################################################################

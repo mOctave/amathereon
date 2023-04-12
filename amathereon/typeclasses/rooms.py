@@ -10,6 +10,8 @@ from commands.gametime import custom_gametime
 from evennia.objects.objects import DefaultRoom
 from evennia import TICKER_HANDLER
 
+from world.lighting import Lighting
+
 from .objects import ObjectParent
 
 import random
@@ -33,6 +35,11 @@ class Room(ObjectParent, DefaultRoom):
         year, month, day, hour, min, sec = custom_gametime.custom_gametime(absolute=True)
         if hour < 6 or hour > 26:
             echoes += Echoes.ECHOES_NIGHT
+        """if Lighting.CalcLighting() == 0:
+            echoes += Echoes.ECHOES_DARKNESS
+        elif Lighting.CalcLighting() == 1:
+            echoes += Echoes.ECHOES_DIMNESS""" # Deal with this later
+
         if "outdoors" in self.db.flags:
             echoes += Echoes.ECHOES_OUTDOORS
             echoes.append(Echoes.ECHOES_TIME[hour])
@@ -42,7 +49,10 @@ class Room(ObjectParent, DefaultRoom):
             echoes += Echoes.ECHOES_URBAN
         if "forest" in self.db.flags:
             echoes += Echoes.ECHOES_FOREST
-        self.msg_contents(random.choice(echoes))
+        
+        chosenEcho = random.choice(echoes)
+        if chosenEcho != "":
+            self.msg_contents(chosenEcho)
 
 class Echoes:
     ECHOES_EMPTY = [
@@ -58,9 +68,20 @@ class Echoes:
         "It is nighttime, and your bones long for rest.",
         "You yawn, unable to stop yourself.",
         "Little creatures, inaudible in the daytime, sing to each other in chirps and whistles.",
-        "Something hairy moves in the twilight.",
+        "You think of all the crimes that have been committed while the world is sleeping.",
+        ""
+    ]
+
+    ECHOES_DARKNESS = [
         "You hold up your hand in fron of your face, but can't see it.",
-        "It's pitch black."
+        "It's pitch black.",
+        "You wonder what you cannot see in this inky blackness."
+    ]
+
+    ECHOES_DIMNESS = [
+        "Something hairy moves in the twilight.",
+        "Vague shapes move at the edge of your vision.",
+        "You see the world, painted in shades of grey."
     ]
 
     ECHOES_TIME = [

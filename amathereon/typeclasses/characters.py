@@ -112,6 +112,10 @@ class Character(ObjectParent, ClothedCharacter):
         return(Races.getRaceFromKey(self.db.race))
     
     @property
+    def maxcarry(self):
+        return(20 + (self.totalstr * 3) + (self.totalcon * 2) + self.totalres) 
+
+    @property
     def random(self):
         return(random.randint(0, 99))
     

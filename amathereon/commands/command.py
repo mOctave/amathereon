@@ -15,6 +15,7 @@ from evennia.contrib.game_systems.clothing.clothing import *
 
 from world.data.race_data import *
 from world.data.class_data import *
+from world.data.miscellaneous_data import MassConverter
 
 from typeclasses.objects import Object, Currency
 from typeclasses.rooms import Room
@@ -226,10 +227,13 @@ class CmdStats(BaseCommand):
             raceData = caller.raceData
             classData = caller.classData
 
+            # Stat Header
             data = []
             data.append("|yHere's a summary of your stats:")
+            # Basic Info
             data.append("|w- You're a%s" % (raceData.after_a))
             data.append("|w- You're a%s, more specifically a%s" % (classData.wide_after_a, classData.narrow_after_a))
+            # Ability Scores
             data.append("|w- Your total dexterity is %s |W(base: %s, bonuses: %s, earned: %s)" % (bDex + eDex + raceData.dex + classData.dex, bDex, raceData.dex + classData.dex, eDex))
             data.append("|w- Your total agility is %s |W(base: %s, bonuses: %s, earned: %s)" % (bAgi + eAgi + raceData.agi + classData.agi, bAgi, raceData.agi + classData.agi, eAgi))
             data.append("|w- Your total strength is %s |W(base: %s, bonuses: %s, earned: %s)" % (bStr + eStr + raceData.str + classData.str, bStr, raceData.str + classData.str, eStr))
@@ -238,13 +242,25 @@ class CmdStats(BaseCommand):
             data.append("|w- Your total wisdom is %s |W(base: %s, bonuses: %s, earned: %s)" % (bWis + eWis + raceData.wis + classData.wis, bWis, raceData.wis + classData.wis, eWis))
             data.append("|w- Your total charisma is %s |W(base: %s, bonuses: %s, earned: %s)" % (bCha + eCha + raceData.cha + classData.cha, bCha, raceData.cha + classData.cha, eCha))
             data.append("|w- Your total resilience is %s |W(base: %s, bonuses: %s, earned: %s)" % (bRes + eRes + raceData.res + classData.res, bRes, raceData.res + classData.res, eRes))
+            # Skills and level
             data.append("|w- You have %s skill points to spend" % (skillpts))
             data.append("|w- You are level %s |W(%s / %s EXP for next level)" % (caller.db.lvl, caller.db.exp, caller.expreq))
+            # HP, Energy, Mana and Encumbrance
             data.append("|w- You have %s out of %s HP" % (caller.db.hp, caller.maxhp))
             data.append("|w- You have %s out of %s energy" % (caller.db.energy, caller.maxenergy))
             data.append("|W- You gain an energy point every %s seconds." % str((20 - math.floor(math.sqrt(caller.totalres)))/10))
             data.append("|w- You have %s out of %s mana" % (caller.db.mana, caller.maxmana))
             data.append("|W- You gain a mana point every %s seconds." % str((20 - math.floor(math.log(caller.totalres)))/5))
+            encumbrance = 0
+            for obj in caller.contents:
+                #try:
+                    encumbrance += obj.db.mass
+                #except:
+                #    print("Failed to count encumbrance for object " + obj.name)
+
+            data.append("|W- You are carrying about %s of stuff." % MassConverter.AsString(encumbrance, 2))
+            data.append("|W- You could carry up to %s of stuff before being encumbered." % MassConverter.AsString(caller.maxcarry, 2))
+            data.append("|w- That means you are carrying %s%% of your comfortable maximum right now." % round(encumbrance / caller.maxcarry * 100))
 
             # Print out the list of stat information
 

@@ -1,0 +1,8 @@
+{
+	"python.autoComplete.extraPaths": [
+		"evennia/"
+	],
+	"python.analysis.extraPaths": [
+		"evennia/"
+	]
+}
