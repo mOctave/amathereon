@@ -64,7 +64,7 @@ navbarData = `
 		</div>
 	</div>
 </li>
-<li><a href="http://localhost:4001/webclient/">Play!</a></li>
+<li><a href="http://atuin.tcp4.me:4001/webclient/">Play!</a></li>
 `
 
 topicsData = `
