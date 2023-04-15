@@ -422,7 +422,7 @@ class CmdInventory(MuxCommand):
     """
 
     # Alternate version of the inventory command which separates
-    # worn and carried items.
+    # worn, carried, and wielded items.
 
     key = "inventory"
     aliases = ["inv", "i"]
@@ -441,9 +441,11 @@ class CmdInventory(MuxCommand):
 
         carry_table = evtable.EvTable(border="header")
         wear_table = evtable.EvTable(border="header")
+        wield_table = evtable.EvTable(border="header")
 
         carried = [obj for obj in items if not obj.db.worn]
         worn = [obj for obj in items if obj.db.worn]
+        wielded = [obj for obj in self.caller.db.wieldedItems]
 
         currencyWorth = 0
 
@@ -468,10 +470,25 @@ class CmdInventory(MuxCommand):
             item_name = item.get_display_name(self.caller)
             if item.db.covered_by:
                 item_name += " (hidden)"
-            wear_table.add_row(item_name, item.get_display_desc(self.caller))
+            wear_table.add_row(item_name)#, item.get_display_desc(self.caller)
         if wear_table.nrows == 0:
             wear_table.add_row("Nothing.", "")
         message_list.append(str(wear_table))
+
+        message_list.append("|wYou are wielding:|n")
+        for item in wielded:
+            item_name = item.get_display_name(self.caller)
+            wield_table.add_row(item_name)#, item.get_display_desc(self.caller)
+        if wield_table.nrows == 0:
+            wield_table.add_row("Nothing.", "")
+        message_list.append(str(wield_table))
+
+        if self.caller.handsFull == 0:
+            message_list.append("|wYou have both hands free.")
+        elif self.caller.handsFull == 1:
+            message_list.append("|wYou have one hand free.")
+        else:
+            message_list.append("|wYour hands are full.")
 
         message_list.append("\n|wTotal cash:|n " + str(Gold(currencyWorth)) + ".")
         self.caller.msg("\n".join(message_list))
@@ -602,3 +619,43 @@ class CmdFlagRoom(MuxCommand):
 
         else:
             caller.msg("You can only use one of the listed switches with this command.")
+
+# Alternate version of the "say" command for multiple languages
+class CmdSay(Command):
+    """
+    speak as your character
+
+    Usage:
+      say <message>
+
+    Talk to those in your current location.
+    """
+
+    key = "say"
+    aliases = ['"', "'"]
+    switches = ["Elvish"]
+    locks = "cmd:all()"
+
+    # don't require a space after `say/'/"`
+    arg_regex = None
+
+    def func(self):
+        """Run the say command"""
+
+        caller = self.caller
+
+        if not self.args:
+            caller.msg("Say what?")
+            return
+
+        speech = self.args
+
+        # Calling the at_pre_say hook on the character
+        speech = caller.at_pre_say(speech)
+
+        # If speech is empty, stop here
+        if not speech:
+            return
+
+        # Call the at_post_say hook on the character
+        caller.at_say(speech, msg_self=True, **{"lang": self.switches})

@@ -20,6 +20,7 @@ from commands.command import *
 from commands.test_cmdset import TestCmdSet
 
 from commands.gametime import CmdTime
+from combat.wield import CmdWield, CmdUnwield
 
 from evennia.contrib.rpg.character_creator.character_creator import ContribCmdCharCreate
 from evennia.contrib.game_systems.clothing import ClothedCharacterCmdSet
@@ -62,6 +63,10 @@ class CharacterCmdSet(default_cmds.CharacterCmdSet):
 
         # Clothing Overrides
         self.add(CmdInventory())
+
+        # Wielding Weapons
+        self.add(CmdWield())
+        self.add(CmdUnwield())
 
 
 class AccountCmdSet(default_cmds.AccountCmdSet):

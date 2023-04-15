@@ -10,6 +10,7 @@ creation commands.
 from evennia.objects.objects import DefaultCharacter
 from evennia.contrib.game_systems.clothing import ClothedCharacter
 from evennia import TICKER_HANDLER
+from evennia.utils import make_iter
 
 from world.data.class_data import Classes
 from world.data.race_data import Races
@@ -113,7 +114,14 @@ class Character(ObjectParent, ClothedCharacter):
     
     @property
     def maxcarry(self):
-        return(20 + (self.totalstr * 3) + (self.totalcon * 2) + self.totalres) 
+        return(20 + (self.totalstr * 3) + (self.totalcon * 2) + self.totalres)
+    
+    @property
+    def handsFull(self):
+        hands = 0
+        for weapon in self.db.wieldedItems:
+            hands += weapon.db.hands
+        return hands
 
     @property
     def random(self):
@@ -284,3 +292,85 @@ class Character(ObjectParent, ClothedCharacter):
         Get data such as class, stats, and skills for the player.
         """
         return self.db.race, self.db.charClass, self.db.baseDexterity, self.db.baseAgility, self.db.baseStrength, self.db.baseConstitution, self.db.baseIntelligence, self.db.baseWisdom, self.db.baseCharisma, self.db.baseResilience, self.db.earnedDexterity, self.db.earnedAgility, self.db.earnedStrength, self.db.earnedConstitution, self.db.earnedIntelligence, self.db.earnedWisdom, self.db.earnedCharisma, self.db.earnedResilience, self.db.specials, self.db.skillpts
+
+    def at_say(self, message, **kwargs):
+        msg_type = "say"
+        if kwargs.get("whisper", False):
+            # whisper mode
+            msg_type = "whisper"
+            msg_self = (
+                '{self} whisper to {all_receivers}, "|n{speech}|n"'
+                if msg_self is True
+                else msg_self
+            )
+            msg_receivers = msg_receivers or '{object} whispers: "|n{speech}|n"'
+            msg_location = None
+        else:
+            msg_self = '{self} say, "|n{speech}|n"' if msg_self is True else msg_self
+            msg_location = msg_location or '{object} says, "{speech}"'
+            msg_receivers = msg_receivers or message
+
+        custom_mapping = kwargs.get("mapping", {})
+        receivers = make_iter(receivers) if receivers else None
+        location = self.location
+
+        if msg_self:
+            self_mapping = {
+                "self": "You",
+                "object": self.get_display_name(self),
+                "location": location.get_display_name(self) if location else None,
+                "receiver": None,
+                "all_receivers": ", ".join(recv.get_display_name(self) for recv in receivers)
+                if receivers
+                else None,
+                "speech": message,
+            }
+            self_mapping.update(custom_mapping)
+            self.msg(text=(msg_self.format_map(self_mapping), {"type": msg_type}), from_obj=self)
+
+        if receivers and msg_receivers:
+            receiver_mapping = {
+                "self": "You",
+                "object": None,
+                "location": None,
+                "receiver": None,
+                "all_receivers": None,
+                "speech": message,
+            }
+            for receiver in make_iter(receivers):
+                individual_mapping = {
+                    "object": self.get_display_name(receiver),
+                    "location": location.get_display_name(receiver),
+                    "receiver": receiver.get_display_name(receiver),
+                    "all_receivers": ", ".join(recv.get_display_name(recv) for recv in receivers)
+                    if receivers
+                    else None,
+                }
+                receiver_mapping.update(individual_mapping)
+                receiver_mapping.update(custom_mapping)
+                receiver.msg(
+                    text=(msg_receivers.format_map(receiver_mapping), {"type": msg_type}),
+                    from_obj=self,
+                )
+
+        if self.location and msg_location:
+            location_mapping = {
+                "self": "You",
+                "object": self,
+                "location": location,
+                "all_receivers": ", ".join(str(recv) for recv in receivers) if receivers else None,
+                "receiver": None,
+                "speech": message,
+            }
+            location_mapping.update(custom_mapping)
+            exclude = []
+            if msg_self:
+                exclude.append(self)
+            if receivers:
+                exclude.extend(receivers)
+            self.location.msg_contents(
+                text=(msg_location, {"type": msg_type}),
+                from_obj=self,
+                exclude=exclude,
+                mapping=location_mapping,
+            )

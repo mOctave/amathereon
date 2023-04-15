@@ -251,7 +251,15 @@ class Weapon(Object):
     \nhitChance   - The base chance (out of 100) that this weapon will connect.
     \ncritChance  - The base chance (out of 100) that this weapon will deal double damage before counting armour.
     \nparryChance - The base chance (out of 100) that a character can successfully parry with this weapon.
+    \nhands       - The number of hands needed to wield this weapon.
     """
+
+    def at_pre_drop(self, dropper, **kwargs):
+        # If currently wielded, unwield before dropping
+        if self in dropper.db.wieldedItems:
+            dropper.db.wieldedItems.remove(self)
+            dropper.msg("You stop wielding a " + self.name + ".")
+        return True
     
 class Currency(Object):
     isItem = False
