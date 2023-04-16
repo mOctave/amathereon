@@ -25,6 +25,8 @@ from combat.wield import CmdWield, CmdUnwield
 from evennia.contrib.rpg.character_creator.character_creator import ContribCmdCharCreate
 from evennia.contrib.game_systems.clothing import ClothedCharacterCmdSet
 
+from evennia.commands.default.general import CmdSay
+
 
 class CharacterCmdSet(default_cmds.CharacterCmdSet):
     """
@@ -67,6 +69,10 @@ class CharacterCmdSet(default_cmds.CharacterCmdSet):
         # Wielding Weapons
         self.add(CmdWield())
         self.add(CmdUnwield())
+
+        # Override Say Command
+        self.remove(CmdSay())
+        self.add(CmdLangSay())
 
 
 class AccountCmdSet(default_cmds.AccountCmdSet):

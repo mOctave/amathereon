@@ -122,6 +122,16 @@ class Character(ObjectParent, ClothedCharacter):
         for weapon in self.db.wieldedItems:
             hands += weapon.db.hands
         return hands
+    
+    @property
+    def langRecChance(self):
+        recChance = self.db.skills["Knowledge: Linguistics"] + (self.totalwis + self.totalint)/2
+        return round(100*(1-(1/(recChance/8))),1)
+    
+    @property
+    def langUnderstandChance(self):
+        getChance = (self.db.skills["Knowledge: Linguistics"] + (self.totalwis + self.totalint + self.totalcha)/2)/2
+        return round(100*(1-(1/(getChance/8))),1)
 
     @property
     def random(self):
@@ -293,21 +303,21 @@ class Character(ObjectParent, ClothedCharacter):
         """
         return self.db.race, self.db.charClass, self.db.baseDexterity, self.db.baseAgility, self.db.baseStrength, self.db.baseConstitution, self.db.baseIntelligence, self.db.baseWisdom, self.db.baseCharisma, self.db.baseResilience, self.db.earnedDexterity, self.db.earnedAgility, self.db.earnedStrength, self.db.earnedConstitution, self.db.earnedIntelligence, self.db.earnedWisdom, self.db.earnedCharisma, self.db.earnedResilience, self.db.specials, self.db.skillpts
 
-    def at_say(self, message, **kwargs):
+    def at_say(self, message, msg_self = False, msg_location = False, receivers = None, msg_receivers = False, **kwargs):
         msg_type = "say"
         if kwargs.get("whisper", False):
             # whisper mode
             msg_type = "whisper"
             msg_self = (
-                '{self} whisper to {all_receivers}, "|n{speech}|n"'
+                '{self} whisper to {all_receivers}, {q}|n{speech}|n{q} {inlang}'
                 if msg_self is True
                 else msg_self
             )
-            msg_receivers = msg_receivers or '{object} whispers: "|n{speech}|n"'
+            msg_receivers = msg_receivers or '{object} whispers: {q}|n{speech}|n{q} {inlang}'
             msg_location = None
         else:
-            msg_self = '{self} say, "|n{speech}|n"' if msg_self is True else msg_self
-            msg_location = msg_location or '{object} says, "{speech}"'
+            msg_self = '{self} say, {q}|n{speech}|n{q} {inlang}' if msg_self is True else msg_self
+            msg_location = msg_location or '{object} says, {q}{speech}{q} {inlang}'
             msg_receivers = msg_receivers or message
 
         custom_mapping = kwargs.get("mapping", {})
@@ -324,6 +334,8 @@ class Character(ObjectParent, ClothedCharacter):
                 if receivers
                 else None,
                 "speech": message,
+                "q": '"',
+                "inlang": "in " + kwargs["lang"]
             }
             self_mapping.update(custom_mapping)
             self.msg(text=(msg_self.format_map(self_mapping), {"type": msg_type}), from_obj=self)
@@ -336,8 +348,20 @@ class Character(ObjectParent, ClothedCharacter):
                 "receiver": None,
                 "all_receivers": None,
                 "speech": message,
+                "q": '"',
+                "inlang": "in " + kwargs["lang"]
             }
             for receiver in make_iter(receivers):
+                speech = message
+                q = '"'
+                inlang = "in " + kwargs["lang"]
+
+                if (not kwargs["lang"] in receiver.db.languages) and (receiver.random < receiver.langUnderstandChance):
+                    q = ''
+                    speech = "something"
+                    if receiver.random >= receiver.langRecChance:
+                        inlang = "in a language you do not understand"
+
                 individual_mapping = {
                     "object": self.get_display_name(receiver),
                     "location": location.get_display_name(receiver),
@@ -345,6 +369,9 @@ class Character(ObjectParent, ClothedCharacter):
                     "all_receivers": ", ".join(recv.get_display_name(recv) for recv in receivers)
                     if receivers
                     else None,
+                    "speech": speech,
+                    "q": q,
+                    "inlang": inlang
                 }
                 receiver_mapping.update(individual_mapping)
                 receiver_mapping.update(custom_mapping)
@@ -361,6 +388,8 @@ class Character(ObjectParent, ClothedCharacter):
                 "all_receivers": ", ".join(str(recv) for recv in receivers) if receivers else None,
                 "receiver": None,
                 "speech": message,
+                "q": '"',
+                "inlang": "in " + kwargs["lang"]
             }
             location_mapping.update(custom_mapping)
             exclude = []

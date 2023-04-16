@@ -356,12 +356,10 @@ class CmdLanguages(Command):
         for i in caller.db.languages:
             data.append("- " + i)
 
-        recChance = caller.db.skills["Knowledge: Linguistics"] + (caller.totalwis + caller.totalint)/2
-        recChance = round(100*(1-(1/(recChance/8))),1)
+        recChance = caller.langRecChance
         recChance = recChance if recChance > 0 else 0
 
-        getChance = (caller.db.skills["Knowledge: Linguistics"] + (caller.totalwis + caller.totalint + caller.totalcha)/2)/2
-        getChance = round(100*(1-(1/(getChance/8))),1)
+        getChance = caller.langUnderstandChance
         getChance = getChance if getChance > 0 else 0
 
         data.append("|wYou have a %s%% chance of recognizing a language you do not know." % recChance)
@@ -621,20 +619,36 @@ class CmdFlagRoom(MuxCommand):
             caller.msg("You can only use one of the listed switches with this command.")
 
 # Alternate version of the "say" command for multiple languages
-class CmdSay(Command):
+class CmdLangSay(MuxCommand):
     """
     speak as your character
 
     Usage:
-      say <message>
+      say[/language] <message>
 
     Talk to those in your current location.
+    If no language is specified you will speak in the first language
+    you know (usually Common).
+
+    Note: Language names should be all lowercase for switches.
     """
 
     key = "say"
     aliases = ['"', "'"]
-    switches = ["Elvish"]
+    switch_options = ("common",
+                "dwarvish",
+                "elvish",
+                "uruthk",
+                "underspeak",
+                "koboldic",
+                "giant",
+                "draconic",
+                "celestial",
+                "thieves' cant",
+                "druidic"
+    )
     locks = "cmd:all()"
+    help_category = "General"
 
     # don't require a space after `say/'/"`
     arg_regex = None
@@ -643,11 +657,13 @@ class CmdSay(Command):
         """Run the say command"""
 
         caller = self.caller
+        switches = self.switches
 
         if not self.args:
             caller.msg("Say what?")
             return
 
+        print(switches)
         speech = self.args
 
         # Calling the at_pre_say hook on the character
@@ -657,5 +673,12 @@ class CmdSay(Command):
         if not speech:
             return
 
+        # If you do not know the language you're speaking, stop here
+        if len(switches) > 0 and (not switches[0].title() in caller.db.languages):
+            caller.msg("You don't know that language!")
+            return
+
         # Call the at_post_say hook on the character
-        caller.at_say(speech, msg_self=True, **{"lang": self.switches})
+        print("Saying: " + speech)
+        print("Language: " + (switches[0] if len(switches) > 0 else caller.db.languages[0]).title())
+        caller.at_say(speech, msg_self=True, **{"lang": (switches[0] if len(switches) > 0 else caller.db.languages[0]).title()})
