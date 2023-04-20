@@ -262,6 +262,12 @@ class CmdStats(BaseCommand):
             data.append("|W- You could carry up to %s of stuff before being encumbered." % MassConverter.AsString(caller.maxcarry, 2))
             data.append("|w- That means you are carrying %s%% of your comfortable maximum right now." % round(encumbrance / caller.maxcarry * 100))
 
+            # Tell the caller who they're targeting
+            if caller.db.target == None:
+                data.append("|W- You aren't currently targeting anyone.")
+            else:
+                data.append("|w- You're currently targeting %s." % caller.db.target.name)
+
             # Print out the list of stat information
 
             for entry in data:
@@ -369,6 +375,15 @@ class CmdLanguages(Command):
             self.caller.msg(entry)
 
 class CmdShopReport(Command):
+    """
+    Report the contents of a shop
+
+    Usage:
+      shop
+
+    List all items in a shop, along with their prices.
+    """
+
     key = "shop"
     aliases = ["$"]
     lock = "cmd:all()"
@@ -379,7 +394,7 @@ class CmdShopReport(Command):
 
 class CmdValue(MuxCommand):
     """
-    change the value of an object
+    Change the value of an object
 
     Usage:
       value <obj> <value>

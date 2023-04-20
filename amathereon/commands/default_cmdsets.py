@@ -21,11 +21,13 @@ from commands.test_cmdset import TestCmdSet
 
 from commands.gametime import CmdTime
 from combat.wield import CmdWield, CmdUnwield
+from combat.targeted_attacks import CmdTarget
 
 from evennia.contrib.rpg.character_creator.character_creator import ContribCmdCharCreate
 from evennia.contrib.game_systems.clothing import ClothedCharacterCmdSet
 
 from evennia.commands.default.general import CmdSay
+from evennia.commands.default.comms import CmdPage
 
 
 class CharacterCmdSet(default_cmds.CharacterCmdSet):
@@ -70,9 +72,14 @@ class CharacterCmdSet(default_cmds.CharacterCmdSet):
         self.add(CmdWield())
         self.add(CmdUnwield())
 
+        # Targeting Others
+        self.add(CmdTarget())
+
         # Override Say Command
         self.remove(CmdSay())
         self.add(CmdLangSay())
+        self.remove(CmdPage())
+        #self.add(CmdLangPage())
 
 
 class AccountCmdSet(default_cmds.AccountCmdSet):

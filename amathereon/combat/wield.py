@@ -11,7 +11,7 @@ class CmdWield(MuxCommand):
 		Usage:
 		  wield <weapon>
 
-		Holds the indicated weapon ready to be used.
+		Holds the indicated weapon ready to be used in combat.
 		"""
 		key = "wield"
 		aliases = ["hold"]

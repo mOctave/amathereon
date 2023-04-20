@@ -34,6 +34,7 @@ from evennia.settings_default import *
 # Basic server data
 SERVERNAME = "Amathereon"
 GAMEVERSION = "0.1.0"
+#MULTISESSION_MODE = 3 # Set to 3 for testing, comment out normally
 
 # Character settings
 AUTO_CREATE_CHARACTER_WITH_ACCOUNT = False
