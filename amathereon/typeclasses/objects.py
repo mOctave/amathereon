@@ -256,10 +256,29 @@ class Weapon(Object):
 
     def at_pre_drop(self, dropper, **kwargs):
         # If currently wielded, unwield before dropping
-        if self in dropper.db.wieldedItems:
-            dropper.db.wieldedItems.remove(self)
-            dropper.msg("You stop wielding a " + self.name + ".")
+        self.unwield(dropper)
         return True
+    
+    def at_post_move(self, source_location, **kwargs):
+        try:
+            self.unwield(source_location)
+        except:
+            print("Location of object is likely not a character.")
+        return super().at_post_move(source_location, **kwargs)
+    
+    def at_object_delete(self):
+        # Objects should be unwielded before deletion to prevent errors
+        try:
+            self.unwield(self.location)
+        except:
+            print("Location of object is likely not a character.")
+        return True
+    
+    def unwield(self, character):
+        if self in character.db.wieldedItems:
+            character.db.wieldedItems.remove(self)
+            character.msg("You stop wielding a " + self.name + ".")
+
     
 class Currency(Object):
     isItem = False

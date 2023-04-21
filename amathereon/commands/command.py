@@ -22,6 +22,8 @@ from typeclasses.rooms import Room
 
 from world.currency import *
 
+from combat.wexp import WEXPHandler
+
 import math
 
 #from world.char_setup import CharacterSetup
@@ -479,19 +481,22 @@ class CmdInventory(MuxCommand):
         message_list.append(str(carry_table))
 
         message_list.append("|wYou are wearing:|n")
-        for item in worn:
-            item_name = item.get_display_name(self.caller)
-            if item.db.covered_by:
-                item_name += " (hidden)"
-            wear_table.add_row(item_name)#, item.get_display_desc(self.caller)
+        for wornitem in worn:
+            item_name = wornitem.get_display_name(self.caller)
+            #if wornitem.db.covered_by:
+            #    item_name += " (hidden)"
+            #wear_table.add_row(item_name)#, item.get_display_desc(self.caller)
         if wear_table.nrows == 0:
             wear_table.add_row("Nothing.", "")
         message_list.append(str(wear_table))
 
         message_list.append("|wYou are wielding:|n")
-        for item in wielded:
-            item_name = item.get_display_name(self.caller)
-            wield_table.add_row(item_name)#, item.get_display_desc(self.caller)
+        for helditem in wielded:
+            # There should always be a held item, but this will avoid
+            # a traceback and the inventory not displaying, just in case
+            if helditem is not None:
+                item_name = helditem.get_display_name(self.caller)
+                wield_table.add_row(item_name)#, item.get_display_desc(self.caller)
         if wield_table.nrows == 0:
             wield_table.add_row("Nothing.", "")
         message_list.append(str(wield_table))
@@ -697,3 +702,31 @@ class CmdLangSay(MuxCommand):
         print("Saying: " + speech)
         print("Language: " + (switches[0] if len(switches) > 0 else caller.db.languages[0]).title())
         caller.at_say(speech, msg_self=True, **{"lang": (switches[0] if len(switches) > 0 else caller.db.languages[0]).title()})
+
+class CmdWeapons(Command):
+    """
+    Reports weapon experience
+
+    Usage:
+      weapons
+
+    Displays a list of every weapon you know and your skill with it.
+    """
+    key = "weapons"
+    aliases = ["wexp"]
+    lock = "cmd:all()"
+    help_category = "Combat"
+
+    def func(self):
+        caller = self.caller
+
+        if len(caller.db.wexp) == 0:
+            caller.msg("|yYou have no experience with any weapons.")
+            return
+        
+        caller.msg("|yYou have experience with the following weapons:")
+        for item in range(len(caller.db.wexp)):
+            key = list(caller.db.wexp.keys())[item]
+            val = list(caller.db.wexp.values())[item]
+            s = "" if val == 1 else "s"
+            caller.msg("|w- %s - %s level%s" % (key, WEXPHandler.getlevel(val), s))

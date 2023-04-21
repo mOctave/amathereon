@@ -51,6 +51,7 @@ class CharacterCmdSet(default_cmds.CharacterCmdSet):
         self.add(CmdLanguages())
         self.add(CmdShopReport())
         self.add(CmdTime())
+        self.add(CmdWeapons())
 
         # Action Commands
         self.add(CmdBuySkill())

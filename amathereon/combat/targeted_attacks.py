@@ -5,6 +5,8 @@ from typeclasses.characters import Character
 
 from typeclasses.scripts import Script
 
+from combat.wexp import WEXPHandler
+
 import random
 
 class CmdTarget(MuxCommand):
@@ -92,15 +94,19 @@ class CombatEngine(Script):
 		if actor.random < hitChance:
 			actor.msg("|yYou hit %s with %s!" % (target.name, weapon))
 			actor.msg("|yYou deal %s damage!" % damage)
-			if iscrit:
-				actor.msg("|yIt's a critical hit!")
 			target.msg("|r%s hits you with %s!" % (actor.name, weapon))
 			target.msg("|rYou've been hurt, taking %s damage!" % damage)
+			WEXPHandler.increase(actor, weapon, 5)
+			WEXPHandler.increase(target, weapon, 1)
 			if iscrit:
+				actor.msg("|yIt's a critical hit!")
 				target.msg("|rIt's a critical hit!")
+				WEXPHandler.increase(actor, weapon, 5)
 		else:
 			actor.msg("|YYou make an attack at %s with %s, but it fails to connect." % (target.name, weapon))
 			target.msg("|R%s attacks you with %s! Luckily, you evade the blow." % (actor.name, weapon))
+			WEXPHandler.increase(actor, weapon, 1)
+			WEXPHandler.increase(target, weapon, 1)
 
 	def getHitChance(self, actor: Character, target: Character, weapon):
 		# First, figure out the dexterity-agility balance

@@ -44,6 +44,9 @@ class CmdWield(MuxCommand):
 			if caller.handsFull + target.db.hands <= 2:
 				caller.db.wieldedItems.append(target)
 				caller.msg("You start wielding a " + target.name + ".")
+			else:
+				caller.msg("You're hands are too full to wield that!")
+
 
 class CmdUnwield(MuxCommand):
 		"""
