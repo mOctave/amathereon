@@ -15,14 +15,14 @@ class WEXPHandler:
         
         weapontype = weapon.db.tname
         
+		# Save current level for level-up
         prevlevel = 0
         try:
             prevlevel = WEXPHandler.getlevel(character.db.wexp[weapontype])
         except:
             pass
-        
-        print(character.db.wexp)
-
+		
+		# Actually award WEXP
         if character.db.wexp == None:
             character.db.wexp = {}
 
@@ -31,6 +31,7 @@ class WEXPHandler:
         except:
             character.db.wexp[weapontype] = amount
         
+		# Handle level-up
         if WEXPHandler.getlevel(character.db.wexp[weapontype]) > prevlevel:
             character.msg("|gYou've gained a level with weapon: %s!" % weapontype)
 
