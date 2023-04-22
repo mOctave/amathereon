@@ -52,11 +52,50 @@ SPEAR = {
     "maxDamage": 6,
     "hitChance": 70,
     "critChance": 2,
-    "parryChance": 25,
+    "parryChance": 20,
     "hands": 1,
     "mass": 5,
     "value": Gold(15)
 }
+
+# Basic club. It's a trauma weapon that is only moderately effective.
+# Use this to create other trauma weapons.
+CLUB = {
+    "protype_key": "CLUB",
+    "typeclass": "typeclasses.objects.Weapon",
+    "key": "club",
+    "tname": "club",
+    "damageType": "trauma",
+    "range": 0,
+    "minDamage": 2,
+    "maxDamage": 4,
+    "hitChance": 80,
+    "critChance": 4,
+    "parryChance": 10,
+    "hands": 1,
+    "mass": 2,
+    "value": Gold(5)
+}
+
+# Basic shield. It's definitely not an offensive weapon, but it can be used as such in a pinch.
+# Use this to create other shields.
+SHIELD = {
+    "protype_key": "SHIELD",
+    "typeclass": "typeclasses.objects.Weapon",
+    "key": "shield",
+    "tname": "shield",
+    "damageType": "trauma",
+    "range": 0,
+    "minDamage": 0,
+    "maxDamage": 3,
+    "hitChance": 60,
+    "critChance": 5,
+    "parryChance": 40,
+    "hands": 1,
+    "mass": 8,
+    "value": Gold(15)
+}
+
 
 # Swords and the like
 LONGSWORD = {
@@ -188,5 +227,55 @@ SABRE = {
     "parryChance": 12,
     "hands": 1,
     "mass": 3,
+    "value": Gold(25)
+}
+
+# Axe-like weapons
+BATTLEAXE = {
+    "protype_key": "BATTLEAXE",
+    "prototype_parent": "AXE",
+    "key": "battleaxe",
+    "tname": "battleaxe",
+    "desc": "This is an axe designed especially for combat, and it has few uses outside of it.",
+    "minDamage": 4,
+    "maxDamage": 10,
+    "hitChance": 65,
+    "critChance": 5,
+    "parryChance": 6,
+    "hands": 1,
+    "mass": 5,
+    "value": Gold(25)
+}
+
+GREATAXE = {
+    "protype_key": "GREATAXE",
+    "prototype_parent": "AXE",
+    "key": "greataxe",
+    "tname": "greataxe",
+    "desc": "A greataxe is a very large axe, only usable with two hands. It is harder to control, but more powerful.",
+    "minDamage": 6,
+    "maxDamage": 12,
+    "hitChance": 55,
+    "critChance": 7,
+    "parryChance": 4,
+    "hands": 2,
+    "mass": 7,
+    "value": Gold(35)
+}
+
+WARHAMMER = {
+    "protype_key": "WARHAMMER",
+    "prototype_parent": "AXE",
+    "key": "warhammer",
+    "tname": "warhammer",
+    "desc": "Rather than a blade like an axe, a warhammer bears a solid chunk of metal at the end, designed to do damage to even the most heavily armoured foes.",
+    "damageType": "trauma",
+    "minDamage": 4,
+    "maxDamage": 8,
+    "hitChance": 60,
+    "critChance": 10,
+    "parryChance": 6,
+    "hands": 1,
+    "mass": 5,
     "value": Gold(25)
 }

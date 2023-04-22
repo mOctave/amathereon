@@ -87,7 +87,7 @@ class CombatEngine(Script):
 		Takes the attacker as the first parameter, the attackee as the second,
 		and the weapon as the third.
 		"""
-		hitChance = self.getHitChance(actor, target, weapon)
+		hitChance, parryDict = self.getHitChance(actor, target, weapon)
 		damage, iscrit = self.getDamage(actor, target, weapon)
 		#actor.msg("Weapon: %s, Hit Chance: %s, Damage: %s." % (weapon, hitChance, damage))
 
@@ -103,12 +103,14 @@ class CombatEngine(Script):
 				target.msg("|rIt's a critical hit!")
 				WEXPHandler.increase(actor, weapon, 5)
 		else:
-			actor.msg("|YYou make an attack at %s with %s, but it fails to connect." % (target.name, weapon))
-			target.msg("|R%s attacks you with %s! Luckily, you evade the blow." % (actor.name, weapon))
+			actmsg, tarmsg = self.getMissText(parryDict, actor.name, target.name, weapon)
+			actor.msg(actmsg)
+			target.msg(tarmsg)
 			WEXPHandler.increase(actor, weapon, 1)
 			WEXPHandler.increase(target, weapon, 1)
 
 	def getHitChance(self, actor: Character, target: Character, weapon):
+		parryDict = {"": actor.totalagi}
 		# First, figure out the dexterity-agility balance
 		totalhit = actor.totaldex - target.totalagi
 		# Then, add then weapon hit chance
@@ -117,12 +119,14 @@ class CombatEngine(Script):
 		try:
 			for blocker in target.db.wieldedItems:
 				totalhit -= blocker.db.parryChance
+				parryDict[blocker.name] = blocker.db.parryChance
 		except:
 			target.db.wieldedItems = []
 			for blocker in target.db.wieldedItems:
 				totalhit -= blocker.db.parryChance
+				parryDict[blocker.name] = blocker.db.parryChance
 
-		return totalhit
+		return totalhit, parryDict
 
 	def getDamage(self, actor: Character, target: Character, weapon):
 		iscrit = False
@@ -138,3 +142,25 @@ class CombatEngine(Script):
 		totaldmg -= int(target.totalcon / 2)
 
 		return totaldmg, iscrit
+	
+	def getMissText(self, parryDict: dict, actorname: str, targetname: str, weaponname: str):
+		# Prepare the total value
+		total = 0
+		for val in list(parryDict.values()):
+			total += val
+
+		# Make a choice
+		choice = random.randint(0, total)
+		current = 0
+		for i in range(len(parryDict)):
+			current += list(parryDict.values())[i]
+			if choice < current:
+				key = list(parryDict.keys())[i]
+				#print("Selected key: %s (%s out of %s)" % (key, choice, total))
+				if key == "":
+					return f"|YYou make an attack at {targetname} with {weaponname}, but they dodge it.", f"|R{actorname} attacks you with {weaponname}, but you dodge the attack.",
+				else:
+					return f"|YYou make an attack at {targetname} with {weaponname}, but they block it with {key}.", f"|R{actorname} attacks you with {weaponname}, but you block the blow with {key}.",
+
+		#print("Selected key: None (%s out of %s)" % (choice, total))
+		return f"|YYou make an attack at {targetname} with {weaponname}, but it is blocked.", f"|R{actorname} attacks you with {weaponname}, but the spacetime continuum interferes, saving you.",
