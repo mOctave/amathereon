@@ -1,4 +1,4 @@
-from evennia.commands.default.muxcommand import MuxCommand
+from commands.commandtypes import MuxCommand
 
 from evennia.utils import inherits_from
 from typeclasses.characters import Character
@@ -77,9 +77,11 @@ class CombatEngine(Script):
 
 		for character in characters:
 			target = character.db.target
-			if target != None and character.location == target.location and character.location != None:
+			loc = character.location
+			if target != None and loc == target.location and loc != None and loc.dbref != "#2":
 				for weapon in character.db.wieldedItems:
-					self.makeAttack(character, target, weapon)
+					if loc == target.location: # Check again, in case the target has been killed.
+						self.makeAttack(character, target, weapon)
 
 	def makeAttack(self, actor: Character, target: Character, weapon):
 		"""
@@ -91,6 +93,7 @@ class CombatEngine(Script):
 		damage, iscrit = self.getDamage(actor, target, weapon)
 		#actor.msg("Weapon: %s, Hit Chance: %s, Damage: %s." % (weapon, hitChance, damage))
 
+		actor.changeEnergy(-3)
 		if actor.random < hitChance:
 			actor.msg("|yYou hit %s with %s!" % (target.name, weapon))
 			actor.msg("|yYou deal %s damage!" % damage)
@@ -98,6 +101,7 @@ class CombatEngine(Script):
 			target.msg("|rYou've been hurt, taking %s damage!" % damage)
 			WEXPHandler.increase(actor, weapon, 5)
 			WEXPHandler.increase(target, weapon, 1)
+			target.changeHP(-damage)
 			if iscrit:
 				actor.msg("|yIt's a critical hit!")
 				target.msg("|rIt's a critical hit!")
@@ -106,6 +110,7 @@ class CombatEngine(Script):
 			actmsg, tarmsg = self.getMissText(parryDict, actor.name, target.name, weapon)
 			actor.msg(actmsg)
 			target.msg(tarmsg)
+			target.changeEnergy(-1)
 			WEXPHandler.increase(actor, weapon, 1)
 			WEXPHandler.increase(target, weapon, 1)
 
@@ -115,16 +120,39 @@ class CombatEngine(Script):
 		totalhit = actor.totaldex - target.totalagi
 		# Then, add then weapon hit chance
 		totalhit += weapon.db.hitChance
+
+		# Account for bonuses to hit
+
+		hitBonus = actor.db.skills["Weapons"]
+		if weapon.db.range == 0:
+			hitBonus += actor.db.skills["Weapons: Melee"] * 5
+		else:
+			hitBonus += actor.db.skills["Weapons: Ranged"] * 10
+		if weapon.db.damageType == "Piercing":
+			hitBonus += actor.db.skills["Weapons: Piercing"] * 5
+		elif weapon.db.damageType == "Slashing":
+			hitBonus += actor.db.skills["Weapons: Slashing"] * 5
+		else:
+			hitBonus += actor.db.skills["Weapons: Trauma"] * 5
+
 		# Next, run through weapons carried by the target to check for parries
 		try:
-			for blocker in target.db.wieldedItems:
-				totalhit -= blocker.db.parryChance
-				parryDict[blocker.name] = blocker.db.parryChance
+			target.db.wieldedItems
 		except:
 			target.db.wieldedItems = []
-			for blocker in target.db.wieldedItems:
-				totalhit -= blocker.db.parryChance
-				parryDict[blocker.name] = blocker.db.parryChance
+		
+		for blocker in target.db.wieldedItems:
+			parryBonus = 0
+			if weapon.db.range == 0:
+				parryBonus += target.db.skills["Weapons: Melee"] * 5
+			if weapon.db.damageType == "Piercing":
+				parryBonus += target.db.skills["Weapons: Piercing"] * 5
+			elif weapon.db.damageType == "Slashing":
+				parryBonus += target.db.skills["Weapons: Slashing"] * 5
+			else:
+				parryBonus += target.db.skills["Weapons: Trauma"] * 5
+			totalhit -= blocker.db.parryChance + parryBonus
+			parryDict[blocker.name] = blocker.db.parryChance + parryBonus
 
 		return totalhit, parryDict
 
@@ -132,6 +160,7 @@ class CombatEngine(Script):
 		iscrit = False
 		# First, figure out base damage
 		totaldmg = actor.totalstr + random.randint(weapon.db.minDamage, weapon.db.maxDamage)
+		totaldmg += actor.db.skills["Weapons"]
 		# Deal with crit chances
 		critbuff = 1 + (actor.totalint - target.totalwis + actor.totaldex - actor.totalagi) / 100
 		if (actor.random < weapon.db.critChance * critbuff):

@@ -5,8 +5,8 @@ Commands describe the input the account can do to the game.
 
 """
 
-from evennia.commands.command import Command as BaseCommand
-from evennia.commands.default.muxcommand import MuxCommand
+from commands.commandtypes import Command
+from commands.commandtypes import MuxCommand 
 
 from evennia.utils.evmenu import EvMenu
 from evennia.utils import inherits_from, evtable
@@ -31,15 +31,15 @@ import math
 # from evennia import default_cmds
 
 
-class Command(BaseCommand):
-    """
+"""class Command(BaseCommand):
+    \"""
     Base command (you may see this if a child command had no help text defined)
 
     Note that the class's `__doc__` string is used by Evennia to create the
     automatic help entry for the command, so make sure to document consistently
     here. Without setting one, the parent's docstring will show (like now).
 
-    """
+    \"""
 
     # Each Command class implements the following methods, called in this order
     # (only func() is actually required):
@@ -50,9 +50,7 @@ class Command(BaseCommand):
     #     - func(): Performs the actual work.
     #     - at_post_cmd(): Extra actions, often things done after
     #         every command, like prompts.
-    #
-    pass
-
+    #"""
 
 # -------------------------------------------------------------
 #
@@ -207,7 +205,7 @@ class Command(BaseCommand):
 #             else:
 #                 self.character = None
 
-class CmdStats(BaseCommand):
+class CmdStats(Command):
         """
         List stats
 
@@ -275,7 +273,7 @@ class CmdStats(BaseCommand):
             for entry in data:
                 self.caller.msg(entry)
 
-class CmdSkills(BaseCommand):
+class CmdSkills(Command):
         """
         List skills
 

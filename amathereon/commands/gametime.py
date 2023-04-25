@@ -2,7 +2,7 @@
 Gametime related stuff
 """
 
-from evennia.commands.command import Command
+from commands.commandtypes import Command
 from evennia.contrib.base_systems import custom_gametime
 
 class TimeArrays():

@@ -1,5 +1,5 @@
-from evennia.commands.command import Command
-from evennia.commands.default.muxcommand import MuxCommand
+from commands.commandtypes import Command
+from commands.commandtypes import MuxCommand
 
 from evennia.utils import inherits_from
 from typeclasses.objects import Weapon

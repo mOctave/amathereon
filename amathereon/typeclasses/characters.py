@@ -11,6 +11,7 @@ from evennia.objects.objects import DefaultCharacter
 from evennia.contrib.game_systems.clothing import ClothedCharacter
 from evennia import TICKER_HANDLER
 from evennia.utils import make_iter
+from evennia.utils.evmenu import EvMenu
 
 from world.data.class_data import Classes
 from world.data.race_data import Races
@@ -140,6 +141,56 @@ class Character(ObjectParent, ClothedCharacter):
 
     energy_counter: int = 0
     mana_counter: int = 0
+
+    def changeHP(self, value):
+        self.db.hp += value
+        if self.db.hp > self.maxhp:
+            self.db.hp = self.maxhp
+        elif self.db.hp < 0:
+            self.die()
+
+    def changeEnergy(self, value):
+        self.db.energy += value
+        if self.db.energy > self.maxenergy:
+            self.db.energy = self.maxenergy
+        elif self.db.energy < 0:
+            self.db.energy = 0
+
+    def changeMana(self, value):
+        self.db.mana += value
+        if self.db.mana > self.maxmana:
+            self.db.mana = self.maxmana
+        elif self.db.mana < 0:
+            self.db.mana = 0
+
+    def die(self):
+        # Notify the character about their death
+        loc = self.location
+        self.location = self.search("Entropy", global_search=True)
+        self.msg("|rYou collapse, unable to feel anything in your pain...")
+        self.msg("""|X|[R
+|       <--------------->       |
+|        YOU HAVE DIED          |
+|       <--------------->       |
+|n""")
+
+        # Notify the room about their death
+        loc.msg_contents(self.name + " has died!")
+        for char in loc.contents:
+            try:
+                char.db.target = None
+            except:
+                print("Could not remove target for " + char.name)
+
+        # Drop every carried object
+        for obj in self.contents:
+            obj.location = self.location
+            self.db.wieldedItems = []
+        
+        # Meet up with Onarezuron
+        self.db.hp = 1
+        self.msg("You float in the mists of the plane of Entropy, detached for good from your body, and yet... perhaps you need not be...")
+        EvMenu(self, "world.death", startnode = "node_main", cmdset_mergetype = "Replace")
 
     def at_object_creation(self):
         #set persistent attributes
