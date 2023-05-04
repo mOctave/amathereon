@@ -154,7 +154,7 @@ class Account(DefaultAccount):
             result.append("\n |wchardelete <name>|n - delete a character (cannot be undone!)")
         plural = "" if len(characters) == 1 else "s"
         result.append("\n |wic <character>|n - enter the game (|wooc|n to return here)")
-        if is_su:
+        if is_su or charmax > 65535:
             result.append(f"\n\nAvailable character{plural} ({len(characters)}/unlimited):")
         else:
             result.append(f"\n\nAvailable character{plural} ({len(characters)}/{charmax}):")

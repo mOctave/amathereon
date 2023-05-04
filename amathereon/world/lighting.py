@@ -12,10 +12,14 @@ class Lighting:
         """
 
         year, month, day, hour, min, sec = custom_gametime.custom_gametime(absolute=True)
-        isoutside = "outdoors" in char.location.db.flags
-        islit = "lit" in char.location.db.flags
-        isdim = "semilit" in char.location.db.flags
-        isunlit = "unlit" in char.location.db.flags
+        try:
+            flags = char.location.db.flags
+        except:
+            flags = []
+        isoutside = "outdoors" in flags
+        islit = "lit" in flags
+        isdim = "semilit" in flags
+        isunlit = "unlit" in flags
         darkvision = "Darkvision" in char.db.specials
         if isunlit or ((not (islit or isdim)) and isoutside and (hour < 6 or hour > 26)):
             return(1 if darkvision else 0)
