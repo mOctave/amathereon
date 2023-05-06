@@ -535,7 +535,7 @@ def node_end(caller, raw_string):
 
     char.db.chargen_step = False
 
-    caller.execute_cmd("ic %s" % char)
+    #caller.execute_cmd("ic %s" % char)
     # since everything is finished and confirmed, we actually create the starting objects now
     #create_objects(char)
 

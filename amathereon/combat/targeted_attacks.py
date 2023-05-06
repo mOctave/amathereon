@@ -34,8 +34,7 @@ class CmdTarget(MuxCommand):
 
 		# Target no one
 		if not self.args:
-			caller.db.target = None
-			caller.msg("You are no longer targeting anyone.")
+			self.untarget(caller)
 			return
 		
 		# Look for the target
@@ -43,21 +42,27 @@ class CmdTarget(MuxCommand):
 
 		if not found:
 			if "safe" in self.switches:
-				caller.db.target = None
-				caller.msg("You are no longer targeting anyone.")
+				self.untarget(caller)
 			return
 
 		# Deal with a target that is not a character
 		if not inherits_from(found, Character):
 			caller.msg("You can only target other people.")
 			if "safe" in self.switches:
-				caller.db.target = None
-				caller.msg("You are no longer targeting anyone.")
+				self.untarget(caller)
 			return
 
 		# Set a valid target
 		caller.db.target = found
+		self.obj.scripts.add(CombatEngine)
+		self.obj.scripts.start("combat_engine_script")
 		caller.msg("You are now targeting " + caller.db.target.name + ".")
+
+	def untarget(self, actor):
+		actor.db.target = None
+		self.obj.scripts.stop("combat_engine_script")
+		actor.msg("You are no longer targeting anyone.")
+
 
 class CombatEngine(Script):
 	"""
@@ -73,15 +78,14 @@ class CombatEngine(Script):
 		self.persistent = True
 	
 	def at_repeat(self):
-		characters = list(Character.objects.typeclass_search(Character, True, False))
-
-		for character in characters:
-			target = character.db.target
-			loc = character.location
-			if target != None and loc == target.location and loc != None and loc.dbref != "#2":
-				for weapon in character.db.wieldedItems:
-					if loc == target.location: # Check again, in case the target has been killed.
-						self.makeAttack(character, target, weapon)
+		#print("Running Combat Engine")
+		character = self.obj
+		target = character.db.target
+		loc = character.location
+		if target != None and loc == target.location and loc != None and loc.dbref != "#2":
+			for weapon in character.db.wieldedItems:
+				if loc == target.location: # Check again, in case the target has been killed.
+					self.makeAttack(character, target, weapon)
 
 	def makeAttack(self, actor: Character, target: Character, weapon):
 		"""

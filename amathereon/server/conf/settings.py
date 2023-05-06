@@ -56,11 +56,11 @@ CLOTHING_TYPE_ORDER = ["head", "neck", "torso", "arms", "hands", "waist", "legs"
 
 # Combat
 PROTOTYPE_MODULES += ["combat.weapons"]
-GLOBAL_SCRIPTS = {
+"""GLOBAL_SCRIPTS = {
     "combatengine": {
         "typeclass": "combat.targeted_attacks.CombatEngine"
     },
-}
+}"""
 
 ######################################################################
 # Settings given in secret_settings.py override those in this file.

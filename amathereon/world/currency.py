@@ -1,6 +1,7 @@
 # Everything related to currency
 
 import math
+from evennia.utils import inherits_from
 
 class Gold:
 	# The number of grains of gold something is worth.
@@ -70,10 +71,11 @@ class Gold:
 	def __float__ (self):
 		return float(self.gr)
 
-"""
-A class used to inform a player of the contents of a shop.
-"""
+
 class ShopMessager:
+	"""
+	A class used to inform a player of the contents of a shop.
+	"""
 	def ReturnArray (room, msgtarget):
 		msgtarget.msg("|w--- Shop Contents ---")
 		objectArray = []
@@ -110,17 +112,77 @@ class ShopMessager:
 			else:
 				startText = ""
 			if msgtarget.db.charClass == "Merchant":
-				msgtarget.msg(f"({i[1]}) {i[0]} -- {startText}{round(i[2] * 0.95, 1)}")
+				msgtarget.msg(f"({i[1]}) {i[0]} -- {startText}{CalculateWorth.FindPrice('buyer')}")
 			else:
-				msgtarget.msg(f"({i[1]}) {i[0]} -- {startText}{round(i[2], 1)}")
+				msgtarget.msg(f"({i[1]}) {i[0]} -- {startText}{CalculateWorth.FindPrice('none')}")
 		return
 
-"""
-A class to provide a rough estimate of the value of an object rather
-than a precise value.
-"""
+
 class Valuer:
+	"""
+	A class to provide a rough estimate of the value of an object rather
+	than a precise value.
+	"""
 	def Obscure (value: Gold, roughness):
 		a = round(math.log(value.gr, roughness))
 		b = round(pow(roughness, a), 1)
 		return Gold(b)
+
+
+class CalculateWorth:
+	"""
+	A class to handle the calculations involved in shopkeeping.
+	"""
+
+	def FindPrice (self, price, merchant: str):
+		"""
+		Calculates a price based on the default price and whether or not the buyer/seller is a merchant.
+		Valid values of merchant are 'buyer', 'vendor', and 'none'
+		"""
+		validOptions = ("buyer","vendor","none")
+		if merchant not in validOptions:
+			raise ValueError("Parameter 'merchant' must be one of ('buyer','vendor','none')")
+		if merchant == "buyer":
+			return round(price * 0.95, 1)
+		elif merchant == "vendor":
+			return round(price * 1.05, 1)
+		else:
+			return round(price, 1)
+		
+	def FindCoinage(self, actor, target, value):
+		"""
+		Tries to find coinage that the actor can use to pay the target.
+		"""
+
+		coinNames = []
+		coinValues = []
+		coinValue = Gold(0)
+		chosenCoins = []
+
+		for item in [a for a in actor.contents if a.isCurrency]:
+			coinNames.append(item.name)
+			coinValues.append(item.db.value)
+			coinValue += item.db.Value
+
+		# Check if it's impossible to pay, and avoid the calculations if so
+		if coinValue <= value:
+			actor.msg("|RYou have insufficient funds to pay %s!" % target.name)
+		else:
+			sum = Gold(0)
+			values = coinValues.copy()
+			values.sort()
+			# Try to find the smallest amount of money to pay with - imperfect method
+			while sum < value:
+				aim = value - sum
+				selected = False
+				for i in values:
+					if i > aim:
+						# You can cover the costs now, do it
+						chosenCoins.append(coinNames.coinValues.index(i))
+						values.remove(i)
+						selected = True
+				if not selected:
+					# Use your most valuable coin, if possible
+					chosenCoins.append(coinNames.coinValues.index(values.pop()))
+			amountPaid = sum - value
+				
