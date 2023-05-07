@@ -197,6 +197,8 @@ class Character(ObjectParent, ClothedCharacter):
         self.db.race = "Unborn"
         self.db.charClass = "Would-Be Adventurer"
 
+        self.db.nationality = "Wildlands"
+
         self.db.baseDexterity = random.randint(3,7)
         self.db.baseAgility = random.randint(3,7)
         self.db.baseStrength = random.randint(3,7)
