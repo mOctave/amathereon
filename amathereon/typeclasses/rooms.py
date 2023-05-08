@@ -53,6 +53,20 @@ class Room(ObjectParent, DefaultRoom):
         chosenEcho = random.choice(echoes)
         if chosenEcho != "":
             self.msg_contents(chosenEcho)
+    
+    def getRecursiveLightingCheck(self):
+        total_contents = self.contents
+        for obj in self.contents:
+            total_contents.extend(obj.contents)
+
+        for obj in total_contents:
+            try:
+                if obj.db.isLit:
+                    return True
+            except:
+                pass
+
+        return False
 
 class Echoes:
     ECHOES_EMPTY = [

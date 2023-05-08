@@ -231,6 +231,7 @@ class Object(ObjectParent, DefaultObject):
     def at_object_creation(self):
         self.db.value: Gold = Gold(0)
         self.db.mass = 0
+        self.db.isLit = False
 
 class ClothingItem(ContribClothing):
     isItem = True

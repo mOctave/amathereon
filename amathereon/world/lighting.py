@@ -17,7 +17,7 @@ class Lighting:
         except:
             flags = []
         isoutside = "outdoors" in flags
-        islit = "lit" in flags
+        islit = ("lit" in flags) or char.location.getRecursiveLightingCheck()
         isdim = "semilit" in flags
         isunlit = "unlit" in flags
         darkvision = "Darkvision" in char.db.specials
