@@ -53,19 +53,21 @@ class CharacterCmdSet(default_cmds.CharacterCmdSet):
         self.add(CmdStats())
         self.add(CmdSkills())
         self.add(CmdLanguages())
-        self.add(CmdShopReport())
         self.add(CmdTime())
         self.add(CmdWeapons())
 
         # Action Commands
         self.add(CmdBuySkill())
 
+        # Shopping Command
+        self.add(CmdShop())
+
         # BuildingCommands
         self.add(CmdValue())
         self.add(CmdFlagRoom())
 
         # Testing Commands
-        self.add(TestCmdSet())
+        self.add(TestCmdSet)
 
         # Clothing Commands
         self.add(ClothedCharacterCmdSet)

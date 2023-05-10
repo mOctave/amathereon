@@ -128,10 +128,10 @@ class ShopMessager:
 				startText = "starting at "
 			else:
 				startText = ""
-			if msgtarget.db.charClass == "Merchant":
-				msgtarget.msg(f"({i[1]}) {i[0]} -- {startText}{Shopkeeping.FindPrice('buyer')}")
+			if "Merchant" in msgtarget.db.specials:
+				msgtarget.msg(f"({i[1]}) {i[0]} -- {startText}{Shopkeeping.FindPrice(Shopkeeping, i[2] * room.db.markup, 'buyer')}")
 			else:
-				msgtarget.msg(f"({i[1]}) {i[0]} -- {startText}{Shopkeeping.FindPrice('none')}")
+				msgtarget.msg(f"({i[1]}) {i[0]} -- {startText}{Shopkeeping.FindPrice(Shopkeeping, i[2] * room.db.markup, 'none')}")
 		return
 
 
@@ -259,6 +259,8 @@ class Shopkeeping:
 		actor.msg("Change paid out of change owed: %s / %s" % (change, changeOwed))
 
 		# Spawn and give new coins to make change with, depending on the target's nationality.
+
+		return True
 
 	def TransferCoins(self, actor, target, coinList: list[str]):
 		for coin in coinList:

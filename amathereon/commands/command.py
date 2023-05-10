@@ -373,24 +373,6 @@ class CmdLanguages(Command):
         for entry in data:
             self.caller.msg(entry)
 
-class CmdShopReport(Command):
-    """
-    Report the contents of a shop
-
-    Usage:
-      shop
-
-    List all items in a shop, along with their prices.
-    """
-
-    key = "shop"
-    aliases = ["$"]
-    lock = "cmd:all()"
-    help_category = "General"
-
-    def func(self):
-        ShopMessager.ReturnArray(self.caller.location, self.caller)
-
 class CmdValue(MuxCommand):
     """
     Change the value of an object
@@ -727,3 +709,45 @@ class CmdWeapons(Command):
             val = list(caller.db.wexp.values())[item]
             s = "" if val == 1 else "s"
             caller.msg("|w- %s - %s level%s" % (key, WEXPHandler.getlevel(val), s))
+
+class CmdShop(MuxCommand):
+    """
+    Interact with a shop
+
+    Usage:
+      buy <obj>
+      shop
+
+    Pays the shopkeeper in exchange for ownership of an item, or lists the contents of a shop.
+    """
+    key = "buy"
+    aliases = ["shop", "$"]
+    lock = "cmd:all()"
+    help_category = "General"
+
+    def func(self):
+        key = self.args
+        caller = self.caller
+
+        if not self.args:
+            ShopMessager.ReturnArray(self.caller.location, self.caller)
+            return
+
+        if not "shop" in caller.location.db.flags:
+            caller.msg("This is not a shop! You cannot buy anything.")
+            return
+        
+        obj = caller.search(key)
+
+        if obj == None:
+            ShopMessager.ReturnArray(self.caller.location, self.caller)
+            return
+
+        if "Merchant" in caller.db.specials:
+            price = Shopkeeping.FindPrice(Shopkeeping, obj.db.value * caller.location.db.markup, 'buyer')
+        else:
+            price = Shopkeeping.FindPrice(Shopkeeping, obj.db.value * caller.location.db.markup, 'none')
+
+        if Shopkeeping.FindCoinage(Shopkeeping, caller, caller, price) == True:
+            obj.move_to(caller)
+            caller.msg("|gYou bought %s for %s!" % (obj, price))

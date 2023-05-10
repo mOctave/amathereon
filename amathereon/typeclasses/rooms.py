@@ -31,6 +31,8 @@ class Room(ObjectParent, DefaultRoom):
     """
     def on_object_creation(self):
         self.db.flags = []
+        self.db.saleprots = []
+        self.db.markup = 1.10
         TICKER_HANDLER.add(20, self.print_flavour_text)
 
     def print_flavour_text(self, *args, **kwargs):
