@@ -9,6 +9,7 @@ Amathereon uses flags, attached to rooms, as a way to add flavour and various ca
 - **lit**: This room is lit and never becomes dark. Rooms that are not outdoors are always lit by default.
 - **semilit**: This room is dimly lit, and never becomes fully dark.
 - **unlit**: This room is always dark, even in the daytime.
+- **safe**: You cannot harm another character in this room.
 
 ## Flags Affecting Echoes
 

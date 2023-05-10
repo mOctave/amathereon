@@ -17,6 +17,7 @@ own cmdsets by inheriting from them or directly from `evennia.CmdSet`.
 from evennia import default_cmds
 
 from commands.command import *
+from commands.cmdpromptinheritance import PromptCommandSet
 from commands.test_cmdset import TestCmdSet
 
 from commands.gametime import CmdTime
@@ -44,6 +45,9 @@ class CharacterCmdSet(default_cmds.CharacterCmdSet):
         Populates the cmdset
         """
         super().at_cmdset_creation()
+
+        # Override Commands to add Command Prompt
+        self.add(PromptCommandSet)
 
         # Info Commands
         self.add(CmdStats())

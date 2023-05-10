@@ -279,3 +279,125 @@ WARHAMMER = {
     "mass": 5,
     "value": Gold(25)
 }
+
+
+# Polearms
+BARDICHE = {
+    "protype_key": "BARDICHE",
+    "prototype_parent": "SPEAR",
+    "key": "bardiche",
+    "tname": "bardiche",
+    "desc": "A bardiche is a type of axe-headed polearm, basically just a very long axe, when it comes down to it. It is effecive but simple.",
+    "damageType": "slashing",
+    "minDamage": 5,
+    "maxDamage": 7,
+    "hitChance": 65,
+    "critChance": 3,
+    "parryChance": 20,
+    "hands": 1,
+    "mass": 6,
+    "value": Gold(25)
+}
+
+HALBERD = {
+    "protype_key": "HALBERD",
+    "prototype_parent": "SPEAR",
+    "key": "halberd",
+    "tname": "halberd",
+    "desc": "A halberd is a fearsome weapon, tipped with a spearpoint but bearing both an axe blade and a hook. In the hands of a skilled soldier, it can be used to great effect, although it is heavy and expensive.",
+    "damageType": "slashing",
+    "minDamage": 5,
+    "maxDamage": 8,
+    "hitChance": 75,
+    "critChance": 4,
+    "parryChance": 20,
+    "hands": 2,
+    "mass": 7,
+    "value": Gold(35)
+}
+
+MILITARY_FORK = {
+    "protype_key": "MILITARY_FORK",
+    "prototype_parent": "SPEAR",
+    "key": "military fork",
+    "tname": "military fork",
+    "desc": "A military fork is a two-pronged spear, as simple as a spear and even easier to use.",
+    "damageType": "piercing",
+    "minDamage": 5,
+    "maxDamage": 6,
+    "hitChance": 80,
+    "critChance": 4,
+    "parryChance": 20,
+    "hands": 2,
+    "mass": 4,
+    "value": Gold(15)
+}
+
+PIKE = {
+    "protype_key": "PIKE",
+    "prototype_parent": "SPEAR",
+    "key": "pike",
+    "tname": "pike",
+    "desc": "A pike is an unusually long spear designed to be wielded by infantry in formation. It is great at parrying blows, but also very unwieldy.",
+    "damageType": "piercing",
+    "minDamage": 5,
+    "maxDamage": 6,
+    "hitChance": 65,
+    "critChance": 1,
+    "parryChance": 30,
+    "hands": 2,
+    "mass": 6,
+    "value": Gold(20)
+}
+
+PARTISAN = {
+    "protype_key": "PARTISAN",
+    "prototype_parent": "SPEAR",
+    "key": "partisan",
+    "tname": "partisan",
+    "desc": "A partisan is a spear designed for fighting off sword thrusts. It is slightly less effective on the offense, but still a formideable weapon.",
+    "damageType": "piercing",
+    "minDamage": 5,
+    "maxDamage": 6,
+    "hitChance": 70,
+    "critChance": 5,
+    "parryChance": 25,
+    "hands": 2,
+    "mass": 5,
+    "value": Gold(20)
+}
+
+SCYTHE = {
+    "protype_key": "SCYTHE",
+    "prototype_parent": "SPEAR",
+    "key": "scythe",
+    "tname": "scythe",
+    "desc": "A military scythe is made by placing a long, curved blade on the end of an even longer pole. It is not a common weapon, but can occasionally prove devastating.",
+    "damageType": "slashing",
+    "minDamage": 4,
+    "maxDamage": 8,
+    "hitChance": 65,
+    "critChance": 6,
+    "parryChance": 20,
+    "hands": 2,
+    "mass": 6,
+    "value": Gold(20)
+}
+
+JAVELIN = {
+    "protype_key": "JAVELIN",
+    "prototype_parent": "SPEAR",
+    "key": "javelin",
+    "tname": "javelin",
+    "desc": "This spear is designed as a weapon to be thrown at the enemy.",
+    "damageType": "piercing",
+    "range": 1,
+    "minDamage": 4,
+    "maxDamage": 5,
+    "hitChance": 60,
+    "critChance": 3,
+    "parryChance": 15,
+    "hands": 1,
+    "mass": 4,
+    "value": Gold(20)
+}

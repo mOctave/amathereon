@@ -7,6 +7,8 @@ from typeclasses.scripts import Script
 
 from combat.wexp import WEXPHandler
 
+from utils import printCommandPrompt
+
 import random
 
 class CmdTarget(MuxCommand):
@@ -82,10 +84,12 @@ class CombatEngine(Script):
 		character = self.obj
 		target = character.db.target
 		loc = character.location
-		if target != None and loc == target.location and loc != None and loc.dbref != "#2":
+		if target != None and loc == target.location and loc != None and (not "safe" in loc.db.flags):
 			for weapon in character.db.wieldedItems:
 				if loc == target.location: # Check again, in case the target has been killed.
 					self.makeAttack(character, target, weapon)
+					printCommandPrompt(character)
+					printCommandPrompt(target)
 
 	def makeAttack(self, actor: Character, target: Character, weapon):
 		"""

@@ -1,8 +1,7 @@
 
 from evennia import CmdSet
 
-from commands.commandtypes import Command
-from commands.commandtypes import MuxCommand
+from commands.commandtypes import Command, MuxCommand
 
 #from commands.command import CmdTestMenu
 

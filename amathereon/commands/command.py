@@ -5,8 +5,7 @@ Commands describe the input the account can do to the game.
 
 """
 
-from commands.commandtypes import Command
-from commands.commandtypes import MuxCommand 
+from commands.commandtypes import Command, MuxCommand 
 
 from evennia.utils.evmenu import EvMenu
 from evennia.utils import inherits_from, evtable

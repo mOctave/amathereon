@@ -9,10 +9,13 @@ from commands.gametime import custom_gametime
 
 from evennia.objects.objects import DefaultRoom
 from evennia import TICKER_HANDLER
+from evennia.utils import inherits_from
 
 from world.lighting import Lighting
 
 from .objects import ObjectParent
+
+from utils import printCommandPrompt
 
 import random
 
@@ -53,6 +56,9 @@ class Room(ObjectParent, DefaultRoom):
         chosenEcho = random.choice(echoes)
         if chosenEcho != "":
             self.msg_contents(chosenEcho)
+            for obj in self.contents:
+                if inherits_from(obj, "typeclasses.characters.Character"):
+                    printCommandPrompt(obj)
     
     def getRecursiveLightingCheck(self):
         total_contents = self.contents
