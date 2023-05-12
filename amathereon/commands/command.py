@@ -16,6 +16,7 @@ from world.data.race_data import *
 from world.data.class_data import *
 from world.data.miscellaneous_data import MassConverter
 
+from typeclasses.characters import Character
 from typeclasses.objects import Object, Currency
 from typeclasses.rooms import Room
 
@@ -574,7 +575,7 @@ class CmdFlagRoom(MuxCommand):
         # Get the location from the room.
         loc = caller.search(self.lhs)
         if not inherits_from(loc, Room):
-            caller.msg("|gFlag|n: |wYou can only use one switch with this command.")
+            caller.msg("|gFlag|n: |wYou can only use this command on a room.")
             return
 
         # Create flag array for a room with no flags.
@@ -740,7 +741,7 @@ class CmdShop(MuxCommand):
         obj = caller.search(key)
 
         if obj == None:
-            ShopMessager.ReturnArray(self.caller.location, self.caller)
+            ShopMessager.ReturnArray(caller.location, self.caller)
             return
 
         if "Merchant" in caller.db.specials:
@@ -748,6 +749,53 @@ class CmdShop(MuxCommand):
         else:
             price = Shopkeeping.FindPrice(Shopkeeping, obj.db.value * caller.location.db.markup, 'none')
 
-        if Shopkeeping.FindCoinage(Shopkeeping, caller, caller, price) == True:
+        if Shopkeeping.FindCoinage(Shopkeeping, caller, caller.location.db.owner, price) == True:
             obj.move_to(caller)
             caller.msg("|gYou bought %s for %s!" % (obj, price))
+
+class CmdOwnRoom(MuxCommand):
+    """
+    Sets the owner of a room.
+    
+    Usage:
+      owner <room> = <character>
+      owner/clear <room>
+      owner <room>
+
+    Give or clear ownership of the chosen room to the selected character, or check who owns it.
+    """
+
+    key = "@owner"
+    aliases = []
+    switch_options = ("clear",)
+    locks = "cmd:perm(own) or perm(Builder)"
+    help_category = "Building"
+
+    def func(self):
+        caller = self.caller
+        
+        # Get the location from the room.
+        loc = caller.search(self.lhs)
+        if not inherits_from(loc, Room):
+            caller.msg("You can only use this command on a room.")
+            return
+        
+        # Clear ownership.
+        if "clear" in self.switches:
+            loc.db.owner = None
+            caller.msg("Cleared ownership of %s." % loc)
+            return
+
+        # Check ownership.
+        if not self.rhs:
+            caller.msg("Owner of %s is %s." % (loc, loc.db.owner))
+            return
+
+        # Add ownership
+        char = caller.search(self.rhs)
+        if not inherits_from(char, Character):
+            caller.msg("Only characters can own a room.")
+            return
+
+        loc.db.owner = char
+        caller.msg("Assigned ownership of %s to %s." % (loc, char))

@@ -35,6 +35,16 @@ from evennia.settings_default import *
 SERVERNAME = "Amathereon"
 GAMEVERSION = "0.1.0"
 
+PERMISSION_HIERARCHY = [
+    "Guest",  # note-only used if GUEST_ENABLED=True
+    "Player",
+    "Helper",
+    "Builder",
+    "Celestial",
+    "Admin",
+    "Developer",
+]
+
 # Character settings
 AUTO_CREATE_CHARACTER_WITH_ACCOUNT = False
 AUTO_PUPPET_ON_LOGIN = False

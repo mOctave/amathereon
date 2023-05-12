@@ -26,7 +26,7 @@ class CmdGiveSkillPts(MuxCommand):
 
     key = "skillget"
     aliases = ["skget"]
-    lock = "perm(superuser)"
+    locks = "perm(Celestial)"
     help_category = "Testing"
 
     def func(self):
@@ -51,7 +51,7 @@ class CmdGiveExp(MuxCommand):
 
     key = "expget"
     aliases = ["exp"]
-    lock = "perm(superuser)"
+    locks = "perm(Celestial)"
     help_category = "Testing"
 
     def func(self):
@@ -76,7 +76,7 @@ class CmdGiveHP(MuxCommand):
 
     key = "hpget"
     aliases = ["hp"]
-    lock = "perm(superuser)"
+    locks = "perm(Celestial)"
     help_category = "Testing"
 
     def func(self):
@@ -101,7 +101,7 @@ class CmdGiveEnergy(MuxCommand):
 
     key = "energyget"
     aliases = ["en"]
-    lock = "perm(superuser)"
+    locks = "perm(Celestial)"
     help_category = "Testing"
 
     def func(self):
@@ -126,7 +126,7 @@ class CmdGiveMana(MuxCommand):
 
     key = "managet"
     aliases = ["ma"]
-    lock = "perm(superuser)"
+    locks = "perm(Celestial)"
     help_category = "Testing"
 
     def func(self):

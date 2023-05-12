@@ -65,6 +65,7 @@ class CharacterCmdSet(default_cmds.CharacterCmdSet):
         # BuildingCommands
         self.add(CmdValue())
         self.add(CmdFlagRoom())
+        self.add(CmdOwnRoom())
 
         # Testing Commands
         self.add(TestCmdSet)
