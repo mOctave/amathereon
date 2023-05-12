@@ -329,9 +329,6 @@ def node_specialist(caller, raw_string, **kwargs):
         {"key": ("Aristocrat"),
          "desc": "I was born to a high position, and am comfortable among the elite and in command.",
          "goto": ("node_confirm_class", {"choice": "Aristocrat", "last_node": "node_specialist"})},
-        {"key": ("Developer"),
-         "desc": "I'm a developer. I can't be bothered to deal with unimplemented nodes.",
-         "goto": ("node_name")},
         {"key": ("Back"),
          "desc": "Sorry, I must have misspoke. I'm not actually a specialist.",
          "goto": ("node_class")})
