@@ -18,6 +18,8 @@ from world.data.race_data import Races
 
 import typeclasses.scripts
 
+from server.conf import settings
+
 from .objects import ObjectParent
 
 import random
@@ -166,7 +168,7 @@ class Character(ObjectParent, ClothedCharacter):
     def die(self):
         # Notify the character about their death
         loc = self.location
-        self.location = self.search("Entropy", global_search=True)
+        self.location = self.search(settings.DEATH_ROOM, global_search=True)
         self.msg("|rYou collapse, unable to feel anything in your pain...")
         self.msg("""|X|[R
 |       <--------------->       |
