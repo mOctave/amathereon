@@ -29,7 +29,7 @@ class Room(ObjectParent, DefaultRoom):
     See examples/object.py for a list of
     properties and methods available on all Objects.
     """
-    def on_object_creation(self):
+    def at_object_creation(self):
         self.db.flags = []
         self.db.saleprots = []
         self.db.markup = 1.10
