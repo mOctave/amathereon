@@ -8,6 +8,7 @@ SWORD = {
     "typeclass": "typeclasses.objects.Weapon",
     "key": "sword",
     "tname": "sword",
+    "desc": "A sword is a typically bladed weapon designed to be wielded in highly discipled stances, although individual swords vary quite a bit.",
     "damageType": "slashing",
     "range": 0,
     "minDamage": 4,
@@ -27,6 +28,7 @@ AXE = {
     "typeclass": "typeclasses.objects.Weapon",
     "key": "axe",
     "tname": "axe",
+    "desc": "An axe is basically just a fancy blade on a stick, designed to cleave through wood - or flesh.",
     "damageType": "slashing",
     "range": 0,
     "minDamage": 3,
@@ -46,6 +48,7 @@ SPEAR = {
     "typeclass": "typeclasses.objects.Weapon",
     "key": "spear",
     "tname": "spear",
+    "desc": "A spear is the simplest of all polearms, just a sharp point on a moderately long pole. It is a good defensive weapon, but is less strong on the offensive.",
     "damageType": "piercing",
     "range": 0,
     "minDamage": 5,
@@ -65,6 +68,7 @@ CLUB = {
     "typeclass": "typeclasses.objects.Weapon",
     "key": "club",
     "tname": "club",
+    "desc": "A club is a very simple weapon, just a length of wood that can be used to cause non-fatal wounds.",
     "damageType": "trauma",
     "range": 0,
     "minDamage": 2,
@@ -84,6 +88,7 @@ SHIELD = {
     "typeclass": "typeclasses.objects.Weapon",
     "key": "shield",
     "tname": "shield",
+    "desc": "A shields is not an offensive weapon, but is very effective at protecting oneself from an enemy.",
     "damageType": "trauma",
     "range": 0,
     "minDamage": 0,
@@ -399,5 +404,58 @@ JAVELIN = {
     "parryChance": 15,
     "hands": 1,
     "mass": 4,
+    "value": Gold(20)
+}
+
+
+# Trauma Weapons
+QUATERSTAFF = {
+    "protype_key": "QUARTERSTAFF",
+    "prototype_parent": "CLUB",
+    "key": "quarterstaff",
+    "tname": "quaterstaff",
+    "desc": "A quaterstaff is a long length of wood, slightly longer than the height of its wielder, often used by farmers. It is an easy weapon to use, but a hard one to master.",
+    "range": 0,
+    "minDamage": 2,
+    "maxDamage": 5,
+    "hitChance": 85,
+    "critChance": 6,
+    "parryChance": 30,
+    "hands": 2,
+    "mass": 4,
+    "value": Gold(10)
+}
+
+FLAIL = {
+    "protype_key": "FLAIL",
+    "prototype_parent": "CLUB",
+    "key": "flail",
+    "tname": "flail",
+    "desc": "A flail consists of a spiked ball on the end of a chain, handled with a short pole. It is unpredictable, and can occasionally wreak havoc by eluding an enemy's defenses.",
+    "range": 0,
+    "minDamage": 1,
+    "maxDamage": 6,
+    "hitChance": 90,
+    "critChance": 10,
+    "parryChance": 15,
+    "hands": 2,
+    "mass": 4,
+    "value": Gold(15)
+}
+
+MACE = {
+    "protype_key": "MACE",
+    "prototype_parent": "CLUB",
+    "key": "mace",
+    "tname": "mace",
+    "desc": "A mace is essentially a reinforced club, made of metal and designed to do as much damage as possible and tipped with a head designed to smash through armour.",
+    "range": 0,
+    "minDamage": 4,
+    "maxDamage": 6,
+    "hitChance": 75,
+    "critChance": 5,
+    "parryChance": 10,
+    "hands": 1,
+    "mass": 3,
     "value": Gold(20)
 }
