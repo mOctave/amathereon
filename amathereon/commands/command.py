@@ -737,6 +737,10 @@ class CmdShop(MuxCommand):
         if not "shop" in caller.location.db.flags:
             caller.msg("This is not a shop! You cannot buy anything.")
             return
+        
+        if not caller.location.db.owner.location == caller.location:
+            caller.msg("The shop is closed: the owner is not present.")
+            return
 
         matches = list(search.object_search(key, None, None, caller.location.db.owner.get_objects()))
 
@@ -755,9 +759,10 @@ class CmdShop(MuxCommand):
         else:
             price = Shopkeeping.FindPrice(Shopkeeping, obj.db.value * caller.location.db.markup, 'none')
 
-        if Shopkeeping.FindCoinage(Shopkeeping, caller, caller.location.db.owner, price) == True:
+        success, overpayment = Shopkeeping.FindCoinage(Shopkeeping, caller, caller.location.db.owner, price)
+        if success == True:
             obj.move_to(caller)
-            caller.msg("|gYou bought %s for %s!" % (obj, price))
+            caller.msg("|gYou bought %s for %s!" % (obj, price + overpayment))
 
 class CmdOwnRoom(MuxCommand):
     """

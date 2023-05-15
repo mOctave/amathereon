@@ -99,6 +99,10 @@ class ShopMessager:
 		if not "shop" in room.db.flags:
 			msgtarget.msg("This is not a shop! You cannot buy anything.")
 			return
+        
+		if not room.db.owner.location == room:
+			msgtarget.msg("The shop is closed: the owner is not present.")
+			return
 
 		print("Listing Shop Contents in " + room.name + " for " + msgtarget.name)
 		for obj in room.db.owner.contents:
@@ -168,7 +172,7 @@ class Shopkeeping:
 		else:
 			return round(price, 1)
 		
-	def FindCoinage(self, actor, target, value) -> bool:
+	def FindCoinage(self, actor, target, value) -> tuple[bool, Gold]:
 		"""
 		Tries to find coinage that the actor can use to pay the target.
 		"""
@@ -186,17 +190,17 @@ class Shopkeeping:
 		# Check if it's impossible to pay, and avoid the calculations if so
 		if coinValue <= value:
 			actor.msg("|RYou have insufficient funds to pay %s!" % target.name)
-			return False
+			return False, None
 		
 		sum = Gold(0)
 		values = sorted(coinValues)
-		actor.msg(coinValues)
-		actor.msg(values)
+		#actor.msg(coinValues)
+		#actor.msg(values)
 		# Try to find the smallest amount of money to pay with - imperfect method
 		try:
 			while sum < value:
 				aim = value - sum
-				actor.msg("Aim: %s (%s-%s)" % (aim, value, sum))
+				#actor.msg("Aim: %s (%s-%s)" % (aim, value, sum))
 				selected = False
 				for i in values:
 					if i >= aim:
@@ -205,7 +209,7 @@ class Shopkeeping:
 						chosenCoins.append(coinNames[coinValues.index(i)])
 						values.remove(i)
 						selected = True
-						actor.msg([coinNames[coinValues.index(i)],i])
+						#actor.msg([coinNames[coinValues.index(i)],i])
 						sum += i
 						raise Completion
 				if not selected:
@@ -225,7 +229,7 @@ class Shopkeeping:
 		#actor.msg("Change owed: %s (%s-%s)" % (changeOwed, sum, value))
 		if changeOwed == Gold(0):
 			#actor.msg("No Change Needed")
-			return True
+			return True, 0
 		change = Gold(0)
 		changeCoins = []
 
@@ -263,7 +267,7 @@ class Shopkeeping:
 
 		# Spawn and give new coins to make change with, depending on the target's nationality.
 
-		return True
+		return True, (changeOwed - change)
 
 	def TransferCoins(self, actor, target, coinList: list[str]):
 		for coin in coinList:
