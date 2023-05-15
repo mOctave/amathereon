@@ -357,6 +357,22 @@ class Character(ObjectParent, ClothedCharacter):
         Get data such as class, stats, and skills for the player.
         """
         return self.db.race, self.db.charClass, self.db.baseDexterity, self.db.baseAgility, self.db.baseStrength, self.db.baseConstitution, self.db.baseIntelligence, self.db.baseWisdom, self.db.baseCharisma, self.db.baseResilience, self.db.earnedDexterity, self.db.earnedAgility, self.db.earnedStrength, self.db.earnedConstitution, self.db.earnedIntelligence, self.db.earnedWisdom, self.db.earnedCharisma, self.db.earnedResilience, self.db.specials, self.db.skillpts
+    
+    def get_objects(self):
+        """
+        Returns a list of objects carried by the player, with currency filreted out.
+        """
+
+        objlist = []
+
+        for obj in self.contents:
+            try:
+                if not obj.isCurrency:
+                    objlist.append(obj)
+            except:
+                pass
+        
+        return objlist
 
     def at_say(self, message, msg_self = False, msg_location = False, receivers = None, msg_receivers = False, **kwargs):
         msg_type = "say"

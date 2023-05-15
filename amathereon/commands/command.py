@@ -8,7 +8,7 @@ Commands describe the input the account can do to the game.
 from commands.commandtypes import Command, MuxCommand 
 
 from evennia.utils.evmenu import EvMenu
-from evennia.utils import inherits_from, evtable
+from evennia.utils import inherits_from, evtable, search, at_search_result
 
 from evennia.contrib.game_systems.clothing.clothing import *
 
@@ -731,17 +731,23 @@ class CmdShop(MuxCommand):
         caller = self.caller
 
         if not self.args:
-            ShopMessager.ReturnArray(self.caller.location, self.caller)
+            ShopMessager.ReturnArray(caller.location, caller)
             return
 
         if not "shop" in caller.location.db.flags:
             caller.msg("This is not a shop! You cannot buy anything.")
             return
+
+        matches = list(search.object_search(key, None, None, caller.location.db.owner.get_objects()))
+
+        if len(matches) == 0:
+            ShopMessager.ReturnArray(caller.location, caller)
+            return
         
-        obj = caller.search(key)
+        obj = at_search_result(matches, caller, key)
+        print(obj)
 
         if obj == None:
-            ShopMessager.ReturnArray(caller.location, self.caller)
             return
 
         if "Merchant" in caller.db.specials:

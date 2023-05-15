@@ -101,7 +101,7 @@ class ShopMessager:
 			return
 
 		print("Listing Shop Contents in " + room.name + " for " + msgtarget.name)
-		for obj in room.contents:
+		for obj in room.db.owner.contents:
 			try:
 				isItem = obj.isItem
 			except:
@@ -132,6 +132,8 @@ class ShopMessager:
 				msgtarget.msg(f"({i[1]}) {i[0]} -- {startText}{Shopkeeping.FindPrice(Shopkeeping, i[2] * room.db.markup, 'buyer')}")
 			else:
 				msgtarget.msg(f"({i[1]}) {i[0]} -- {startText}{Shopkeeping.FindPrice(Shopkeeping, i[2] * room.db.markup, 'none')}")
+		if len(objectArray) == 0:
+			msgtarget.msg("There is nothing for sale.")
 		return
 
 
@@ -198,7 +200,7 @@ class Shopkeeping:
 				selected = False
 				for i in values:
 					if i >= aim:
-						actor.msg("Covering Costs of %s with %s" % (aim, i))
+						#actor.msg("Covering Costs of %s with %s" % (aim, i))
 						# You can cover the costs now, do it
 						chosenCoins.append(coinNames[coinValues.index(i)])
 						values.remove(i)
@@ -207,7 +209,7 @@ class Shopkeeping:
 						sum += i
 						raise Completion
 				if not selected:
-					actor.msg("Using Maximum Value")
+					#actor.msg("Using Maximum Value")
 					# Use your most valuable coin, if possible
 					val = values.pop()
 					chosenCoins.append(coinNames[coinValues.index(val)])
@@ -220,9 +222,9 @@ class Shopkeeping:
 
 		# Now give change
 		changeOwed = sum - value
-		actor.msg("Change owed: %s (%s-%s)" % (changeOwed, sum, value))
+		#actor.msg("Change owed: %s (%s-%s)" % (changeOwed, sum, value))
 		if changeOwed == Gold(0):
-			actor.msg("No Change Needed")
+			#actor.msg("No Change Needed")
 			return True
 		change = Gold(0)
 		changeCoins = []
@@ -239,7 +241,7 @@ class Shopkeeping:
 				selected = False
 				for coin in changeCoins:
 					if coin.db.value <= aim:
-						actor.msg("Valid Change")
+						#actor.msg("Valid Change")
 						# A valid coin has been found for change
 						self.TransferCoins(self, target, actor, [coin.name])
 						changeCoins.remove(coin)
@@ -247,16 +249,17 @@ class Shopkeeping:
 						selected = True
 						# Exact change is possible! Go on!
 						if coin.db.value == aim:
-							actor.msg("Exact Change")
+							#actor.msg("Exact Change")
 							raise Completion
 				# It is impossible to make exact change, so move on.
 				if not selected:
-					actor.msg("Exact Change Impossible")
+					#actor.msg("Exact Change Impossible")
 					raise Completion
 		except Completion:
 			pass
 
-		actor.msg("Change paid out of change owed: %s / %s" % (change, changeOwed))
+		#actor.msg("Change paid out of change owed: %s / %s" % (change, changeOwed))
+		actor.msg("You overpaid by %s, because %s could not make exact change." % (changeOwed - change, target))
 
 		# Spawn and give new coins to make change with, depending on the target's nationality.
 
