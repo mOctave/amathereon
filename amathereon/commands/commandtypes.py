@@ -1,4 +1,4 @@
-from evennia import default_cmds
+from evennia.commands.default.muxcommand import MuxCommand as BaseMuxCommand
 from evennia.commands.command import Command as BaseCommand
 from utils import printCommandPrompt
 
@@ -12,7 +12,7 @@ class Command(BaseCommand):
         printCommandPrompt(self.caller)
         
 
-class MuxCommand(default_cmds.MuxCommand):
+class MuxCommand(BaseMuxCommand):
     # ...
     def at_post_cmd(self):
         print("MUX COMMAND")

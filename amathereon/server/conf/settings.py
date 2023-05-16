@@ -75,6 +75,9 @@ PROTOTYPE_MODULES += ["combat.weapons"]
 # A room to send the dead to. Can be either a name or a dbref.
 DEATH_ROOM = "Entropy"
 
+# Command Prompt
+COMMAND_DEFAULT_CLASS = "commands.commandtypes.MuxCommand"
+
 ######################################################################
 # Settings given in secret_settings.py override those in this file.
 ######################################################################

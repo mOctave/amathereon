@@ -265,6 +265,7 @@ class Character(ObjectParent, ClothedCharacter):
         self.scripts.add(typeclasses.scripts.UpdateEnergy, None, False)
     
     def at_post_move(self, source_location, move_type='move', **kwargs):
+        super().at_post_move(self, source_location)
         if source_location == None:
             self.db.hp = self.maxhp
             self.db.energy = self.maxenergy
