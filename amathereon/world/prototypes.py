@@ -143,7 +143,7 @@ CURRENCY = {
 }
 
 CURRENCY_GOLD_CROWN_HILLROCKIA = {
-    "prototype_key": "$gc_hillrockia",
+    "prototype_key": "hillrockian_gold_crown",
     "prototype_parent": "CURRENCY",
     "key": "hillrockian gold crown",
     "desc": "This Hillrockian gold crown is not-quite pure gold, weighing about forty grains. It has been stamped with the head of some minor prince, which appears to be a tradition of the royal family. Worth: 40 gr gold.",
@@ -152,7 +152,7 @@ CURRENCY_GOLD_CROWN_HILLROCKIA = {
 }
 
 CURRENCY_GOLD_MARK_HILLROCKIA = {
-    "prototype_key": "$gm_hillrockia",
+    "prototype_key": "hillrockian_gold_mark",
     "prototype_parent": "CURRENCY",
     "key": "hillrockian gold mark",
     "desc": "This Hillrockian gold mark is slightly smaller than a gold crown, and worth about half as much. It is decorated with an intricate geometric design. Worth: 20 gr gold.",
@@ -161,7 +161,7 @@ CURRENCY_GOLD_MARK_HILLROCKIA = {
 }
 
 CURRENCY_GOLD_PENNY_HILLROCKIA = {
-    "prototype_key": "$gp_hillrockia",
+    "prototype_key": "hillrockian_gold_penny",
     "prototype_parent": "CURRENCY",
     "key": "hillrockian gold penny",
     "desc": "This Hillrockian gold penny is the smallest unit of currency in Hillrockia when it comes to gold. It bears no design, being just a thick, small disk of pure gold. Worth: 5 gr gold.",
@@ -170,7 +170,7 @@ CURRENCY_GOLD_PENNY_HILLROCKIA = {
 }
 
 CURRENCY_SILVER_PENNY_HILLROCKIA = {
-    "prototype_key": "$sp_hillrockia",
+    "prototype_key": "hillrockian_silver_penny",
     "prototype_parent": "CURRENCY",
     "key": "hillrockian silver penny",
     "desc": "This Hillrockian silver penny is used among Hillrockians for when even their smallest gold coins are too valuable. Worth: 1 gr gold.",
@@ -179,7 +179,7 @@ CURRENCY_SILVER_PENNY_HILLROCKIA = {
 }
 
 CURRENCY_SILVER_FIFTHPENNY_HILLROCKIA = {
-    "prototype_key": "$sfp_hillrockia",
+    "prototype_key": "hillrockian_silver_fifthpenny",
     "prototype_parent": "CURRENCY",
     "key": "hillrockian silver fifthpenny",
     "desc": "This coin is, quite literally, a fifth of a Hillrockian silver penny. Worth: 0.2 gr gold.",

@@ -15,6 +15,8 @@ from evennia.utils.evmenu import EvMenu
 
 from world.data.class_data import Classes
 from world.data.race_data import Races
+from world.data.subscription_data import Listings
+from world.subscriptions import SubscriptionHandler
 
 import typeclasses.scripts
 
@@ -219,6 +221,9 @@ class Character(ObjectParent, ClothedCharacter):
         self.db.earnedCharisma = 0
         self.db.earnedResilience = 0
 
+        self.db.subscriptions = []
+        self.db.wieldedItems = []
+
         self.db.specials: list[str] = []
         self.db.skillpts = 0
         self.db.skills: dict = {
@@ -262,7 +267,7 @@ class Character(ObjectParent, ClothedCharacter):
 
         self.db.mana = self.maxmana
 
-        self.scripts.add(typeclasses.scripts.UpdateEnergy, None, False)
+        TICKER_HANDLER.add(1, self.update)
     
     def at_post_move(self, source_location, move_type='move', **kwargs):
         super().at_post_move(self, source_location)
@@ -272,7 +277,7 @@ class Character(ObjectParent, ClothedCharacter):
             self.db.mana = self.maxmana
     
     # Energy handling scripts
-    def at_init(self):
+    """def at_init(self):
         #print("at_init() triggered for " + self.name + ", disabling energy update script.")
         self.scripts.stop("energy_update_script")
         if self.has_account:
@@ -298,7 +303,7 @@ class Character(ObjectParent, ClothedCharacter):
     def at_pre_unpuppet(self):
         #print("at_pre_unpuppet() triggered for " + self.name + ", disabling energy update script.")
         self.scripts.stop("energy_update_script")
-        self.scripts.stop("combat_engine_script")
+        self.scripts.stop("combat_engine_script")"""
 
     def check_level_up(self):
         """
@@ -376,6 +381,31 @@ class Character(ObjectParent, ClothedCharacter):
                 pass
         
         return objlist
+
+    def update(self):
+        """
+        Updates energy and mana and fulfills subscriptions.
+        """
+        for _ in range(10):
+            self.energy_counter += 1
+            _energy_check = self.energy_counter % (20 - math.floor(math.sqrt(self.totalres)))
+            if (self.db.energy < self.maxenergy) and (_energy_check == 0):
+                print("Increasing energy for character " + self.name + ".")
+                self.db.energy += 1
+            if self.db.energy > self.maxenergy:
+                print("Reducing energy for character " + self.name + ".")
+                self.db.energy = self.maxenergy
+        for _ in range(10):
+            self.mana_counter += 1
+            _mana_check = self.mana_counter % ((20 - math.floor(math.log(self.totalres))) * 2)
+            if (self.db.mana < self.maxmana) and (_mana_check == 0):
+                print("Increasing mana for character " + self.name + ".")
+                self.db.mana += 1
+            if self.db.mana > self.maxmana:
+                print("Reducing mana for character " + self.name + ".")
+                self.db.mana = self.maxmana
+        for sub in self.db.subscriptions:
+            SubscriptionHandler.fulfill(self, sub)
 
     def at_say(self, message, msg_self = False, msg_location = False, receivers = None, msg_receivers = False, **kwargs):
         msg_type = "say"

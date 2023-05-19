@@ -90,33 +90,3 @@ class Script(DefaultScript):
 
     """
     pass
-
-class UpdateEnergy(Script):
-    """
-    A timer script that displays updates a character's energy.
-    """
-    def at_script_creation(self):
-        self.key = "energy_update_script"
-        self.desc = "Updates a character's energy."
-        self.interval = 1  # every tenth of a second
-        self.persistent = True  # will survive reload
-
-    def at_repeat(self):
-        for _ in range(10):
-            self.obj.energy_counter += 1
-            _energy_check = self.obj.energy_counter % (20 - math.floor(math.sqrt(self.obj.totalres)))
-            if (self.obj.db.energy < self.obj.maxenergy) and (_energy_check == 0):
-                print("Increasing energy for character " + self.obj.name + ".")
-                self.obj.db.energy += 1
-            if self.obj.db.energy > self.obj.maxenergy:
-                print("Reducing energy for character " + self.obj.name + ".")
-                self.obj.db.energy = self.obj.maxenergy
-        for _ in range(10):
-            self.obj.mana_counter += 1
-            _mana_check = self.obj.mana_counter % ((20 - math.floor(math.log(self.obj.totalres))) * 2)
-            if (self.obj.db.mana < self.obj.maxmana) and (_mana_check == 0):
-                print("Increasing mana for character " + self.obj.name + ".")
-                self.obj.db.mana += 1
-            if self.obj.db.mana > self.obj.maxmana:
-                print("Reducing mana for character " + self.obj.name + ".")
-                self.obj.db.mana = self.obj.maxmana
