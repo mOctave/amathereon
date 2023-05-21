@@ -142,9 +142,7 @@ class Character(ObjectParent, ClothedCharacter):
     def random(self):
         return(random.randint(0, 99))
     
-
-    energy_counter: int = 0
-    mana_counter: int = 0
+    update_step: int = 0
 
     def changeHP(self, value):
         self.db.hp += value
@@ -275,35 +273,6 @@ class Character(ObjectParent, ClothedCharacter):
             self.db.hp = self.maxhp
             self.db.energy = self.maxenergy
             self.db.mana = self.maxmana
-    
-    # Energy handling scripts
-    """def at_init(self):
-        #print("at_init() triggered for " + self.name + ", disabling energy update script.")
-        self.scripts.stop("energy_update_script")
-        if self.has_account:
-            print("Enabling energy update script for puppeted character " + self.name + ".")
-            self.scripts.add(typeclasses.scripts.UpdateEnergy, None, False)
-            self.scripts.start("energy_update_script")
-
-    def at_pre_puppet(self, account, session, **kwargs):
-        #print("at_pre_puppet() triggered for " + self.name + ", enabling energy update script.")
-        ClothedCharacter.at_pre_puppet(self, account, session)
-        self.scripts.add(typeclasses.scripts.UpdateEnergy, None, False)
-        self.scripts.start("energy_update_script")
-    
-    def at_server_reload(self):
-        #print("at_server_reload() triggered for " + self.name + ", disabling energy update script.")
-        self.scripts.stop("energy_update_script")
-    
-    def at_server_shutdown(self):
-        #print("at_server_shutdown() triggered for " + self.name + ", disabling energy update script.")
-        self.scripts.stop("energy_update_script")
-        self.scripts.stop("combat_engine_script")
-    
-    def at_pre_unpuppet(self):
-        #print("at_pre_unpuppet() triggered for " + self.name + ", disabling energy update script.")
-        self.scripts.stop("energy_update_script")
-        self.scripts.stop("combat_engine_script")"""
 
     def check_level_up(self):
         """
@@ -386,18 +355,16 @@ class Character(ObjectParent, ClothedCharacter):
         """
         Updates energy and mana and fulfills subscriptions.
         """
-        for _ in range(10):
-            self.energy_counter += 1
-            _energy_check = self.energy_counter % (20 - math.floor(math.sqrt(self.totalres)))
+        self.update_step += 1
+        for i in range(10):
+            _energy_check = (self.update_step * 10 + i) % (20 - math.floor(math.sqrt(self.totalres)))
             if (self.db.energy < self.maxenergy) and (_energy_check == 0):
                 print("Increasing energy for character " + self.name + ".")
                 self.db.energy += 1
             if self.db.energy > self.maxenergy:
                 print("Reducing energy for character " + self.name + ".")
                 self.db.energy = self.maxenergy
-        for _ in range(10):
-            self.mana_counter += 1
-            _mana_check = self.mana_counter % ((20 - math.floor(math.log(self.totalres))) * 2)
+            _mana_check = (self.update_step * 10 + i) % ((20 - math.floor(math.log(self.totalres))) * 2)
             if (self.db.mana < self.maxmana) and (_mana_check == 0):
                 print("Increasing mana for character " + self.name + ".")
                 self.db.mana += 1
@@ -405,7 +372,8 @@ class Character(ObjectParent, ClothedCharacter):
                 print("Reducing mana for character " + self.name + ".")
                 self.db.mana = self.maxmana
         for sub in self.db.subscriptions:
-            SubscriptionHandler.fulfill(self, sub)
+            if self.update_step % sub[1] == 0:
+                SubscriptionHandler.fulfill(SubscriptionHandler(), self, sub[0])
 
     def at_say(self, message, msg_self = False, msg_location = False, receivers = None, msg_receivers = False, **kwargs):
         msg_type = "say"

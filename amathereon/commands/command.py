@@ -14,6 +14,7 @@ from evennia.contrib.game_systems.clothing.clothing import *
 
 from world.data.race_data import *
 from world.data.class_data import *
+from world.data.subscription_data import Listings
 from world.data.miscellaneous_data import MassConverter
 
 from typeclasses.characters import Character
@@ -552,7 +553,7 @@ class CmdFlagRoom(MuxCommand):
     Usage:
       flag <room>
       flag/add <room> = <flag1>[,<flag2>,<flag3>...]
-      flag/remove <room> = <flag1>[ <flag2> <flag3>...]
+      flag/remove <room> = <flag1>[,<flag2>,<flag3>...]
       flag/clear <room>
 
     Examples:
@@ -810,3 +811,77 @@ class CmdOwnRoom(MuxCommand):
 
         loc.db.owner = char
         caller.msg("Assigned ownership of %s to %s." % (loc, char))
+
+class CmdSubscription(MuxCommand):
+    """
+    Handles characters' subscriptions.
+    
+    Usage:
+      sub <character>
+      sub/add <character> = <subscription id>,<period (seconds)>
+      sub/remove <character> = <subscription1>[,<subscription2>,<subscription3>...]
+      sub/clear <character>
+      sub/list
+
+    Examples:
+      sub me  (list all the caller's subscriptions)
+      sub/add Bob = foodstuffs,60  (add a subscription for foodstuffs (one delivery every minute) to Bob)
+      sub/remove Argarath = elephants  (stop giving Argarath elephant deliveries)
+      sub/clear Tomas  (remove all of Tomas' subscriptions)
+      sub/list  (list all the possible subscriptions)
+    """
+
+    key = "@sub"
+    aliases = []
+    switch_options = ("add", "remove", "clear","list")
+    locks = "cmd:perm(sub) or perm(Builder)"
+    help_category = "Building"
+
+    def func(self):
+        caller = self.caller
+        switches = self.switches
+        
+        # Get a character.
+        char = None
+        if switches != ["list"]:
+            char = caller.search(self.lhs)
+            if not inherits_from(char, Character):
+                caller.msg("|gSub|n: |wYou can only use this command on a character.")
+                return
+
+        if switches == []:
+            if len(char.db.subscriptions) == 0:
+                caller.msg(f"No subscriptions attached to {char.name}. Use sub/add to add some.")
+            else:
+                caller.msg("Subscriptions:")
+                for sub in char.db.subscriptions:
+                    caller.msg(f" - {sub[0]}, every {sub[1]} seconds")
+
+        elif switches == ["add"]:
+            if len(self.rhslist) < 2:
+                caller.msg("You need to provide both a subscription ID and a period!")
+            elif len(self.rhslist) > 2:
+                caller.msg("Extra arguments ignored.")
+            char.db.subscriptions.append([self.rhslist[0],int(self.rhslist[1])])
+            caller.msg(f"Subscription added to {char.name}.")
+
+        elif switches == ["remove"]:
+            lostsubs = 0
+            for sub in self.rhslist:
+                for entry in char.db.subscriptions:
+                   if entry[0] == sub:
+                        char.db.subscriptions.remove(entry)
+                        lostsubs += 1
+            caller.msg(f"{lostsubs} subscriptions removed from {char.name}.")
+
+        elif switches == ["clear"]:
+            lostsubs = len(char.db.subscriptions)
+            char.db.subscriptions = []
+            caller.msg(f"All {lostsubs} subscriptions removed from {char.name}.")
+
+        elif switches == ["list"]:
+            for sub in Listings.All:
+                caller.msg(" - "+sub[0])
+
+        else:
+            caller.msg("You can only use one of the listed switches with this command.")

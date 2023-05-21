@@ -1,3 +1,5 @@
+from evennia.utils import inherits_from
+
 """
 A file containing extra utility scripts that are used in other places.
 """
@@ -13,6 +15,10 @@ class Completion(Exception):
 
 def printCommandPrompt(target):
     "Prints the target's command prompt."
+    if not inherits_from(target, "typeclasses.characters.Character"):
+        target.msg(prompt=">>----> ")
+        return
+
     if target.db.hp > target.maxhp*0.6:
         hpcol = "|g"
     elif target.db.hp > target.maxhp*0.3:
