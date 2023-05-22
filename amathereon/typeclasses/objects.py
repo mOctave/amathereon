@@ -81,6 +81,38 @@ class ObjectParent:
 				looker,
 				**kwargs,
 			)
+	
+	def get_extra_info(self, looker, **kwargs):
+		"""
+		Used when an object is in a list of ambiguous objects as an
+		additional information tag.
+
+		For instance, if you had potions which could have varying
+		levels of liquid left in them, you might want to display how
+		many drinks are left in each when selecting which to drop, but
+		not in your normal inventory listing.
+
+		Args:
+			looker (TypedObject): The object or account that is looking
+				at/getting information for this object.
+
+		Returns:
+			info (str): A string with disambiguating information,
+				conventionally with a leading space.
+
+		"""
+		if self.location == looker:
+			for key in list(looker.db.wornItems.keys()):
+				if len(looker.db.wornItems[key]) > 0:
+					if self == looker.db.wornItems[key][-1]:
+						return " (worn, outer layer)"
+			if self in looker.wornItemList:
+				return " (worn)"
+			elif self in looker.db.wieldedItems:
+				return " (wielded)"
+			else:
+				return " (carried)"
+		return ""
 
 class Object(ObjectParent, DefaultObject):
 	"""

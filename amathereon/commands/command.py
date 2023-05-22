@@ -860,6 +860,9 @@ class CmdWear(MuxCommand):
 
 		target = caller.search(self.args)
 
+		if not target:
+			return
+
 		if not target.isClothing:
 			caller.msg("That isn't clothing.")
 			return
@@ -915,6 +918,9 @@ class CmdUnwear(MuxCommand):
 			return
 
 		target = caller.search(self.args)
+
+		if not target:
+			return
 
 		if not target.isClothing:
 			caller.msg("That isn't clothing.")
