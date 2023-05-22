@@ -1,5 +1,7 @@
 from evennia.utils import inherits_from
 
+import random
+
 """
 A file containing extra utility scripts that are used in other places.
 """
@@ -44,3 +46,6 @@ def printCommandPrompt(target):
                                                                   encol, target.db.energy, target.maxenergy,
                                                                   manacol, target.db.mana, target.maxmana)
     target.msg(prompt=prompt)
+
+def d100():
+    return random.randint(0, 99)

@@ -95,43 +95,45 @@ See the `spawn` command and `evennia.prototypes.spawner.spawn` for more info.
 
 CLOTHING_TOP = {
     "protype_key": "CLOTHING_TOP",
-    "typeclass": "evennia.contrib.game_systems.clothing.ContribClothing",
+    "typeclass": "typeclasses.objects.Clothing",
     "key": "top",
-    "type": "torso"
+    "weartype": "torso"
 }
 
 T_SHIRT = {
     "protype_key": "T_SHIRT",
     "prototype_parent": "CLOTHING_TOP",
     "key": "t-shirt",
-    "min-layers": 0,
-    "max-layers": 2,
+    "minLayers": 0,
+    "maxLayers": 2,
     "layers": 1,
-    "piercing-block": 0,
-    "slashing-block": 0,
-    "trauma-block": 0,
-    "magic-block": 0,
-    "piercing-protect": 0,
-    "slashing-protect": 0,
-    "trauma-protect": 0,
-    "magic-protect": 0
+    "piercingBlock": 0,
+    "slashingBlock": 0,
+    "traumaBlock": 0,
+    "magicBlock": 0,
+    "piercingProtect": 0,
+    "slashingProtect": 0,
+    "traumaProtect": 0,
+    "magicProtect": 0,
+    "critProtect": 0
 }
 
 LEATHER_COAT = {
-    "protype_key": "THICK_COAT",
+    "protype_key": "leather_coat",
     "prototype_parent": "CLOTHING_TOP",
-    "key": "leather_coat",
-    "min-layers": 2,
-    "max-layers": 3,
+    "key": "leather coat",
+    "minLayers": 2,
+    "maxLayers": 3,
     "layers": 3,
-    "piercing-block": 0,
-    "slashing-block": 1,
-    "trauma-block": 0,
-    "magic-block": 0,
-    "piercing-protect": 1,
-    "slashing-protect": 1,
-    "trauma-protect": 1,
-    "magic-protect": 1
+    "piercingBlock": 0,
+    "slashingBlock": 1,
+    "traumaBlock": 0,
+    "magicBlock": 0,
+    "piercingProtect": 1,
+    "slashingProtect": 1,
+    "traumaProtect": 1,
+    "magicProtect": 1,
+    "critProtect": 0
 }
 
 # Currency Types

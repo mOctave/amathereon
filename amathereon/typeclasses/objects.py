@@ -11,7 +11,7 @@ inheritance.
 
 """
 from evennia.objects.objects import DefaultObject
-from evennia.contrib.game_systems.clothing import ContribClothing
+from evennia.utils import inherits_from
 
 from world.currency import Gold, Valuer
 from world.lighting import Lighting
@@ -29,6 +29,7 @@ class ObjectParent:
 
     """
     isCurrency = False
+    isClothing = False
 
     def return_appearance(self, looker, **kwargs):
         if Lighting.CalcLighting(looker) == 2:
@@ -233,11 +234,51 @@ class Object(ObjectParent, DefaultObject):
         self.db.mass = 0
         self.db.isLit = False
 
-class ClothingItem(ContribClothing):
+class Clothing(Object):
+    """
+    Objects that can be worn
+
+    * Properties:
+
+     "minLayers" - minimum thickness of undergarments
+     "maxLayers" - maximum thickness of undergarments
+     "layers" - thickness added by this garment
+
+     "piercingBlock" - hit chance reductions by damage type
+     "slashingBlock"
+     "traumaBlock"
+     "magicBlock"
+
+     "piercingProtect" - damage reductions by damage type
+     "slashingProtect"
+     "traumaProtect"
+     "magicProtect"
+
+     "critProtect" - critical hit chance reduction
+
+     "weartype" - where the garment can be worn
+    """
     isItem = True
+    isClothing = True
 
     def at_object_creation(self):
-        self.db.value: Gold = Gold(0)
+        super().at_object_creation()
+
+    def at_pre_move(self, destination, move_type, **kwargs):
+        super().at_pre_move(destination, move_type)
+        # Don't let worn clothing be moved
+        if inherits_from(self.location, "typeclasses.characters.Character"):
+            if self in self.location.wornItemList:
+                self.location.msg("You'll need to take that off first!")
+                return False
+        return True
+
+    def at_object_delete(self):
+        # Clear worn clothing from all lists upon deletion
+        if inherits_from(self.location, "typeclasses.characters.Character"):
+            for key in ["head","torso","hands","legs","feet"]:
+                self.location.db.wornItems[key].remove(self)
+        return True
 
 class Weapon(Object):
     """

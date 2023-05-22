@@ -24,7 +24,6 @@ from combat.wield import CmdWield, CmdUnwield
 from combat.targeted_attacks import CmdTarget
 
 from evennia.contrib.rpg.character_creator.character_creator import ContribCmdCharCreate
-from evennia.contrib.game_systems.clothing import ClothedCharacterCmdSet
 
 from evennia.commands.default.general import CmdSay
 from evennia.commands.default.comms import CmdPage
@@ -51,6 +50,7 @@ class CharacterCmdSet(default_cmds.CharacterCmdSet):
         self.add(CmdLanguages())
         self.add(CmdTime())
         self.add(CmdWeapons())
+        self.add(CmdInventory())
 
         # Action Commands
         self.add(CmdBuySkill())
@@ -68,10 +68,8 @@ class CharacterCmdSet(default_cmds.CharacterCmdSet):
         self.add(TestCmdSet)
 
         # Clothing Commands
-        self.add(ClothedCharacterCmdSet)
-
-        # Clothing Overrides
-        self.add(CmdInventory())
+        self.add(CmdWear())
+        self.add(CmdUnwear())
 
         # Wielding Weapons
         self.add(CmdWield())

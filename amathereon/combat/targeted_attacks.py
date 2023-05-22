@@ -7,7 +7,7 @@ from typeclasses.scripts import Script
 
 from combat.wexp import WEXPHandler
 
-from utils import printCommandPrompt
+from utils import printCommandPrompt, d100
 
 import random
 
@@ -102,7 +102,7 @@ class CombatEngine(Script):
 		#actor.msg("Weapon: %s, Hit Chance: %s, Damage: %s." % (weapon, hitChance, damage))
 
 		actor.changeEnergy(-3)
-		if actor.random < hitChance:
+		if d100() < hitChance:
 			actor.msg("|yYou hit %s with %s!" % (target.name, weapon))
 			actor.msg("|yYou deal %s damage!" % damage)
 			target.msg("|r%s hits you with %s!" % (actor.name, weapon))
@@ -171,7 +171,7 @@ class CombatEngine(Script):
 		totaldmg += actor.db.skills["Weapons"]
 		# Deal with crit chances
 		critbuff = 1 + (actor.totalint - target.totalwis + actor.totaldex - actor.totalagi) / 100
-		if (actor.random < weapon.db.critChance * critbuff):
+		if (d100() < weapon.db.critChance * critbuff):
 			iscrit = True
 			totaldmg *= 3
 

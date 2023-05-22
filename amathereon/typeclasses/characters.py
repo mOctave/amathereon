@@ -24,6 +24,8 @@ from server.conf import settings
 
 from .objects import ObjectParent
 
+from utils import d100
+
 import random
 import math
 
@@ -117,6 +119,7 @@ class Character(ObjectParent, ClothedCharacter):
     def raceData(self):
         return(Races.getRaceFromKey(self.db.race))
     
+    # Capacity Properties
     @property
     def maxcarry(self):
         return(20 + (self.totalstr * 3) + (self.totalcon * 2) + self.totalres)
@@ -128,6 +131,30 @@ class Character(ObjectParent, ClothedCharacter):
             hands += weapon.db.hands
         return hands
     
+    # Clothing Properties
+    @property
+    def buffness(self):
+        buffDict = {
+            "head": 0,
+            "torso": 0,
+            "hands": 0,
+            "legs": 0,
+            "feet": 0
+        }
+        for key in list(buffDict.keys()):
+            for item in self.db.wornItems[key]:
+                buffDict[key] += item.db.layers
+        return buffDict
+    
+    @property
+    def wornItemList(self):
+        wornItems = []
+        for key in ["head","torso","hands","legs","feet"]:
+            for item in self.db.wornItems[key]:
+                wornItems.append(item)
+        return wornItems
+    
+    # Language Properties
     @property
     def langRecChance(self):
         recChance = self.db.skills["Knowledge: Linguistics"] + (self.totalwis + self.totalint)/2
@@ -137,10 +164,6 @@ class Character(ObjectParent, ClothedCharacter):
     def langUnderstandChance(self):
         getChance = (self.db.skills["Knowledge: Linguistics"] + (self.totalwis + self.totalint + self.totalcha)/2)/2
         return round(100*(1-(1/(getChance/8))),1)
-
-    @property
-    def random(self):
-        return(random.randint(0, 99))
     
     update_step: int = 0
 
@@ -297,28 +320,28 @@ class Character(ObjectParent, ClothedCharacter):
             self.msg("|G+%s skill points!" % (1 + math.ceil(math.sqrt(self.db.lvl))))
 
             # Boost ability scores
-            if self.random < self.classData.dex_up:
+            if d100() < self.classData.dex_up:
                 self.db.earnedDexterity += 1
                 self.msg("|G+1 DEX!")
-            if self.random < self.classData.agi_up:
+            if d100() < self.classData.agi_up:
                 self.db.earnedAgility += 1
                 self.msg("|G+1 AGI!")
-            if self.random < self.classData.str_up:
+            if d100() < self.classData.str_up:
                 self.db.earnedStrength += 1
                 self.msg("|G+1 STR!")
-            if self.random < self.classData.con_up:
+            if d100() < self.classData.con_up:
                 self.db.earnedConstitution += 1
                 self.msg("|G+1 CON!")
-            if self.random < self.classData.int_up:
+            if d100() < self.classData.int_up:
                 self.db.earnedIntelligence += 1
                 self.msg("|G+1 INT!")
-            if self.random < self.classData.wis_up:
+            if d100()< self.classData.wis_up:
                 self.db.earnedWisdom += 1
                 self.msg("|G+1 WIS!")
-            if self.random < self.classData.cha_up:
+            if d100() < self.classData.cha_up:
                 self.db.earnedCharisma += 1
                 self.msg("|G+1 CHA!")
-            if self.random < self.classData.res_up:
+            if d100() < self.classData.res_up:
                 self.db.earnedResilience += 1
                 self.msg("|G+1 RES!")
             
@@ -428,10 +451,10 @@ class Character(ObjectParent, ClothedCharacter):
                 q = '"'
                 inlang = "in " + kwargs["lang"]
 
-                if (not kwargs["lang"] in receiver.db.languages) and (receiver.random < receiver.langUnderstandChance):
+                if (not kwargs["lang"] in receiver.db.languages) and (d100() < receiver.langUnderstandChance):
                     q = ''
                     speech = "something"
-                    if receiver.random >= receiver.langRecChance:
+                    if d100() >= receiver.langRecChance:
                         inlang = "in a language you do not understand"
 
                 individual_mapping = {

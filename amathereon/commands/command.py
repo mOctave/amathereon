@@ -18,7 +18,7 @@ from world.data.subscription_data import Listings
 from world.data.miscellaneous_data import MassConverter
 
 from typeclasses.characters import Character
-from typeclasses.objects import Object, Currency
+from typeclasses.objects import Object, Currency, Clothing
 from typeclasses.rooms import Room
 
 from world.currency import *
@@ -439,18 +439,16 @@ class CmdInventory(MuxCommand):
         wear_table = evtable.EvTable(border="header")
         wield_table = evtable.EvTable(border="header")
 
-        carried = [obj for obj in items if not obj.db.worn]
-        worn = [obj for obj in items if obj.db.worn]
+        carried = [obj for obj in items if not obj.db.wornItems]
+        wearLists = list(self.caller.db.wornItems.values())
         wielded = [obj for obj in self.caller.db.wieldedItems]
 
         currencyWorth = 0
 
         message_list.append("|wYou are carrying:|n")
         for item in carried:
-            print("Carried item! " + item.name)
             try:
                 if item.isCurrency:
-                    print("It's currency!")
                     currencyWorth += float(item.db.value)
             except:
                 print("Error with currency detection. This probably means it isn't currency.")
@@ -462,11 +460,17 @@ class CmdInventory(MuxCommand):
         message_list.append(str(carry_table))
 
         message_list.append("|wYou are wearing:|n")
-        for wornitem in worn:
-            item_name = wornitem.get_display_name(self.caller)
-            #if wornitem.db.covered_by:
-            #    item_name += " (hidden)"
-            #wear_table.add_row(item_name)#, item.get_display_desc(self.caller)
+        for i in range(len(list(wearLists))):
+            txt = list(self.caller.db.wornItems.keys())[i]
+            for worn in reversed(wearLists[i]):
+                item_name = worn.get_display_name(self.caller)
+                if ":" in txt:
+                    txt += ", " + item_name
+                else:
+                    txt += ": |u" + item_name + "|n"
+            if len(wearLists[i]) == 0:
+                txt += ": Nothing."
+            wear_table.add_row(txt)
         if wear_table.nrows == 0:
             wear_table.add_row("Nothing.", "")
         message_list.append(str(wear_table))
@@ -491,60 +495,6 @@ class CmdInventory(MuxCommand):
 
         message_list.append("\n|wTotal cash:|n " + str(Gold(currencyWorth)) + ".")
         self.caller.msg("\n".join(message_list))
-
-class CmdWear(MuxCommand):
-    """
-    Puts on an item of clothing you are holding.
-
-    Usage:
-      wear <obj>
-
-    Examples:
-      wear red shirt
-
-    All the clothes you are wearing are appended to your description.
-    """
-
-    key = "wear"
-    help_category = "clothing"
-
-    def func(self):
-        if not self.args:
-            self.caller.msg("Usage: wear <obj>")
-            return
-
-        # check if the whole string is an object
-        clothing = self.caller.search(self.args, candidates=self.caller.contents, quiet=True)
-
-        if not clothing:
-            return
-        if not inherits_from(clothing, ContribClothing):
-            self.caller.msg(f"{clothing.name} isn't something you can wear.")
-            return
-
-        if clothing.db.worn:
-            # If the clothing is already being worn, do nothing.
-            self.caller.msg(f"You're already wearing your {clothing.name}.")
-            return
-
-        already_worn = get_worn_clothes(self.caller)
-
-        # Enforce overall clothing limit.
-        if CLOTHING_OVERALL_LIMIT and len(already_worn) >= CLOTHING_OVERALL_LIMIT:
-            self.caller.msg("You can't wear any more clothes.")
-            return
-
-        # Do check for buffness of clothing.
-        if clothing_type := clothing.db.type:
-            if clothing_type in CLOTHING_TYPE_LIMIT:
-                type_count = single_type_count(already_worn, clothing_type)
-                if type_count >= CLOTHING_TYPE_LIMIT[clothing_type]:
-                    self.caller.msg(
-                        "You can't wear any more clothes of the type '{clothing_type}'."
-                    )
-                    return
-
-        clothing.wear(self.caller, "")
 
 class CmdFlagRoom(MuxCommand):
     """
@@ -885,3 +835,97 @@ class CmdSubscription(MuxCommand):
 
         else:
             caller.msg("You can only use one of the listed switches with this command.")
+
+class CmdWear(MuxCommand):
+	"""
+	Wear clothing
+
+	Usage:
+	  wear <clothing>
+
+	Puts on the indicaated, held, article of clothing
+	"""
+	key = "wear"
+	aliases = ["put on", "don"]
+	lock = "cmd:all()"
+	help_category = "General"
+
+	def func(self):
+		caller = self.caller
+
+		# Find out if the passed args are valid
+		if not self.args:
+			caller.msg("Usage: wear <clothing>")
+			return
+
+		target = caller.search(self.args)
+
+		if not target.isClothing:
+			caller.msg("That isn't clothing.")
+			return
+		
+		if not target in caller.contents:
+			caller.msg("You aren't carrying that.")
+			return
+        
+		if target in caller.wornItemList:
+			caller.msg("You're already wearing that!")
+			return
+
+		# For backwards compatibility, ensure that every character has the wornItems array and the buffness dict
+		if caller.db.wornItems == None:
+			caller.db.wornItems = {
+				"head": [],
+				"torso": [],
+				"hands": [],
+				"legs": [],
+				"feet": []
+			}
+
+		# Check if the caller can fit the clothing, and try to put it on.
+		buffness = caller.buffness
+		if buffness[target.db.weartype] < target.db.minLayers:
+			caller.msg("That's too baggy: you'll need to wear something more underneath it.")
+		elif buffness[target.db.weartype] > target.db.maxLayers:
+			caller.msg("There's so much on your %s already that you can't fit that on." % target.db.weartype)
+		else:
+			caller.db.wornItems[target.db.weartype].append(target)
+			caller.msg("You put on " + target.name + ".")
+
+class CmdUnwear(MuxCommand):
+	"""
+	Take off clothing
+
+	Usage:
+	  unwear <clothing>
+
+	Takes off the indicaated article of clothing if it is on the outside layer
+	"""
+	key = "unwear"
+	aliases = ["take off", "doff"]
+	lock = "cmd:all()"
+	help_category = "General"
+
+	def func(self):
+		caller = self.caller
+
+		# Find out if the passed args are clothing
+		if not self.args:
+			caller.msg("Usage: unwear <clothing>")
+			return
+
+		target = caller.search(self.args)
+
+		if not target.isClothing:
+			caller.msg("That isn't clothing.")
+			return
+		
+		if not target in caller.wornItemList:
+			caller.msg("You aren't wearing that.")
+			return
+			
+		if target == caller.db.wornItems[target.db.weartype][-1]:
+			del caller.db.wornItems[target.db.weartype][-1]
+			caller.msg("You take %s off your %s." % (target, target.db.weartype))
+		else:
+			caller.msg("You'd have to remove stuff on top of that before removing it!")
