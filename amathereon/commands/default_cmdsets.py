@@ -30,117 +30,117 @@ from evennia.commands.default.comms import CmdPage
 
 
 class CharacterCmdSet(default_cmds.CharacterCmdSet):
-    """
-    The `CharacterCmdSet` contains general in-game commands like `look`,
-    `get`, etc available on in-game Character objects. It is merged with
-    the `AccountCmdSet` when an Account puppets a Character.
-    """
+	"""
+	The `CharacterCmdSet` contains general in-game commands like `look`,
+	`get`, etc available on in-game Character objects. It is merged with
+	the `AccountCmdSet` when an Account puppets a Character.
+	"""
 
-    key = "DefaultCharacter"
+	key = "DefaultCharacter"
 
-    def at_cmdset_creation(self):
-        """
-        Populates the cmdset
-        """
-        super().at_cmdset_creation()
+	def at_cmdset_creation(self):
+		"""
+		Populates the cmdset
+		"""
+		super().at_cmdset_creation()
 
-        # Info Commands
-        self.add(CmdStats())
-        self.add(CmdSkills())
-        self.add(CmdLanguages())
-        self.add(CmdTime())
-        self.add(CmdWeapons())
-        self.add(CmdInventory())
+		# Info Commands
+		self.add(CmdStats())
+		self.add(CmdSkills())
+		self.add(CmdLanguages())
+		self.add(CmdTime())
+		self.add(CmdWeapons())
+		self.add(CmdInventory())
 
-        # Action Commands
-        self.add(CmdBuySkill())
+		# Action Commands
+		self.add(CmdBuySkill())
 
-        # Shopping Command
-        self.add(CmdShop())
+		# Shopping Command
+		self.add(CmdShop())
 
-        # BuildingCommands
-        self.add(CmdValue())
-        self.add(CmdFlagRoom())
-        self.add(CmdOwnRoom())
-        self.add(CmdSubscription())
+		# BuildingCommands
+		self.add(CmdValue())
+		self.add(CmdFlagRoom())
+		self.add(CmdOwnRoom())
+		self.add(CmdSubscription())
 
-        # Testing Commands
-        self.add(TestCmdSet)
+		# Testing Commands
+		self.add(TestCmdSet)
 
-        # Clothing Commands
-        self.add(CmdWear())
-        self.add(CmdUnwear())
+		# Clothing Commands
+		self.add(CmdWear())
+		self.add(CmdUnwear())
 
-        # Wielding Weapons
-        self.add(CmdWield())
-        self.add(CmdUnwield())
+		# Wielding Weapons
+		self.add(CmdWield())
+		self.add(CmdUnwield())
 
-        # Targeting Others
-        self.add(CmdTarget())
+		# Targeting Others
+		self.add(CmdTarget())
 
-        # Override Say Command
-        self.remove(CmdSay())
-        self.add(CmdLangSay())
-        self.remove(CmdPage())
-        #self.add(CmdLangPage())
+		# Override Say Command
+		self.remove(CmdSay())
+		self.add(CmdLangSay())
+		self.remove(CmdPage())
+		#self.add(CmdLangPage())
 
 
 class AccountCmdSet(default_cmds.AccountCmdSet):
-    """
-    This is the cmdset available to the Account at all times. It is
-    combined with the `CharacterCmdSet` when the Account puppets a
-    Character. It holds game-account-specific commands, channel
-    commands, etc.
-    """
+	"""
+	This is the cmdset available to the Account at all times. It is
+	combined with the `CharacterCmdSet` when the Account puppets a
+	Character. It holds game-account-specific commands, channel
+	commands, etc.
+	"""
 
-    key = "DefaultAccount"
+	key = "DefaultAccount"
 
-    def at_cmdset_creation(self):
-        """
-        Populates the cmdset
-        """
-        super().at_cmdset_creation()
-        self.add(ContribCmdCharCreate())
-        #
-        # any commands you add below will overload the default ones.
-        #
+	def at_cmdset_creation(self):
+		"""
+		Populates the cmdset
+		"""
+		super().at_cmdset_creation()
+		self.add(ContribCmdCharCreate())
+		#
+		# any commands you add below will overload the default ones.
+		#
 
 
 class UnloggedinCmdSet(default_cmds.UnloggedinCmdSet):
-    """
-    Command set available to the Session before being logged in.  This
-    holds commands like creating a new account, logging in, etc.
-    """
+	"""
+	Command set available to the Session before being logged in.  This
+	holds commands like creating a new account, logging in, etc.
+	"""
 
-    key = "DefaultUnloggedin"
+	key = "DefaultUnloggedin"
 
-    def at_cmdset_creation(self):
-        """
-        Populates the cmdset
-        """
-        super().at_cmdset_creation()
-        #
-        # any commands you add below will overload the default ones.
-        #
+	def at_cmdset_creation(self):
+		"""
+		Populates the cmdset
+		"""
+		super().at_cmdset_creation()
+		#
+		# any commands you add below will overload the default ones.
+		#
 
 
 class SessionCmdSet(default_cmds.SessionCmdSet):
-    """
-    This cmdset is made available on Session level once logged in. It
-    is empty by default.
-    """
+	"""
+	This cmdset is made available on Session level once logged in. It
+	is empty by default.
+	"""
 
-    key = "DefaultSession"
+	key = "DefaultSession"
 
-    def at_cmdset_creation(self):
-        """
-        This is the only method defined in a cmdset, called during
-        its creation. It should populate the set with command instances.
+	def at_cmdset_creation(self):
+		"""
+		This is the only method defined in a cmdset, called during
+		its creation. It should populate the set with command instances.
 
-        As and example we just add the empty base `Command` object.
-        It prints some info.
-        """
-        super().at_cmdset_creation()
-        #
-        # any commands you add below will overload the default ones.
-        #
+		As and example we just add the empty base `Command` object.
+		It prints some info.
+		"""
+		super().at_cmdset_creation()
+		#
+		# any commands you add below will overload the default ones.
+		#

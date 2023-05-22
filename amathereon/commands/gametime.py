@@ -11,37 +11,37 @@ class TimeArrays():
 
 class CmdTime(Command):
 
-    """
-    Display the time.
+	"""
+	Display the time.
 
-    Syntax:
-        time
+	Syntax:
+		time
 
-    """
+	"""
 
-    key = "time"
-    locks = "cmd:all()"
+	key = "time"
+	locks = "cmd:all()"
 
-    def func(self):
-        """Execute the time command."""
-        # Get the absolute game time
-        year, month, day, hour, min, sec = custom_gametime.custom_gametime(absolute=True)
-        string = "It is the %s, %s, in the year %s." % (TimeArrays.dayArray[day], TimeArrays.monthArray[month], year)
-        if hour == 0:
-            string += "\nIt looks to be a little past midnight."
-        else:
-            string += "\nIt looks to be a little past {hour} bells."
-        if hour < 6 or hour > 26:
-            string += "\nIn other words, it's the middle of the night."
-        elif hour == 6:
-            string += "\nA new day is dawning."
-        elif hour == 26:
-            string += "\nThat means it's dusk."
-        elif hour == 15:
-            string += "\nIt's high noon."
-        elif hour < 15:
-            string += "\nIt's currently morning."
-        elif hour > 15:
-            string += "\nIt's afternoon right now."
-        self.msg(string.format(year=year, month=month, day=day,
-                hour=hour, min=min, sec=sec))
+	def func(self):
+		"""Execute the time command."""
+		# Get the absolute game time
+		year, month, day, hour, min, sec = custom_gametime.custom_gametime(absolute=True)
+		string = "It is the %s, %s, in the year %s." % (TimeArrays.dayArray[day], TimeArrays.monthArray[month], year)
+		if hour == 0:
+			string += "\nIt looks to be a little past midnight."
+		else:
+			string += "\nIt looks to be a little past {hour} bells."
+		if hour < 6 or hour > 26:
+			string += "\nIn other words, it's the middle of the night."
+		elif hour == 6:
+			string += "\nA new day is dawning."
+		elif hour == 26:
+			string += "\nThat means it's dusk."
+		elif hour == 15:
+			string += "\nIt's high noon."
+		elif hour < 15:
+			string += "\nIt's currently morning."
+		elif hour > 15:
+			string += "\nIt's afternoon right now."
+		self.msg(string.format(year=year, month=month, day=day,
+				hour=hour, min=min, sec=sec))
