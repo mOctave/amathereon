@@ -439,7 +439,7 @@ class CmdInventory(MuxCommand):
         wear_table = evtable.EvTable(border="header")
         wield_table = evtable.EvTable(border="header")
 
-        carried = [obj for obj in items if not obj.db.wornItems]
+        carried = [obj for obj in items if not obj in self.caller.wornItemList]
         wearLists = list(self.caller.db.wornItems.values())
         wielded = [obj for obj in self.caller.db.wieldedItems]
 
