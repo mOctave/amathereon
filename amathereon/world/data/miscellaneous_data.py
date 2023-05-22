@@ -3,8 +3,8 @@ import inspect
 import math
 
 def getVariableName(var):
-    callers_local_vars = inspect.currentframe().f_back.f_locals.items()
-    return [var_name for var_name, var_val in callers_local_vars if var_val is var]
+	callers_local_vars = inspect.currentframe().f_back.f_locals.items()
+	return [var_name for var_name, var_val in callers_local_vars if var_val is var]
 
 class Religion:
 	key: str # Key used to select the religion

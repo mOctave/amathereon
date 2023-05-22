@@ -99,7 +99,7 @@ class ShopMessager:
 		if not "shop" in room.db.flags:
 			msgtarget.msg("This is not a shop! You cannot buy anything.")
 			return
-        
+		
 		if not room.db.owner.location == room:
 			msgtarget.msg("The shop is closed: the owner is not present.")
 			return

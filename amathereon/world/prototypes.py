@@ -94,97 +94,97 @@ See the `spawn` command and `evennia.prototypes.spawner.spawn` for more info.
 # }
 
 CLOTHING_TOP = {
-    "protype_key": "CLOTHING_TOP",
-    "typeclass": "typeclasses.objects.Clothing",
-    "key": "top",
-    "weartype": "torso"
+	"protype_key": "CLOTHING_TOP",
+	"typeclass": "typeclasses.objects.Clothing",
+	"key": "top",
+	"weartype": "torso"
 }
 
 T_SHIRT = {
-    "protype_key": "T_SHIRT",
-    "prototype_parent": "CLOTHING_TOP",
-    "key": "t-shirt",
-    "minLayers": 0,
-    "maxLayers": 2,
-    "layers": 1,
-    "piercingBlock": 0,
-    "slashingBlock": 0,
-    "traumaBlock": 0,
-    "magicBlock": 0,
-    "piercingProtect": 0,
-    "slashingProtect": 0,
-    "traumaProtect": 0,
-    "magicProtect": 0,
-    "critProtect": 0
+	"protype_key": "T_SHIRT",
+	"prototype_parent": "CLOTHING_TOP",
+	"key": "t-shirt",
+	"minLayers": 0,
+	"maxLayers": 2,
+	"layers": 1,
+	"piercingBlock": 0,
+	"slashingBlock": 0,
+	"traumaBlock": 0,
+	"magicBlock": 0,
+	"piercingProtect": 0,
+	"slashingProtect": 0,
+	"traumaProtect": 0,
+	"magicProtect": 0,
+	"critProtect": 0
 }
 
 LEATHER_COAT = {
-    "protype_key": "leather_coat",
-    "prototype_parent": "CLOTHING_TOP",
-    "key": "leather coat",
-    "minLayers": 2,
-    "maxLayers": 3,
-    "layers": 3,
-    "piercingBlock": 0,
-    "slashingBlock": 1,
-    "traumaBlock": 0,
-    "magicBlock": 0,
-    "piercingProtect": 1,
-    "slashingProtect": 1,
-    "traumaProtect": 1,
-    "magicProtect": 1,
-    "critProtect": 0
+	"protype_key": "leather_coat",
+	"prototype_parent": "CLOTHING_TOP",
+	"key": "leather coat",
+	"minLayers": 2,
+	"maxLayers": 3,
+	"layers": 3,
+	"piercingBlock": 0,
+	"slashingBlock": 1,
+	"traumaBlock": 0,
+	"magicBlock": 0,
+	"piercingProtect": 1,
+	"slashingProtect": 1,
+	"traumaProtect": 1,
+	"magicProtect": 1,
+	"critProtect": 0
 }
 
 # Currency Types
 
 CURRENCY = {
-    "prototype_key": "CURRENCY",
-    "typeclass": "typeclasses.objects.Currency",
-    "key": "currency"
+	"prototype_key": "CURRENCY",
+	"typeclass": "typeclasses.objects.Currency",
+	"key": "currency"
 }
 
 CURRENCY_GOLD_CROWN_HILLROCKIA = {
-    "prototype_key": "hillrockian_gold_crown",
-    "prototype_parent": "CURRENCY",
-    "key": "hillrockian gold crown",
-    "desc": "This Hillrockian gold crown is not-quite pure gold, weighing about forty grains. It has been stamped with the head of some minor prince, which appears to be a tradition of the royal family. Worth: 40 gr gold.",
-    "value": lambda: Gold(40),
-    "mass": 40/16/120
+	"prototype_key": "hillrockian_gold_crown",
+	"prototype_parent": "CURRENCY",
+	"key": "hillrockian gold crown",
+	"desc": "This Hillrockian gold crown is not-quite pure gold, weighing about forty grains. It has been stamped with the head of some minor prince, which appears to be a tradition of the royal family. Worth: 40 gr gold.",
+	"value": lambda: Gold(40),
+	"mass": 40/16/120
 }
 
 CURRENCY_GOLD_MARK_HILLROCKIA = {
-    "prototype_key": "hillrockian_gold_mark",
-    "prototype_parent": "CURRENCY",
-    "key": "hillrockian gold mark",
-    "desc": "This Hillrockian gold mark is slightly smaller than a gold crown, and worth about half as much. It is decorated with an intricate geometric design. Worth: 20 gr gold.",
-    "value": lambda: Gold(20),
-    "mass": 20/16/80
+	"prototype_key": "hillrockian_gold_mark",
+	"prototype_parent": "CURRENCY",
+	"key": "hillrockian gold mark",
+	"desc": "This Hillrockian gold mark is slightly smaller than a gold crown, and worth about half as much. It is decorated with an intricate geometric design. Worth: 20 gr gold.",
+	"value": lambda: Gold(20),
+	"mass": 20/16/80
 }
 
 CURRENCY_GOLD_PENNY_HILLROCKIA = {
-    "prototype_key": "hillrockian_gold_penny",
-    "prototype_parent": "CURRENCY",
-    "key": "hillrockian gold penny",
-    "desc": "This Hillrockian gold penny is the smallest unit of currency in Hillrockia when it comes to gold. It bears no design, being just a thick, small disk of pure gold. Worth: 5 gr gold.",
-    "value": lambda: Gold(5),
-    "mass": 5/16/480
+	"prototype_key": "hillrockian_gold_penny",
+	"prototype_parent": "CURRENCY",
+	"key": "hillrockian gold penny",
+	"desc": "This Hillrockian gold penny is the smallest unit of currency in Hillrockia when it comes to gold. It bears no design, being just a thick, small disk of pure gold. Worth: 5 gr gold.",
+	"value": lambda: Gold(5),
+	"mass": 5/16/480
 }
 
 CURRENCY_SILVER_PENNY_HILLROCKIA = {
-    "prototype_key": "hillrockian_silver_penny",
-    "prototype_parent": "CURRENCY",
-    "key": "hillrockian silver penny",
-    "desc": "This Hillrockian silver penny is used among Hillrockians for when even their smallest gold coins are too valuable. Worth: 1 gr gold.",
-    "value": lambda: Gold(1),
-    "mass": 4/16/480
+	"prototype_key": "hillrockian_silver_penny",
+	"prototype_parent": "CURRENCY",
+	"key": "hillrockian silver penny",
+	"desc": "This Hillrockian silver penny is used among Hillrockians for when even their smallest gold coins are too valuable. Worth: 1 gr gold.",
+	"value": lambda: Gold(1),
+	"mass": 4/16/480
 }
 
 CURRENCY_SILVER_FIFTHPENNY_HILLROCKIA = {
-    "prototype_key": "hillrockian_silver_fifthpenny",
-    "prototype_parent": "CURRENCY",
-    "key": "hillrockian silver fifthpenny",
-    "desc": "This coin is, quite literally, a fifth of a Hillrockian silver penny. Worth: 0.2 gr gold.",
-    "value": lambda: Gold(0.2),
-    "mass": 4/5/16/480
+	"prototype_key": "hillrockian_silver_fifthpenny",
+	"prototype_parent": "CURRENCY",
+	"key": "hillrockian silver fifthpenny",
+	"desc": "This coin is, quite literally, a fifth of a Hillrockian silver penny. Worth: 0.2 gr gold.",
+	"value": lambda: Gold(0.2),
+	"mass": 4/5/16/480
 }
