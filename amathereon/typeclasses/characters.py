@@ -20,7 +20,7 @@ from world.subscriptions import SubscriptionHandler
 
 import typeclasses.scripts
 
-from server.conf import settings
+from django.conf import settings
 
 from .objects import ObjectParent
 
@@ -134,13 +134,9 @@ class Character(ObjectParent, ClothedCharacter):
 	# Clothing Properties
 	@property
 	def buffness(self):
-		buffDict = {
-			"head": 0,
-			"torso": 0,
-			"hands": 0,
-			"legs": 0,
-			"feet": 0
-		}
+		buffDict = {}
+		for slot in settings.CLOTHING_SLOTS:
+			buffDict[slot] = 0
 		for key in list(buffDict.keys()):
 			for item in self.db.wornItems[key]:
 				buffDict[key] += item.db.layers
@@ -149,7 +145,7 @@ class Character(ObjectParent, ClothedCharacter):
 	@property
 	def wornItemList(self):
 		wornItems = []
-		for key in ["head","torso","hands","legs","feet"]:
+		for key in settings.CLOTHING_SLOTS:
 			for item in self.db.wornItems[key]:
 				wornItems.append(item)
 		return wornItems

@@ -61,9 +61,6 @@ TIME_UNITS = {"sec": 1,
               "month": 60 * 60 * 30 * 37,
               "year": 60 * 60 * 30 * 37 * 8 }
 
-# Clothing
-CLOTHING_TYPE_ORDER = ["head", "neck", "torso", "arms", "hands", "waist", "legs", "feet"]
-
 # Combat
 PROTOTYPE_MODULES += ["combat.weapons"]
 """GLOBAL_SCRIPTS = {
@@ -77,6 +74,9 @@ DEATH_ROOM = "Entropy"
 
 # Command Prompt
 COMMAND_DEFAULT_CLASS = "commands.commandtypes.MuxCommand"
+
+# List of body parts that clothing can be worn on
+CLOTHING_SLOTS = ["head","torso","hands","legs","feet"]
 
 ######################################################################
 # Settings given in secret_settings.py override those in this file.

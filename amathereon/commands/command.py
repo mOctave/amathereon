@@ -877,13 +877,9 @@ class CmdWear(MuxCommand):
 
 		# For backwards compatibility, ensure that every character has the wornItems array and the buffness dict
 		if caller.db.wornItems == None:
-			caller.db.wornItems = {
-				"head": [],
-				"torso": [],
-				"hands": [],
-				"legs": [],
-				"feet": []
-			}
+			caller.db.wornItems = {}
+			for slot in settings.CLOTHING_SLOTS:
+				caller.db.wornItems[slot] = []
 
 		# Check if the caller can fit the clothing, and try to put it on.
 		buffness = caller.buffness

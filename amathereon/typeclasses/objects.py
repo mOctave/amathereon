@@ -18,6 +18,8 @@ from world.lighting import Lighting
 
 from commands.gametime import custom_gametime
 
+from django.conf import settings
+
 class ObjectParent:
 	"""
 	This is a mixin that can be used to override *all* entities inheriting at
@@ -308,7 +310,7 @@ class Clothing(Object):
 	def at_object_delete(self):
 		# Clear worn clothing from all lists upon deletion
 		if inherits_from(self.location, "typeclasses.characters.Character"):
-			for key in ["head","torso","hands","legs","feet"]:
+			for key in settings.CLOTHING_SLOTS:
 				self.location.db.wornItems[key].remove(self)
 		return True
 
