@@ -55,13 +55,22 @@ class Character(ObjectParent, ClothedCharacter):
 	languages: list[str] = [""]
 	skillpts: int = 0
 
+	# Ability Score Properties
 	@property
 	def totaldex(self):
-		return(self.db.baseDexterity + self.db.earnedDexterity + self.classData.dex + self.raceData.dex)
+		dex = self.db.baseDexterity + self.db.earnedDexterity + self.classData.dex + self.raceData.dex
+		if "encumbered" in self.conditions:
+			return (math.floor(dex * 0.7))
+		else:
+			return dex
 
 	@property
 	def totalagi(self):
-		return(self.db.baseAgility + self.db.earnedAgility + self.classData.agi + self.raceData.agi)
+		agi = self.db.baseAgility + self.db.earnedAgility + self.classData.agi + self.raceData.agi
+		if "encumbered" in self.conditions:
+			return (math.floor(agi * 0.7))
+		else:
+			return agi
 
 	@property
 	def totalstr(self):
@@ -87,6 +96,7 @@ class Character(ObjectParent, ClothedCharacter):
 	def totalres(self):
 		return(self.db.baseResilience + self.db.earnedResilience + self.classData.res + self.raceData.res)
 
+	# Maximum Properties
 	@property
 	def maxhp(self):
 		return(10 + (3 + (2 * self.totalcon) + self.totalres) * self.db.lvl)
@@ -107,6 +117,7 @@ class Character(ObjectParent, ClothedCharacter):
 			_max_mana *= 2
 		return(_max_mana)
 
+	# Miscellaneous Shortcut Properties
 	@property
 	def expreq(self):
 		return(30 * math.floor(self.db.lvl ** 1.5))
@@ -161,6 +172,19 @@ class Character(ObjectParent, ClothedCharacter):
 		getChance = (self.db.skills["Knowledge: Linguistics"] + (self.totalwis + self.totalint + self.totalcha)/2)/2
 		return round(100*(1-(1/(getChance/8))),1)
 	
+	# Conditions
+	@property
+	def conditions(self):
+		conditions = []
+		# Encumbrance
+		encumbrance = 0
+		for obj in self.contents:
+			encumbrance += obj.db.mass
+		if encumbrance > self.maxcarry:
+			conditions.append("encumbered")
+		# Return Tuple
+		return tuple(conditions)
+	
 	update_step: int = 0
 
 	def changeHP(self, value):
@@ -205,7 +229,7 @@ class Character(ObjectParent, ClothedCharacter):
 
 		# Drop every carried object
 		for obj in self.contents:
-			obj.location = self.location
+			obj.move_to(loc)
 			self.db.wieldedItems = []
 		
 		# Meet up with Onarezuron

@@ -235,14 +235,18 @@ class CmdStats(Command):
 			data.append("|w- You're a%s" % (raceData.after_a))
 			data.append("|w- You're a%s, more specifically a%s" % (classData.wide_after_a, classData.narrow_after_a))
 			# Ability Scores
-			data.append("|w- Your total dexterity is %s |W(base: %s, bonuses: %s, earned: %s)" % (bDex + eDex + raceData.dex + classData.dex, bDex, raceData.dex + classData.dex, eDex))
-			data.append("|w- Your total agility is %s |W(base: %s, bonuses: %s, earned: %s)" % (bAgi + eAgi + raceData.agi + classData.agi, bAgi, raceData.agi + classData.agi, eAgi))
-			data.append("|w- Your total strength is %s |W(base: %s, bonuses: %s, earned: %s)" % (bStr + eStr + raceData.str + classData.str, bStr, raceData.str + classData.str, eStr))
-			data.append("|w- Your total constitution is %s |W(base: %s, bonuses: %s, earned: %s)" % (bCon + eCon + raceData.con + classData.con, bCon, raceData.con + classData.con, eCon))
-			data.append("|w- Your total intelligence is %s |W(base: %s, bonuses: %s, earned: %s)" % (bInt + eInt + raceData.int + classData.int, bInt, raceData.int + classData.int, eInt))
-			data.append("|w- Your total wisdom is %s |W(base: %s, bonuses: %s, earned: %s)" % (bWis + eWis + raceData.wis + classData.wis, bWis, raceData.wis + classData.wis, eWis))
-			data.append("|w- Your total charisma is %s |W(base: %s, bonuses: %s, earned: %s)" % (bCha + eCha + raceData.cha + classData.cha, bCha, raceData.cha + classData.cha, eCha))
-			data.append("|w- Your total resilience is %s |W(base: %s, bonuses: %s, earned: %s)" % (bRes + eRes + raceData.res + classData.res, bRes, raceData.res + classData.res, eRes))
+			if "encumbered" in caller.conditions:
+				data.append("|w- Your total dexterity is %s |W(base: %s, bonuses: %s, earned: %s, |Rencumbered|W)" % (caller.totaldex, bDex, raceData.dex + classData.dex, eDex))
+				data.append("|w- Your total agility is %s |W(base: %s, bonuses: %s, earned: %s, |Rencumbered|W)" % (caller.totalagi, bAgi, raceData.agi + classData.agi, eAgi))
+			else:
+				data.append("|w- Your total dexterity is %s |W(base: %s, bonuses: %s, earned: %s)" % (caller.totaldex, bDex, raceData.dex + classData.dex, eDex))
+				data.append("|w- Your total agility is %s |W(base: %s, bonuses: %s, earned: %s)" % (caller.totalagi, bAgi, raceData.agi + classData.agi, eAgi))
+			data.append("|w- Your total strength is %s |W(base: %s, bonuses: %s, earned: %s)" % (caller.totalstr, bStr, raceData.str + classData.str, eStr))
+			data.append("|w- Your total constitution is %s |W(base: %s, bonuses: %s, earned: %s)" % (caller.totalcon, bCon, raceData.con + classData.con, eCon))
+			data.append("|w- Your total intelligence is %s |W(base: %s, bonuses: %s, earned: %s)" % (caller.totalint, bInt, raceData.int + classData.int, eInt))
+			data.append("|w- Your total wisdom is %s |W(base: %s, bonuses: %s, earned: %s)" % (caller.totalwis, bWis, raceData.wis + classData.wis, eWis))
+			data.append("|w- Your total charisma is %s |W(base: %s, bonuses: %s, earned: %s)" % (caller.totalcha, bCha, raceData.cha + classData.cha, eCha))
+			data.append("|w- Your total resilience is %s |W(base: %s, bonuses: %s, earned: %s)" % (caller.totalres, bRes, raceData.res + classData.res, eRes))
 			# Skills and level
 			data.append("|w- You have %s skill points to spend" % (skillpts))
 			data.append("|w- You are level %s |W(%s / %s EXP for next level)" % (caller.db.lvl, caller.db.exp, caller.expreq))
@@ -254,10 +258,7 @@ class CmdStats(Command):
 			data.append("|W- You gain a mana point every %s seconds." % str((20 - math.floor(math.log(caller.totalres)))/5))
 			encumbrance = 0
 			for obj in caller.contents:
-				#try:
 					encumbrance += obj.db.mass
-				#except:
-				#	print("Failed to count encumbrance for object " + obj.name)
 
 			data.append("|W- You are carrying about %s of stuff." % MassConverter.AsString(encumbrance, 2))
 			data.append("|W- You could carry up to %s of stuff before being encumbered." % MassConverter.AsString(caller.maxcarry, 2))

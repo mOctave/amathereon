@@ -63,11 +63,6 @@ TIME_UNITS = {"sec": 1,
 
 # Combat
 PROTOTYPE_MODULES += ["combat.weapons"]
-"""GLOBAL_SCRIPTS = {
-    "combatengine": {
-        "typeclass": "combat.targeted_attacks.CombatEngine"
-    },
-}"""
 
 # A room to send the dead to. Can be either a name or a dbref.
 DEATH_ROOM = "Entropy"

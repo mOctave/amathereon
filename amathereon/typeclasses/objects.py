@@ -41,11 +41,22 @@ class ObjectParent:
 					x = f"\nWorthless."
 				else:
 					x = f"\nWorth about {Valuer.Obscure(self.db.value, 2)}."
+			if self.db.mass != None:
+				if self.db.mass > 20:
+					y = "\nQuite heavy."
+				elif self.db.mass > 5:
+					y = "\nSomewhat hefty."
+				elif self.db.mass > 1:
+					y = "\nA decent weight."
+				elif self.db.mass > 0.2:
+					y = "\nFairly light."
+				else:
+					y = "\nVery lightweight."
 
 			return self.format_appearance(
 				self.appearance_template.format(
 					name=self.get_display_name(looker, **kwargs),
-					desc=self.get_display_desc(looker, **kwargs) + x,
+					desc=self.get_display_desc(looker, **kwargs) + x + y,
 					header=self.get_display_header(looker, **kwargs),
 					footer=self.get_display_footer(looker, **kwargs),
 					exits=self.get_display_exits(looker, **kwargs),

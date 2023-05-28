@@ -6,7 +6,17 @@ from utils import printCommandPrompt
 
 class Command(BaseCommand):
 	# ...
+	def at_pre_cmd(self):
+		x = ("encumbered" in self.caller.conditions) + 1
+		if self.caller.db.energy < x:
+			self.caller.msg("|rYou're too tired to do that!")
+			return "Out of Energy"
+		else:
+			self.caller.db.energy -= x
+		super().at_pre_cmd()
+
 	def at_post_cmd(self):
+		super().at_post_cmd()
 		print("COMMAND")
 		"called after self.func()."
 		printCommandPrompt(self.caller)
@@ -14,7 +24,17 @@ class Command(BaseCommand):
 
 class MuxCommand(BaseMuxCommand):
 	# ...
+	def at_pre_cmd(self):
+		x = ("encumbered" in self.caller.conditions) + 1
+		if self.caller.db.energy < x:
+			self.caller.msg("|rYou're too tired to do that!")
+			return "Out of Energy"
+		else:
+			self.caller.db.energy -= x
+		super().at_pre_cmd()
+
 	def at_post_cmd(self):
+		super().at_post_cmd()
 		print("MUX COMMAND")
 		"called after self.func()."
 		printCommandPrompt(self.caller)

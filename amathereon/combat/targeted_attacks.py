@@ -143,7 +143,7 @@ class CombatEngine(Script):
 		else:
 			hitBonus += actor.db.skills["Weapons: Trauma"] * 5
 
-		# Next, run through weapons carried by the target to check for parries
+		# Next, run through weapons carried and clothing worn by the target to check for parries
 		try:
 			target.db.wieldedItems
 		except:
@@ -162,6 +162,14 @@ class CombatEngine(Script):
 			totalhit -= blocker.db.parryChance + parryBonus
 			parryDict[blocker.name] = blocker.db.parryChance + parryBonus
 
+		for garment in target.wornItemList:
+			if weapon.db.damageType == "piercing":
+				parryDict[garment.name] = garment.db.piercingBlock
+			elif weapon.db.damageType == "slashing":
+				parryDict[garment.name] = garment.db.slashingBlock
+			else:
+				parryDict[garment.name] = garment.db.traumaBlock
+
 		return totalhit, parryDict
 
 	def getDamage(self, actor: Character, target: Character, weapon):
@@ -177,6 +185,13 @@ class CombatEngine(Script):
 
 		# Damage resistence comes AFTER critical hits are dealt with
 		totaldmg -= int(target.totalcon / 2)
+		for garment in target.wornItemList:
+			if weapon.db.damageType == "piercing":
+				totaldmg -= garment.db.piercingProtect
+			elif weapon.db.damageType == "slashing":
+				totaldmg -= garment.db.slashingProtect
+			else:
+				totaldmg -= garment.db.traumaProtect
 
 		return totaldmg, iscrit
 	
