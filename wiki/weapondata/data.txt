@@ -1,0 +1,2 @@
+# Fill this file with all the data that needs to be processed for weapon information.
+
