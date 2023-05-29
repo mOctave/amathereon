@@ -4,7 +4,7 @@ from world.currency import Gold
 # Basic sword. Fairly predictable damage, respectable stats.
 # Use this to create other edged weapons.
 SWORD = {
-	"protype_key": "SWORD",
+	"prototype_key": "SWORD",
 	"typeclass": "typeclasses.objects.Weapon",
 	"key": "sword",
 	"tname": "sword",
@@ -24,7 +24,7 @@ SWORD = {
 # Basic axe. Damage varies a lot, and it doesn't hit particularly often.
 # Use this to create other heavy slashing weapons.
 AXE = {
-	"protype_key": "AXE",
+	"prototype_key": "AXE",
 	"typeclass": "typeclasses.objects.Weapon",
 	"key": "axe",
 	"tname": "axe",
@@ -44,7 +44,7 @@ AXE = {
 # Basic spear. It's fairly reliable albeit slow, and good at parrying other weapons.
 # Use this to create other polearms.
 SPEAR = {
-	"protype_key": "SPEAR",
+	"prototype_key": "SPEAR",
 	"typeclass": "typeclasses.objects.Weapon",
 	"key": "spear",
 	"tname": "spear",
@@ -64,7 +64,7 @@ SPEAR = {
 # Basic club. It's a trauma weapon that is only moderately effective.
 # Use this to create other trauma weapons.
 CLUB = {
-	"protype_key": "CLUB",
+	"prototype_key": "CLUB",
 	"typeclass": "typeclasses.objects.Weapon",
 	"key": "club",
 	"tname": "club",
@@ -84,7 +84,7 @@ CLUB = {
 # Basic shield. It's definitely not an offensive weapon, but it can be used as such in a pinch.
 # Use this to create other shields.
 SHIELD = {
-	"protype_key": "SHIELD",
+	"prototype_key": "SHIELD",
 	"typeclass": "typeclasses.objects.Weapon",
 	"key": "shield",
 	"tname": "shield",
@@ -104,7 +104,7 @@ SHIELD = {
 
 # Swords and the like
 LONGSWORD = {
-	"protype_key": "LONGSWORD",
+	"prototype_key": "LONGSWORD",
 	"prototype_parent": "SWORD",
 	"key": "longsword",
 	"tname": "longsword",
@@ -120,7 +120,7 @@ LONGSWORD = {
 }
 
 SHORTSWORD = {
-	"protype_key": "SHORTSWORD",
+	"prototype_key": "SHORTSWORD",
 	"prototype_parent": "SWORD",
 	"key": "shortsword",
 	"tname": "shortsword",
@@ -136,7 +136,7 @@ SHORTSWORD = {
 }
 
 CLAYMORE = {
-	"protype_key": "CLAYMORE",
+	"prototype_key": "CLAYMORE",
 	"prototype_parent": "SWORD",
 	"key": "claymore",
 	"tname": "claymore",
@@ -152,7 +152,7 @@ CLAYMORE = {
 }
 
 RAPIER = {
-	"protype_key": "CLAYMORE",
+	"prototype_key": "RAPIER",
 	"prototype_parent": "SWORD",
 	"key": "rapier",
 	"tname": "rapier",
@@ -169,7 +169,7 @@ RAPIER = {
 }
 
 DAGGER = {
-	"protype_key": "DAGGER",
+	"prototype_key": "DAGGER",
 	"prototype_parent": "SWORD",
 	"key": "dagger",
 	"tname": "dagger",
@@ -186,7 +186,7 @@ DAGGER = {
 }
 
 THROWING_KNIFE = {
-	"protype_key": "THROWING_KNIFE",
+	"prototype_key": "THROWING_KNIFE",
 	"prototype_parent": "SWORD",
 	"key": "throwing knife",
 	"tname": "throwing knife",
@@ -204,7 +204,7 @@ THROWING_KNIFE = {
 }
 
 SWORDBREAKER = {
-	"protype_key": "SWORDBREAKER",
+	"prototype_key": "SWORDBREAKER",
 	"prototype_parent": "SWORD",
 	"key": "swordbreaker",
 	"tname": "swordbreaker",
@@ -220,7 +220,7 @@ SWORDBREAKER = {
 }
 
 SABRE = {
-	"protype_key": "SABRE",
+	"prototype_key": "SABRE",
 	"prototype_parent": "SWORD",
 	"key": "sabre",
 	"tname": "sabre",
@@ -237,7 +237,7 @@ SABRE = {
 
 # Axe-like weapons
 BATTLEAXE = {
-	"protype_key": "BATTLEAXE",
+	"prototype_key": "BATTLEAXE",
 	"prototype_parent": "AXE",
 	"key": "battleaxe",
 	"tname": "battleaxe",
@@ -253,7 +253,7 @@ BATTLEAXE = {
 }
 
 GREATAXE = {
-	"protype_key": "GREATAXE",
+	"prototype_key": "GREATAXE",
 	"prototype_parent": "AXE",
 	"key": "greataxe",
 	"tname": "greataxe",
@@ -269,7 +269,7 @@ GREATAXE = {
 }
 
 WARHAMMER = {
-	"protype_key": "WARHAMMER",
+	"prototype_key": "WARHAMMER",
 	"prototype_parent": "AXE",
 	"key": "warhammer",
 	"tname": "warhammer",
@@ -288,7 +288,7 @@ WARHAMMER = {
 
 # Polearms
 BARDICHE = {
-	"protype_key": "BARDICHE",
+	"prototype_key": "BARDICHE",
 	"prototype_parent": "SPEAR",
 	"key": "bardiche",
 	"tname": "bardiche",
@@ -305,7 +305,7 @@ BARDICHE = {
 }
 
 HALBERD = {
-	"protype_key": "HALBERD",
+	"prototype_key": "HALBERD",
 	"prototype_parent": "SPEAR",
 	"key": "halberd",
 	"tname": "halberd",
@@ -322,7 +322,7 @@ HALBERD = {
 }
 
 MILITARY_FORK = {
-	"protype_key": "MILITARY_FORK",
+	"prototype_key": "MILITARY_FORK",
 	"prototype_parent": "SPEAR",
 	"key": "military fork",
 	"tname": "military fork",
@@ -339,7 +339,7 @@ MILITARY_FORK = {
 }
 
 PIKE = {
-	"protype_key": "PIKE",
+	"prototype_key": "PIKE",
 	"prototype_parent": "SPEAR",
 	"key": "pike",
 	"tname": "pike",
@@ -356,7 +356,7 @@ PIKE = {
 }
 
 PARTISAN = {
-	"protype_key": "PARTISAN",
+	"prototype_key": "PARTISAN",
 	"prototype_parent": "SPEAR",
 	"key": "partisan",
 	"tname": "partisan",
@@ -373,7 +373,7 @@ PARTISAN = {
 }
 
 SCYTHE = {
-	"protype_key": "SCYTHE",
+	"prototype_key": "SCYTHE",
 	"prototype_parent": "SPEAR",
 	"key": "scythe",
 	"tname": "scythe",
@@ -390,7 +390,7 @@ SCYTHE = {
 }
 
 JAVELIN = {
-	"protype_key": "JAVELIN",
+	"prototype_key": "JAVELIN",
 	"prototype_parent": "SPEAR",
 	"key": "javelin",
 	"tname": "javelin",
@@ -410,7 +410,7 @@ JAVELIN = {
 
 # Trauma Weapons
 QUATERSTAFF = {
-	"protype_key": "QUARTERSTAFF",
+	"prototype_key": "QUARTERSTAFF",
 	"prototype_parent": "CLUB",
 	"key": "quarterstaff",
 	"tname": "quaterstaff",
@@ -427,7 +427,7 @@ QUATERSTAFF = {
 }
 
 FLAIL = {
-	"protype_key": "FLAIL",
+	"prototype_key": "FLAIL",
 	"prototype_parent": "CLUB",
 	"key": "flail",
 	"tname": "flail",
@@ -444,7 +444,7 @@ FLAIL = {
 }
 
 MACE = {
-	"protype_key": "MACE",
+	"prototype_key": "MACE",
 	"prototype_parent": "CLUB",
 	"key": "mace",
 	"tname": "mace",

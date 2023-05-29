@@ -73,37 +73,63 @@ topicsData = `
 <li><a href=aristocrat.html>Aristocrat</a></li>
 <li><a href=artificer.html>Artificer</a></li>
 <li><a href=assassin.html>Assassin</a></li>
+<li><a href=axe.html>Axe</a></li>
 <li><a href=barbarian.html>Barbarian</a></li>
 <li><a href=bard.html>Bard</a></li>
+<li><a href=bardiche.html>Bardiche</a></li>
+<li><a href=battleaxe.html>Battleaxe</a></li>
 <li><a href=brawler.html>Brawler</a></li>
 <li><a href=calendar.html>Calendar</a></li>
 <li><a href=character_classes.html>Character Classes</a></li>
+<li><a href=claymore.html>Claymore</a></li>
 <li><a href=cleric.html>Cleric</a></li>
+<li><a href=club.html>Club</a></li>
 <li><a href=con_artist.html>Con Artist</a></li>
 <li><a href=cult_of_the_old_spirits.html>Cult of the Old Spirits</a></li>
+<li><a href=dagger.html>Dagger</a></li>
 <li><a href=druid.html>Druid</a></li>
 <li><a href=elvish_celestialism.html>Elvish Celestialism</a></li>
 <li><a href=faith_of_litmeate.html>Faith of Litmeate</a></li>
 <li><a href=faith_of_ratawanda.html>Faith of Ratawanda</a></li>
+<li><a href=flail.html>Flail</a></li>
 <li><a href=four_planes.html>The Four Planes of Existence</a></li>
+<li><a href=greataxe.html>Greataxe</a></li>
 <li><a href=grireverchism.html>Grireverchism</a></li>
+<li><a href=halberd.html>Halberd</a></li>
+<li><a href=javelin.html>Javelin</a></li>
 <li><a href=kazan'zaram.html>Kazan'zaram</a></li>
 <li><a href=knight.html>Knight</a></li>
+<li><a href=longsword.html>Longsword</a></li>
+<li><a href=mace.html>Mace</a></li>
 <li><a href=merchant.html>Merchant</a></li>
+<li><a href=military_fork.html>Military Fork</a></li>
 <li><a href=monk.html>Monk</a></li>
 <li><a href=necromancer.html>Necromancer</a></li>
 <li><a href=orlorianism.html>Orlorianism</a></li>
 <li><a href=paladin.html>Paladin</a></li>
+<li><a href=partisan.html>Partisan</a></li>
+<li><a href=pike.html>Pike</a></li>
+<li><a href=quarterstaff.html>Quarterstaff</a></li>
 <li><a href=races.html>Races of Amathereon</a></li>
 <li><a href=ranger.html>Ranger</a></li>
+<li><a href=rapier.html>Rapier</a></li>
 <li><a href=rift.html>The Rift</a></li>
 <li><a href=rules.html>Rules</a></li>
+<li><a href=sabre.html>Sabre</a></li>
+<li><a href=scythe.html>Scythe</a></li>
 <li><a href=shadow_worship.html>Shadow Worship</a></li>
+<li><a href=shield.html>Shield</a></li>
+<li><a href=shortsword.html>Shortsword</a></li>
 <li><a href=skills.html>Skills</a></li>
 <li><a href=soldier.html>Soldier</a></li>
 <li><a href=sorcerer.html>Sorcerer</a></li>
+<li><a href=spear.html>Spear</a></li>
 <li><a href=spy.html>Spy</a></li>
+<li><a href=sword.html>Sword</a></li>
+<li><a href=swordbreaker.html>Swordbreaker</a></li>
 <li><a href=thief.html>Thief</a></li>
+<li><a href=throwing_knife.html>Throwing Knife</a></li>
+<li><a href=warhammer.html>Warhammer</a></li>
 <li><a href=way_of_the_oracle.html>The Way of the Oracle</a></li>
 <li><a href=wizard.html>Wizard</a></li>
 `
@@ -115,7 +141,7 @@ seriesReligionData =
 `
 <b>Religions of Amathereon</b><br/>
 <div>
-See Also:<br/>
+<i>See Also:</i><br/>
 <a href="cult_of_the_old_spirits.html">Cult of the Old Spirits</a><br/>
 <a href="elvish_celestialism.html">Elvish Celestialism</a><br/>
 <a href="faith_of_litmeate.html">Faith of Litmeate</a><br/>
@@ -128,6 +154,43 @@ See Also:<br/>
 </div>
 `
 
+seriesWeaponData =
+`
+<b>Weapons of Amathereon</b><br/>
+<div>
+<i>Bladed Weapons</i></br>
+<a href="sword.html">Sword</a><br/>
+<a href="longsword.html">Longsword</a><br/>
+<a href="shortsword.html">Shortsword</a><br/>
+<a href="claymore.html">Claymore</a><br/>
+<a href="rapier.html">Rapier</a><br/>
+<a href="dagger.html">Dagger</a><br/>
+<a href="throwing_knife.html">Throwing Knife</a><br/>
+<a href="swordbreaker.html">Swordbreaker</a><br/>
+<a href="sabre.html">Sabre</a><br/>
+<br/><i>Cleaving Weapons</i></br>
+<a href="axe.html">Axe</a><br/>
+<a href="battleaxe.html">Battleaxe</a><br/>
+<a href="greataxe.html">Greataxe</a><br/>
+<a href="warhammer.html">Warhammer</a><br/>
+<br/><i>Polearms</i></br>
+<a href="spear.html">Spear</a><br/>
+<a href="bardiche.html">Bardiche</a><br/>
+<a href="halberd.html">Halberd</a><br/>
+<a href="military_fork.html">Military Fork</a><br/>
+<a href="pike.html">Pike</a><br/>
+<a href="partisan.html">Partisan</a><br/>
+<a href="scythe.html">Scythe</a><br/>
+<a href="javelin.html">Javelin</a><br/>
+<br/><i>Other Weapons</i></br>
+<a href="club.html">Club</a><br/>
+<a href="quarterstaff.html">Quarterstaff</a><br/>
+<a href="flail.html">Flail</a><br/>
+<a href="mace.html">Mace</a><br/>
+<a href="shield.html">Shield</a><br/>
+</div>
+`
+
 
 // Called when the body is loaded
 function bodyInit() {
@@ -135,6 +198,7 @@ function bodyInit() {
 	populateTopics()
 	populateCopyright()
 	populateReligionData()
+	populateWeaponData()
 
 	recolourLinks()
 }
@@ -177,6 +241,17 @@ function populateCopyright() {
 function populateReligionData() {
 	try {
 		document.getElementById("series-religion").innerHTML = seriesReligionData
+		console.log("Series data box populated!")
+	} catch {
+		console.warn("Series data box could not be filled. This can be ignored if no series data box was defined.")
+	}
+}
+
+
+// Fill a weapon data series box on the page with series data
+function populateWeaponData() {
+	try {
+		document.getElementById("series-weapon").innerHTML = seriesWeaponData
 		console.log("Series data box populated!")
 	} catch {
 		console.warn("Series data box could not be filled. This can be ignored if no series data box was defined.")

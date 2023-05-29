@@ -192,3 +192,8 @@ hr.bottom {
 	color: #15A;
 	text-decoration: solid underline;
 }
+
+.fineprint {
+	font-size: small;
+	text-align: center;
+}
