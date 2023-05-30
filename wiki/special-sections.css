@@ -162,16 +162,19 @@ hr.bottom {
 
 /* Series */
 .series {
-	float:right;
 	margin:10px;
-	width: 180px;
-	background-color: #CCC;
+	min-width: 120px;
+	max-width: 180px;
 	color: black;
+	background-color: #CCC;
 	border: 2px solid black;
 	padding: 2px;
 	padding-top: 6px;
 	text-align: center;
 	clear:both;
+}
+.series:not(series-block) {
+	float:right;
 }
 
 .series div {
@@ -192,6 +195,14 @@ hr.bottom {
 	color: #15A;
 	text-decoration: solid underline;
 }
+
+.series-block-wrapper {
+	display: flex;
+	flex-wrap:wrap;
+	grid-template-columns: 1fr 1fr 1fr;
+}
+
+/* Fine Print */
 
 .fineprint {
 	font-size: small;

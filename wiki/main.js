@@ -191,6 +191,37 @@ seriesWeaponData =
 </div>
 `
 
+seriesClassData = 
+`
+<b>Character Classes</b><br/>
+<div>
+<i>Rogue</i><br/>
+<a href="thief.html">Thief</a><br/>
+<a href="assassin.html">Assassin</a><br/>
+<a href="con_artist.html">Con Artist</a><br/>
+<a href="spy.html">Spy</a><br/>
+<br/><i>Warrior</i><br/>
+<a href="brawler.html">Brawler</a><br/>
+<a href="knight.html">Knight</a><br/>
+<a href="soldier.html">Soldier</a><br/>
+<a href="paladin.html">Paladin</a><br/>
+<br/><i>Outlander</i><br/>
+<a href="ranger.html">Ranger</a><br/>
+<a href="barbarian.html">Barbarian</a><br/>
+<a href="druid.html">Druid</a><br/>
+<a href="bard.html">Bard</a><br/>
+<br/><i>Mage</i><br/>
+<a href="wizard.html">Wizard</a><br/>
+<a href="sorcerer.html">Sorcerer</a><br/>
+<a href="cleric.html">Cleric</a><br/>
+<a href="necromancer.html">Necromancer</a><br/>
+<br/><i>Specialist</i><br/>
+<a href="monk.html">Monk</a><br/>
+<a href="artificer.html">Artificer</a><br/>
+<a href="merchant.html">Merchant</a><br/>
+<a href="aristocrat.html">Aristocrat</a><br/>
+`
+
 
 // Called when the body is loaded
 function bodyInit() {
@@ -199,6 +230,7 @@ function bodyInit() {
 	populateCopyright()
 	populateReligionData()
 	populateWeaponData()
+	populateClassData()
 
 	recolourLinks()
 }
@@ -252,6 +284,17 @@ function populateReligionData() {
 function populateWeaponData() {
 	try {
 		document.getElementById("series-weapon").innerHTML = seriesWeaponData
+		console.log("Series data box populated!")
+	} catch {
+		console.warn("Series data box could not be filled. This can be ignored if no series data box was defined.")
+	}
+}
+
+
+// Fill a class data series box on the page with series data
+function populateClassData() {
+	try {
+		document.getElementById("series-class").innerHTML = seriesClassData
 		console.log("Series data box populated!")
 	} catch {
 		console.warn("Series data box could not be filled. This can be ignored if no series data box was defined.")
