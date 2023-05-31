@@ -36,11 +36,28 @@ class ObjectParent:
 	def return_appearance(self, looker, **kwargs):
 		if Lighting.CalcLighting(looker) == 2:
 			x = ""
+			# Mention Value
 			if self.db.value != None:
 				if self.db.value == Gold(0):
 					x = f"\nWorthless."
 				else:
 					x = f"\nWorth about {Valuer.Obscure(self.db.value, 2)}."
+			# Mention Clothing
+			if inherits_from(self, "typeclasses.characters.Character"):
+				if len(self.wornItemList) == 0:
+					x = "\n" + self.name + " is wearing only their underclothes."
+				else:
+					x = "\n" +  self.name + " is wearing "
+					for i in range(len(self.wornItemList)):
+						if i == len(self.wornItemList) - 1:
+							if i > 0:
+								x += " and " + self.wornItemList[i].name + "."
+							else:
+								x += self.wornItemList[i].name + "."
+						else:
+							x += self.wornItemList[i].name + ", "
+			# Mention Mass
+			y = ""
 			if self.db.mass != None:
 				if self.db.mass > 20:
 					y = "\nQuite heavy."

@@ -8,7 +8,6 @@ creation commands.
 
 """
 from evennia.objects.objects import DefaultCharacter
-from evennia.contrib.game_systems.clothing import ClothedCharacter
 from evennia import TICKER_HANDLER
 from evennia.utils import make_iter
 from evennia.utils.evmenu import EvMenu
@@ -29,7 +28,7 @@ from utils import d100
 import random
 import math
 
-class Character(ObjectParent, ClothedCharacter):
+class Character(ObjectParent, DefaultCharacter):
 	"""
 	The Character defaults to reimplementing some of base Object's hook methods with the
 	following functionality:

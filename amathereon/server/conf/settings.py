@@ -62,7 +62,11 @@ TIME_UNITS = {"sec": 1,
               "year": 60 * 60 * 30 * 37 * 8 }
 
 # Combat
-PROTOTYPE_MODULES += ["combat.weapons"]
+PROTOTYPE_MODULES += ["combat.weapons",
+                      "world.prototypes.characters",
+                      "world.prototypes.clothing",
+                      "world.prototypes.currenct"
+                      ]
 
 # A room to send the dead to. Can be either a name or a dbref.
 DEATH_ROOM = "Entropy"
