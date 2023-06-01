@@ -65,7 +65,7 @@ TIME_UNITS = {"sec": 1,
 PROTOTYPE_MODULES += ["combat.weapons",
                       "world.prototypes.characters",
                       "world.prototypes.clothing",
-                      "world.prototypes.currenct"
+                      "world.prototypes.currency"
                       ]
 
 # A room to send the dead to. Can be either a name or a dbref.
