@@ -1,23 +1,23 @@
 class Listings:
 	"""
-	A class storing weighted sets of prototype spawn options. 
+	A class storing weighted sets of prototype spawn options.
 	"""
 
 	HILLROCKIAN_CURRENCY = [
-		"hillrockian currency",
-		[1,"hillrockian gold crown"],
-		[1,"hillrockian gold mark"],
-		[2,"hillrockian gold penny"],
-		[4,"hillrockian silver penny"],
-		[4,"hillrockian silver fifthpenny"],
-		[1,"hillrockian gold penny","hillrockian gold penny"],
-		[2,"hillrockian silver penny","hillrockian silver penny"],
-		[2,"hillrockian silver fifthpenny","hillrockian silver fifthpenny"],
-		[1,"hillrockian gold mark","hillrockian gold penny","hillrockian silver penny","hillrockian silver fifthpenny"],
+		"hillrockian_currency",
+		[1,"hillrockian_gold_crown"],
+		[1,"hillrockian_gold_mark"],
+		[2,"hillrockian_gold_penny"],
+		[4,"hillrockian_silver_penny"],
+		[4,"hillrockian_silver_fifthpenny"],
+		[1,"hillrockian_gold_penny","hillrockian_gold_penny"],
+		[2,"hillrockian_silver_penny","hillrockian_silver_penny"],
+		[2,"hillrockian_silver_fifthpenny","hillrockian_silver_fifthpenny"],
+		[1,"hillrockian_gold_mark","hillrockian_gold_penny","hillrockian_silver_penny","hillrockian_silver_fifthpenny"],
 	]
 
 	STANDARD_WEAPONS = [
-		"standard weapons",
+		"standard_weapons",
 		[2,"sword"],
 		[2,"axe"],
 		[3,"spear"],
@@ -29,7 +29,7 @@ class Listings:
 		[2,"rapier"],
 		[4,"dagger"],
 		[1,"dagger","dagger"],
-		[2,"throwing knife"],
+		[2,"throwing_knife"],
 		[2,"swordbreaker"],
 		[2,"sabre"],
 		[2,"battleaxe"],
@@ -37,7 +37,7 @@ class Listings:
 		[2,"warhammer"],
 		[1,"bardiche"],
 		[3,"halberd"],
-		[2,"military fork"],
+		[2,"military_fork"],
 		[2,"pike"],
 		[2,"partisan"],
 		[1,"scythe"],
@@ -47,4 +47,4 @@ class Listings:
 		[2,"mace"],
 	]
 
-	All = (HILLROCKIAN_CURRENCY,STANDARD_WEAPONS)
+	All = (HILLROCKIAN_CURRENCY, STANDARD_WEAPONS)
