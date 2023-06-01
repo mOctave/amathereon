@@ -4,7 +4,7 @@ class Listings:
 	"""
 
 	HILLROCKIAN_CURRENCY = [
-		"hillrockian_currency",
+		"hillrockian currency",
 		[1,"hillrockian_gold_crown"],
 		[1,"hillrockian_gold_mark"],
 		[2,"hillrockian_gold_penny"],
@@ -17,7 +17,7 @@ class Listings:
 	]
 
 	STANDARD_WEAPONS = [
-		"standard_weapons",
+		"standard weapons",
 		[2,"sword"],
 		[2,"axe"],
 		[3,"spear"],
