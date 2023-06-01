@@ -5,15 +5,15 @@ class Listings:
 
 	HILLROCKIAN_CURRENCY = [
 		"hillrockian currency",
-		[1,"hillrockian_gold_crown"],
-		[1,"hillrockian_gold_mark"],
-		[2,"hillrockian_gold_penny"],
-		[4,"hillrockian_silver_penny"],
-		[4,"hillrockian_silver_fifthpenny"],
-		[1,"hillrockian_gold_penny","hillrockian_gold_penny"],
-		[2,"hillrockian_silver_penny","hillrockian_silver_penny"],
-		[2,"hillrockian_silver_fifthpenny","hillrockian_silver_fifthpenny"],
-		[1,"hillrockian_gold_mark","hillrockian_gold_penny","hillrockian_silver_penny","hillrockian_silver_fifthpenny"],
+		[1,"hillrockian gold crown"],
+		[1,"hillrockian gold mark"],
+		[2,"hillrockian gold penny"],
+		[4,"hillrockian silver penny"],
+		[4,"hillrockian silver fifthpenny"],
+		[1,"hillrockian gold penny","hillrockian gold penny"],
+		[2,"hillrockian silver penny","hillrockian silver penny"],
+		[2,"hillrockian silver fifthpenny","hillrockian silver fifthpenny"],
+		[1,"hillrockian gold mark","hillrockian gold penny","hillrockian silver penny","hillrockian silver fifthpenny"],
 	]
 
 	STANDARD_WEAPONS = [
