@@ -263,6 +263,9 @@ class Character(ObjectParent, DefaultCharacter):
 
 		self.db.subscriptions = []
 		self.db.wieldedItems = []
+		self.db.wornItems = {}
+		for slot in settings.CLOTHING_SLOTS:
+			self.db.wornItems[slot] = []
 
 		self.db.specials: list[str] = []
 		self.db.skillpts = 0
