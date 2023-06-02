@@ -2,6 +2,7 @@ from evennia.commands.default.muxcommand import MuxCommand as BaseMuxCommand
 from evennia.commands.command import Command as BaseCommand
 from evennia.utils import inherits_from
 from utils import printCommandPrompt
+from django.conf import settings
 
 # Override the commands, to provide a custom prompt
 
@@ -10,7 +11,7 @@ class Command(BaseCommand):
 	def at_pre_cmd(self):
 		if inherits_from(self.caller, "typeclasses.characters.Character"):
 			x = ("encumbered" in self.caller.conditions) + 1
-			if self.caller.db.energy < x:
+			if self.caller.db.energy < x and (not self.key in settings.ENERGY_SAFE_COMMANDS):
 				self.caller.msg("|rYou're too tired to do that!")
 				return "Out of Energy"
 			else:
@@ -29,7 +30,7 @@ class MuxCommand(BaseMuxCommand):
 	def at_pre_cmd(self):
 		if inherits_from(self.caller, "typeclasses.characters.Character"):
 			x = ("encumbered" in self.caller.conditions) + 1
-			if self.caller.db.energy < x:
+			if self.caller.db.energy < x and (not self.key in settings.ENERGY_SAFE_COMMANDS):
 				self.caller.msg("|rYou're too tired to do that!")
 				return "Out of Energy"
 			else:

@@ -77,6 +77,10 @@ COMMAND_DEFAULT_CLASS = "commands.commandtypes.MuxCommand"
 # List of body parts that clothing can be worn on
 CLOTHING_SLOTS = ["head","torso","hands","legs","feet"]
 
+# Some commands that absolutely should not be blocked, even if you have no energy left.
+# Each entry in this tuple should be the key of one of the commands.
+ENERGY_SAFE_COMMANDS = ("ooc", "quit", "energyget")
+
 ######################################################################
 # Settings given in secret_settings.py override those in this file.
 ######################################################################
