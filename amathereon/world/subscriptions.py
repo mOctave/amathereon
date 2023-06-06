@@ -1,6 +1,6 @@
-from evennia.prototypes import spawner
-
 from world.data.subscription_data import Listings
+
+import utils
 
 import random
 
@@ -38,10 +38,5 @@ class SubscriptionHandler:
 		selection.pop(0)
 		# Spawn prototypes
 		for prot in selection:
-			self.spawnFromKey(prot, character)
+			utils.spawnFromKey(prot, character)
 
-	def spawnFromKey(self, key, target):
-		print("Spawning %s!" % key)
-		objList = spawner.spawn(key)
-		for obj in objList:
-			obj.move_to(target)

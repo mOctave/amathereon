@@ -47,4 +47,52 @@ class Listings:
 		[2,"mace"],
 	]
 
-	All = (HILLROCKIAN_CURRENCY, STANDARD_WEAPONS)
+	TAILORED_CLOTHES = [
+		"tailored clothes",
+		[3,"cotton_shirt"],
+		[4,"wool_shirt"],
+		[1,"silk_shirt"],
+		[2,"leather_coat"],
+		[4,"cap"],
+		[2,"straw_hat"],
+		[2,"cotton_gloves"],
+		[2,"wool_gloves"],
+		[1,"silk_gloves"],
+		[2,"leather_gloves"],
+		[3,"cotton_pants"],
+		[3,"denim_pants"],
+		[1,"silk_leggings"],
+		[3,"leather_pants"],
+		[3,"wool_socks"],
+		[1,"silk_socks"],
+		[2,"sandles"],
+		[2,"boots"],
+	]
+
+	ARMOUR = [
+		"armour",
+		[3,"chain_shirt"],
+		[2,"chestplate"],
+		[1,"shell_plate"],
+		[1,"laminar_mail_shirt"],
+		[2,"chain_hood"],
+		[2,"armet"],
+		[2,"barbute"],
+		[1,"lamellar_helmet"],
+		[4,"gauntlets"],
+		[2,"chain_leggings"],
+		[2,"leg_plate"],
+		[2,"sabatons"],
+	]
+
+	FINE_CLOTHES = [
+		"fine clothes",
+		[2,"silk_shirt"],
+		[2,"silk_gloves"],
+		[2,"silk_leggings"],
+		[2,"silk_socks"],
+		[1,"mage_jacket"],
+		[1,"elvyren"],
+	]
+
+	All = (ARMOUR, FINE_CLOTHES, HILLROCKIAN_CURRENCY, STANDARD_WEAPONS, TAILORED_CLOTHES)

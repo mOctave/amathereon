@@ -5,6 +5,7 @@ from world.data.class_data import *
 from world.data.miscellaneous_data import Religions
 from world.data.miscellaneous_data import Languages
 from world.specials import Specials
+from utils import spawnFromKey
 
 #############################
 # Character Generation Menu #
@@ -520,6 +521,10 @@ def node_end(caller, raw_string):
 	classData = caller.new_char.classData
 	caller.new_char.skillList = classData.skills
 	Specials.evaluateNew(caller.new_char)
+
+	"""Give inventory items"""
+	for item in classData.inventory:
+		spawnFromKey(item, caller.new_char)
 
 	"""End-of-chargen cleanup."""
 	char = caller.new_char

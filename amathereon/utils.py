@@ -1,3 +1,4 @@
+from evennia.prototypes import spawner
 from evennia.utils import inherits_from
 
 import random
@@ -49,3 +50,9 @@ def printCommandPrompt(target):
 
 def d100():
 	return random.randint(0, 99)
+
+def spawnFromKey(key, target):
+		print("Spawning %s!" % key)
+		objList = spawner.spawn(key)
+		for obj in objList:
+			obj.move_to(target)

@@ -178,7 +178,7 @@ class CombatEngine(Script):
 		totaldmg = actor.totalstr + random.randint(weapon.db.minDamage, weapon.db.maxDamage)
 		totaldmg += actor.db.skills["Weapons"]
 		# Deal with crit chances
-		critbuff = 1 + (actor.totalint - target.totalwis + actor.totaldex - actor.totalagi) / 100
+		critbuff = 1 + (actor.totalint - target.totalwis + actor.totaldex - target.totalagi) / 100
 		if (d100() < weapon.db.critChance * critbuff):
 			iscrit = True
 			totaldmg *= 3
