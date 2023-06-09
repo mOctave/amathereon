@@ -11,3 +11,11 @@ The Omnipolis City Guardhouse is a sprawling complex, complete with training fac
 ## Omnipolis City Armoury
 
 The Omnipolis City Armoury is a public armoury run on the premise that if all citizens carry weapons around, then at least people have a chance against cutpurses and rogues. Interestingly enough, the program seems to work, and so the armoury remains open. To your west is an exit onto Raven Street, there's a practice field to your east for sparring, and the Omnipolis City Guardhouse continues to the north and south.
+
+## Royal Tailor's Shop
+
+This large shop that opens onto Ominpolis Square is the most profitable enterprise of its kind in all of Omnipolis, made especially grand by the royal seal that is proudly displayed in the front window. Bolts of cloth hang from racks all over the room, and fine and ordinary clothes alike are displayed throughout. Upstairs is a space for the tailors to work, and Omnipolis Square is to the southeast. To the east is a second entrance onto Raven Street.
+
+## Raven Street
+
+Raven Street is a large street that carves a straight path north from Omnipolis Square. To either side are large shopfronts and the city houses of rich lords. At regular intervals, you pass gutterspouts in the shape of ravens, the namesake of this road.

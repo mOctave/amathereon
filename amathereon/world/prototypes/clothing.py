@@ -245,7 +245,7 @@ CAP = {
 STRAW_HAT = {
 	"prototype_key": "STRAW_HAT",
 	"prototype_parent": "CLOTHING_HEADGEAR",
-	"key": "straw_hat",
+	"key": "straw hat",
 	"desc": "This straw hat is itchy and a bit stiff, but it provides good protection from the sun and some against magical attacks.",
 	"minLayers": 0,
 	"maxLayers": 2,

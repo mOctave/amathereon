@@ -696,6 +696,10 @@ class CmdShop(MuxCommand):
 
 		matches = list(search.object_search(key, None, None, caller.location.db.owner.get_objects()))
 
+		for match in matches:
+			if match in caller.location.db.owner.db.wieldedItems or match in caller.location.db.owner.wornItemList:
+				matches.remove(match)
+
 		if len(matches) == 0:
 			ShopMessager.ReturnArray(caller.location, caller)
 			return

@@ -427,7 +427,7 @@ def node_language(caller, raw_string, **kwargs):
 
 	options_default = (
 		{"key": ("Continue"),
-		 "goto": "node_name"}
+		 "goto": "node_inventory"}
 	)
 
 	options_all = []
@@ -445,11 +445,64 @@ def node_language(caller, raw_string, **kwargs):
 		print("Final Tuple: " + str(tuple(options_all)))
 		return text, tuple(options_all)
 	else:
+		caller.db.inventoryList == None
 		return text, options_default
 
 def _finishLanguage(caller, raw_string, **kwargs):
 	caller.new_char.languages.append(kwargs["language"])
 	return "node_language"
+
+#######################
+# Inventory Selection #
+#######################
+
+def node_inventory(caller, raw_string, **kwargs):
+	caller.msg(caller.db.inventoryList)
+
+	if caller.db.inventoryList == None:
+		caller.db.inventoryList = caller.new_char.classData.inventory.copy()
+	
+	text = "|yGundulf sneezes, and then looks back at you again."
+
+	options_default = (
+		{"key": ("Continue"),
+		 "goto": "node_name"}
+	)
+
+	options_all = []
+	inventoryChoice = 0 # Any value could work here as long as it isn't a string or tuple
+
+	while len(caller.db.inventoryList) > 0 and type(inventoryChoice) != tuple:
+		inventoryChoice = caller.db.inventoryList.pop()
+		if type(inventoryChoice) == str:
+			spawnFromKey(inventoryChoice, caller.new_char)
+
+	if type(inventoryChoice) == tuple:
+		text = "|y\"Which of the following would you like?\""
+
+		for option in inventoryChoice:
+			if type(option) == str:
+				options_all += [{"key": (option.replace("_", " ")), "goto": (_finishInventory, {"spawnList": [option]})}]
+			elif type(option) == list:
+				key = ""
+				for obj in option:
+					if len(key) == 0:
+						key = obj.replace("_", " ")
+					else:
+						key += ", " + obj.replace("_", " ")
+				options_all += [{"key": (key), "goto": (_finishInventory, {"spawnList": option})}]
+			else:
+				print("Warning: %s is not a valid choice for inventory data, skipping." % option)
+
+			print("Final Tuple: " + str(tuple(options_all)))
+		return text, tuple(options_all)
+
+	return text, options_default
+
+def _finishInventory(caller, raw_string, **kwargs):
+	for item in kwargs["spawnList"]:
+		spawnFromKey(item, caller.new_char)
+	return "node_inventory"
 
 ##################
 # Name Selection #
@@ -521,10 +574,6 @@ def node_end(caller, raw_string):
 	classData = caller.new_char.classData
 	caller.new_char.skillList = classData.skills
 	Specials.evaluateNew(caller.new_char)
-
-	"""Give inventory items"""
-	for item in classData.inventory:
-		spawnFromKey(item, caller.new_char)
 
 	"""End-of-chargen cleanup."""
 	char = caller.new_char

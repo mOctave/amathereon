@@ -110,7 +110,7 @@ class ShopMessager:
 				isItem = obj.isItem
 			except:
 				isItem = False
-			if isItem:
+			if isItem and not (obj in room.db.owner.wornItemList or obj in room.db.owner.wieldedItems):
 				matchfound = False
 				for i in range(0, len(objectArray)):
 					# Handle different prices for similar objects
