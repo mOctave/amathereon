@@ -208,3 +208,19 @@ hr.bottom {
 	font-size: small;
 	text-align: center;
 }
+
+.noticebanner {
+	width: 100%;
+	text-align: center;
+	left: 0;
+	bottom: 0;
+	position: fixed;
+	opacity: 0.8;
+}
+
+.noticebanner * {
+	color: black;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size: large;
+	margin: 10px;
+}

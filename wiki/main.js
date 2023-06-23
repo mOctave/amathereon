@@ -233,6 +233,7 @@ function bodyInit() {
 	populateClassData()
 
 	recolourLinks()
+	addBannerNotice("<b>We're moving!</b> On Saturday June 24,<a href='atuin.tcp4.me/amathereon/wiki/'>the Amathereon wiki</a>will move to amathereon.tcp4.me, and ports 4000-4006 on atuin.tcp4.me will be replaced with equivalent ports on amathereon.tcp4.me.", "#FA0")
 }
 
 
@@ -312,6 +313,11 @@ function recolourLinks() {
 	console.log(filename)
 	currentLinks = document.querySelectorAll('a[href="'+filename+'"]')
 	currentLinks.forEach(link => link.className += ' current-link');
+}
+
+function addBannerNotice(notice, colour) {
+	console.log("Adding Banner Notice")
+	document.getElementsByTagName("html")[0].innerHTML += `<div class="noticebanner" style="background-color:`+colour+`"><p>`+notice+`</p></div>`
 }
 
 
