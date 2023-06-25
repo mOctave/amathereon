@@ -4,4 +4,4 @@ Amathereon is a MUD in a traditional fantasy setting. The plane of Entropy is ro
 
 # Playing
 
-To play Amathereon, point your telnet client to `atuin.tcp4.me:4000` or `atuin.tcp4.me:4001/webclient/`, for the webclient.
+To play Amathereon, point your telnet client to `amathereon.tcp4.me:4000` or go to `amathereon.tcp4.me:4001/webclient/` for the webclient.

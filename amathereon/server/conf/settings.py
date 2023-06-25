@@ -34,7 +34,7 @@ from evennia.settings_default import *
 # Basic server data
 SERVERNAME = "Amathereon"
 GAME_SLOGAN = "The Rift retreats"
-SERVER_HOSTNAME = "atuin.tcp4.me"
+SERVER_HOSTNAME = "amathereon.tcp4.me"
 GAMEVERSION = "0.1.0"
 LANGUAGE_CODE = "en-ca"
 
@@ -42,8 +42,8 @@ PERMISSION_HIERARCHY = [
     "Guest",  # note-only used if GUEST_ENABLED=True
     "Player",
     "Helper",
-    "Builder",
     "Celestial",
+    "Builder",
     "Admin",
     "Developer",
 ]

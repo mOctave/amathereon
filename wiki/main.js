@@ -64,7 +64,7 @@ navbarData = `
 		</div>
 	</div>
 </li>
-<li><a href="http://atuin.tcp4.me:4001/webclient/">Play!</a></li>
+<li><a href="http://amathereon.tcp4.me:4001/webclient/">Play!</a></li>
 `
 
 topicsData = `
@@ -233,7 +233,6 @@ function bodyInit() {
 	populateClassData()
 
 	recolourLinks()
-	addBannerNotice("<b>We're moving!</b> On Saturday June 24,<a href='atuin.tcp4.me/amathereon/wiki/'>the Amathereon wiki</a>will move to amathereon.tcp4.me, and ports 4000-4006 on atuin.tcp4.me will be replaced with equivalent ports on amathereon.tcp4.me.", "#FA0")
 }
 
 
